@@ -69,15 +69,16 @@ const ChatMessageGroup = ({ className = '', messages }: IProps) => {
                 participantId = { messages[0].participantId }
                 size = { 32 } />
             <div className = { `${classes.messageGroup} chat-message-group ${className}` }>
-                {messages.map((message, i) => (
-                    <ChatMessage
+                {messages.map((message, i) => 
+                    !message.isReaction ? (<ChatMessage
                         key = { i }
                         message = { message }
                         shouldDisplayChatMessageMenu = { false }
                         showDisplayName = { i === 0 }
                         showTimestamp = { i === messages.length - 1 }
                         type = { className } />
-                ))}
+                    ) : null
+                )}
             </div>
         </div>
     );
