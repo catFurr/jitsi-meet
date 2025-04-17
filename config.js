@@ -125,6 +125,9 @@ var config = {
     // Disables the reactions moderation feature.
     // disableReactionsModeration: false,
 
+    // Disables the reactions in chat feature.
+    disableReactionsInChat: true,
+
     // Disables polls feature.
     // disablePolls: false,
 
