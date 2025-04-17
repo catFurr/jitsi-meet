@@ -62,7 +62,7 @@ const ChatMessageGroup = ({ className = '', messages }: IProps) => {
         return null;
     }
 
-    return (
+     return (
         <div className = { clsx(classes.groupContainer, className) }>
             <Avatar
                 className = { clsx(classes.avatar, 'avatar') }
