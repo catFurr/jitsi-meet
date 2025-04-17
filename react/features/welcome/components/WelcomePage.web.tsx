@@ -496,8 +496,6 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
      */
     _shouldShowAdditionalCard() {
         return interfaceConfig.DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD
-            && this._additionalCardTemplate?.content
-            && this._additionalCardTemplate?.innerHTML?.trim();
     }
 
     /**

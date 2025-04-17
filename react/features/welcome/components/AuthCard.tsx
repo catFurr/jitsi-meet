@@ -15,10 +15,9 @@ interface UserData {
 
 const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
     const [userData, setUserData] = useState<UserData | null>(null);
-    console.log(jwtFromRedux);
 
     const getUserData = (): UserData | null => {
-        if (!jwtFromRedux) {
+        if (!jwtFromRedux?.jwt) {
             return null;
         }
 
@@ -108,7 +107,7 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
 };
 
 const mapStateToProps = (state: IReduxState) => ({
-    jwtFromRedux: state['features/base/jwt']?.jwt
+    jwtFromRedux: state['features/base/jwt']
 });
 
 export default connect(mapStateToProps)(AuthCard);
