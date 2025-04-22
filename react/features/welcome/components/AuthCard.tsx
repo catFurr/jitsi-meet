@@ -10,22 +10,27 @@ interface UserData {
     user?: {
         name?: string;
         email?: string;
+        subscriptionStatus?: string;
     };
 }
 
-const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
+const AuthCard: React.FC<Props> = ({jwtFromRedux}) => {
     const [userData, setUserData] = useState<UserData | null>(null);
+
 
     const getUserData = (): UserData | null => {
         if (!jwtFromRedux?.jwt) {
             return null;
         }
 
+        const userStatus = getUserStatus(jwtFromRedux.jwt);
+
         try {
             return {
                 user: {
                     name: jwtFromRedux.name || '',
-                    email: jwtFromRedux.email || ''
+                    email: jwtFromRedux.email || '',
+                    subscriptionStatus: userStatus || undefined
                 }
             };
         } catch (e) {
@@ -56,20 +61,42 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
         }
     };
 
+    function base64UrlDecode(base64Url) {
+        return base64Url.replace(/-/g, '+').replace(/_/g, '/') + '=='.slice(0, (4 - (base64Url.length % 4)) % 4);
+    }
+
+    function getUserStatus(token) {
+        const [headerB64, payloadB64, signatureB64] = token.split('.');
+
+        const payload = JSON.parse(atob(base64UrlDecode(payloadB64)));
+
+        return payload.context.user.subscription_status;
+    }
+
     return (
         <div className="welcome-card-text auth-card">
             <div id="jitsi-auth-container">
                 {userData?.user ? (
                     <div className="auth-user-info">
                         <h3 className="auth-title">Account</h3>
+
                         <div className="auth-user-detail">
                             <span className="auth-label">Name:</span>
                             <span className="auth-value">{userData.user.name || 'Not available'}</span>
                         </div>
+
                         <div className="auth-user-detail">
                             <span className="auth-label">Email:</span>
                             <span className="auth-value">{userData.user.email || 'Not available'}</span>
                         </div>
+
+                        <div className="auth-user-detail">
+                            <span className="auth-label">Subscription Status: </span>
+                            <span className="auth-value">
+                                {userData.user.subscriptionStatus == 'active' ? ' Active' : ' Pending'}
+                            </span>
+                        </div>
+
                         <div className="auth-buttons">
                             <a
                                 href="https://auth.sonacove.com/realms/jitsi/account"
@@ -79,14 +106,20 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
                             >
                                 Manage Account
                             </a>
+
                             <a
-                                href="https://customer-portal.paddle.com/cpl_01jmwrfanv7gtn3y160bcw8c7w"
+                                href={
+                                    userData.user.subscriptionStatus == 'active'
+                                        ? 'https://customer-portal.paddle.com/cpl_01jmwrfanv7gtn3y160bcw8c7w'
+                                        : 'https://sonacove.com/onboarding/'
+                                }
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="welcome-page-button auth-button"
                             >
                                 Manage Subscription
                             </a>
+
                             <button onClick={handleLogout} className="welcome-page-button auth-button auth-logout">
                                 Logout
                             </button>
@@ -96,6 +129,7 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
                     <div className="auth-login-container">
                         <h3 className="auth-title">Login</h3>
                         <p className="auth-description">Sign in to access your account and meetings</p>
+
                         <button onClick={handleLogin} className="welcome-page-button auth-button">
                             Login
                         </button>
