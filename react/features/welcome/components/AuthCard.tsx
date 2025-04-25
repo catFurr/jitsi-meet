@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { IReduxState } from '../../app/types';
 
@@ -10,34 +10,43 @@ interface Props {
     };
 }
 
-interface UserData {
-    user?: {
-        name?: string;
-        email?: string;
-        subscriptionStatus?: string;
-    };
+function base64UrlDecode(base64Url: string): string {
+    const padded = base64Url + '==='.slice((base64Url.length + 3) % 4);
+    return atob(padded.replace(/-/g, '+').replace(/_/g, '/'));
+}
+
+function parseJwtPayload(token: string) {
+    try {
+        const [, payloadB64] = token.split('.');
+        return JSON.parse(base64UrlDecode(payloadB64));
+    } catch {
+        return null;
+    }
+}
+
+function isJwtExpired(token: string): boolean {
+    const payload = parseJwtPayload(token);
+    const currentTime = Math.floor(Date.now() / 1000);
+    return !payload?.exp || currentTime >= payload.exp;
 }
 
 const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
-    const [userData, setUserData] = useState<UserData | null>(null);
-    const [isExpired, setIsExpired] = useState<boolean>(false);
+    const [isExpired, setIsExpired] = useState(false);
 
-    const getUserData = (): UserData | null => {
-        if (!jwtFromRedux?.jwt) return null;
+    const userData = useMemo(() => {
+        const token = jwtFromRedux?.jwt;
+        const payload = token ? parseJwtPayload(token) : null;
+        const contextUser = payload?.context?.user;
 
-        const userStatus = getUserStatus(jwtFromRedux.jwt);
+        if (!token || !contextUser) return null;
 
         return {
             user: {
-                name: jwtFromRedux.name || '',
-                email: jwtFromRedux.email || '',
-                subscriptionStatus: userStatus || undefined
+                name: jwtFromRedux?.name || '',
+                email: jwtFromRedux?.email || '',
+                subscriptionStatus: contextUser.subscription_status || 'pending'
             }
         };
-    };
-
-    useEffect(() => {
-        setUserData(getUserData());
     }, [jwtFromRedux]);
 
     useEffect(() => {
@@ -45,18 +54,18 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
         if (!token) return;
 
         const checkExpiration = () => {
-            const expired = isJwtExpired(token);
-            setIsExpired(expired);
+            setIsExpired(isJwtExpired(token));
         };
 
-        checkExpiration(); // Initial check
-        const interval = setInterval(checkExpiration, 1000); // Check every 1s
+        checkExpiration(); // Initial
+        const interval = setInterval(checkExpiration, 1000); // Every second
 
-        return () => clearInterval(interval); // Cleanup
+        return () => clearInterval(interval);
     }, [jwtFromRedux]);
 
     const handleLogin = () => {
-        let loginUrl = (window as any).config.tokenAuthUrl;
+        const config = (window as any).config;
+        let loginUrl = config?.tokenAuthUrl;
         if (loginUrl) {
             loginUrl = loginUrl
                 .replace('{room}', '&no_room=true')
@@ -67,35 +76,11 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
     };
 
     const handleLogout = () => {
-        const logoutUrl = (window as any).config.tokenLogoutUrl;
+        const logoutUrl = (window as any).config?.tokenLogoutUrl;
         if (logoutUrl) {
             window.location.href = logoutUrl;
         }
     };
-
-    function base64UrlDecode(base64Url: string) {
-        return base64Url.replace(/-/g, '+').replace(/_/g, '/') + '=='.slice(0, (4 - (base64Url.length % 4)) % 4);
-    }
-
-    function getUserStatus(token: string) {
-        const [, payloadB64] = token.split('.');
-        const payload = JSON.parse(atob(base64UrlDecode(payloadB64)));
-        return payload.context.user.subscription_status;
-    }
-
-    function isJwtExpired(token: string): boolean {
-        try {
-            const [, payloadB64] = token.split('.');
-            const decodedPayload = JSON.parse(atob(base64UrlDecode(payloadB64)));
-            const exp = decodedPayload.exp; 
-            const currentTime = Math.floor(Date.now() / 1000); 
-            return currentTime >= exp;
-        } catch (e) {
-            console.error('JWT parse error', e);
-            return true; // assume expired if we can't decode it
-        }
-    }
-
 
     return (
         <div className="welcome-card-text auth-card">
@@ -104,22 +89,18 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
                     <div className="auth-user-info">
                         <h3 className="auth-title">Account</h3>
 
-                        <div className="auth-user-detail">
-                            <span className="auth-label">Name:</span>
-                            <span className="auth-value">{userData.user.name || 'Not available'}</span>
-                        </div>
+                        {['Name', 'Email', 'Subscription Status'].map((label, i) => {
+                            const key = ['name', 'email', 'subscriptionStatus'][i] as keyof typeof userData.user;
+                            const value = userData.user?.[key] || 'Not available';
+                            const displayValue = key === 'subscriptionStatus' && value === 'active' ? ' Active' : value;
 
-                        <div className="auth-user-detail">
-                            <span className="auth-label">Email:</span>
-                            <span className="auth-value">{userData.user.email || 'Not available'}</span>
-                        </div>
-
-                        <div className="auth-user-detail">
-                            <span className="auth-label">Subscription Status:</span>
-                            <span className="auth-value">
-                                {userData.user.subscriptionStatus === 'active' ? ' Active' : ' Pending'}
-                            </span>
-                        </div>
+                            return (
+                                <div className="auth-user-detail" key={label}>
+                                    <span className="auth-label">{label}:</span>
+                                    <span className="auth-value">{displayValue}</span>
+                                </div>
+                            );
+                        })}
 
                         <div className="auth-buttons">
                             <a
@@ -127,11 +108,7 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={`welcome-page-button auth-button ${isExpired ? 'disabled' : ''}`}
-                                onClick={(e) => {
-                                    if (isExpired) {
-                                        e.preventDefault();
-                                    }
-                                }}
+                                onClick={(e) => isExpired && e.preventDefault()}
                             >
                                 Manage Account
                             </a>
@@ -176,7 +153,7 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
 };
 
 const mapStateToProps = (state: IReduxState) => ({
-    jwtFromRedux: state['features/base/jwt']
+    jwtFromRedux: state['features/base/settings']
 });
 
 export default connect(mapStateToProps)(AuthCard);
