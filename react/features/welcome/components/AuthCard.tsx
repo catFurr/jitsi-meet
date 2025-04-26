@@ -53,15 +53,26 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
         const token = jwtFromRedux?.jwt;
         if (!token) return;
 
-        const checkExpiration = () => {
-            setIsExpired(isJwtExpired(token));
-        };
+        const payload = parseJwtPayload(token);
+        const exp = payload?.exp;
 
-        checkExpiration(); // Initial
-        const interval = setInterval(checkExpiration, 1000); // Every second
+        if (!exp) return;
 
-        return () => clearInterval(interval);
+        const currentTime = Math.floor(Date.now() / 1000);
+        const msUntilExpiry = (exp - currentTime) * 1000;
+
+        if (msUntilExpiry <= 0) {
+            setIsExpired(true);
+            return;
+        }
+
+        const timeout = setTimeout(() => {
+            setIsExpired(true);
+        }, msUntilExpiry);
+
+        return () => clearTimeout(timeout);
     }, [jwtFromRedux]);
+
 
     const handleLogin = () => {
         const config = (window as any).config;
