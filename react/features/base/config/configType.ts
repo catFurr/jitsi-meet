@@ -220,13 +220,10 @@ export interface IConfig {
         ignoreDomain?: string;
         preferSctp?: boolean;
     };
-    buttonsWithNotifyClick?: Array<
-        | ButtonsWithNotifyClick
-        | {
-              key: ButtonsWithNotifyClick;
-              preventExecution: boolean;
-          }
-    >;
+    buttonsWithNotifyClick?: Array<ButtonsWithNotifyClick | {
+        key: ButtonsWithNotifyClick;
+        preventExecution: boolean;
+    }>;
     callDisplayName?: string;
     callFlowsEnabled?: boolean;
     callHandle?: string;
@@ -234,7 +231,7 @@ export interface IConfig {
     cameraFacingMode?: string;
     channelLastN?: number;
     chromeExtensionBanner?: {
-        chromeExtensionsInfo?: Array<{ id: string; path: string }>;
+        chromeExtensionsInfo?: Array<{ id: string; path: string; }>;
         edgeUrl?: string;
         url?: string;
     };
@@ -260,8 +257,8 @@ export interface IConfig {
         };
     };
     corsAvatarURLs?: Array<string>;
-    customParticipantMenuButtons?: Array<{ icon: string; id: string; text: string }>;
-    customToolbarButtons?: Array<{ backgroundColor?: string; icon: string; id: string; text: string }>;
+    customParticipantMenuButtons?: Array<{ icon: string; id: string; text: string; }>;
+    customToolbarButtons?: Array<{ backgroundColor?: string; icon: string; id: string; text: string; }>;
     deeplinking?: IDeeplinkingConfig;
     defaultLanguage?: string;
     defaultLocalDisplayName?: string;
@@ -500,16 +497,12 @@ export interface IConfig {
         iceTransportPolicy?: string;
         mobileCodecPreferenceOrder?: Array<string>;
         mobileScreenshareCodec?: string;
-        stunServers?: Array<{ urls: string }>;
+        stunServers?: Array<{ urls: string; }>;
     };
-    participantMenuButtonsWithNotifyClick?: Array<
-        | string
-        | ParticipantMenuButtonsWithNotifyClick
-        | {
-              key: string | ParticipantMenuButtonsWithNotifyClick;
-              preventExecution: boolean;
-          }
-    >;
+    participantMenuButtonsWithNotifyClick?: Array<string | ParticipantMenuButtonsWithNotifyClick | {
+        key: string | ParticipantMenuButtonsWithNotifyClick;
+        preventExecution: boolean;
+    }>;
     participantsPane?: {
         enabled?: boolean;
         hideModeratorSettingsTab?: boolean;
