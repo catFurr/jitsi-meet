@@ -153,7 +153,7 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
 };
 
 const mapStateToProps = (state: IReduxState) => ({
-    jwtFromRedux: state['features/base/settings']
+    jwtFromRedux: state['features/base/jwt']
 });
 
 export default connect(mapStateToProps)(AuthCard);
