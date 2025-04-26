@@ -14,8 +14,6 @@ import { escapeRegexp } from '../base/util/helpers';
 
 import { MESSAGE_TYPE_ERROR, MESSAGE_TYPE_LOCAL, TIMESTAMP_FORMAT } from './constants';
 import { IMessage } from './types';
-import { REACTIONS_IN_CHAT_ENABLED } from '../base/flags/constants';
-import { getFeatureFlag } from '../base/flags/functions';
 
 /**
  * An ASCII emoticon regexp array to find and replace old-style ASCII
@@ -141,18 +139,6 @@ export function areSmileysDisabled(state: IReduxState) {
     return disableChatSmileys;
 }
 
-export function isReactionsInChatEnabled(state: IReduxState): boolean {
-    const disableReactionsInChat = state['features/base/config'].disableReactionsInChat;
-
-    // If explicitly disabled in config, return false
-    if (disableReactionsInChat === true) {
-        return false;
-    }
-
-    // Otherwise fall back to feature flag or default
-    return getFeatureFlag(state, REACTIONS_IN_CHAT_ENABLED, true);
-}
-
 /**
  * Returns the timestamp to display for the message.
  *
@@ -222,15 +208,4 @@ export function isSendGroupChatDisabled(state: IReduxState) {
     }
 
     return !isJwtFeatureEnabled(state, MEET_FEATURES.SEND_GROUPCHAT, false);
-}
-
-/**
- * Whether or not reactions should be shown in the chat.
- *
- * @param {IReduxState} state - The Redux state object.
- * @returns {boolean}
- */
-export function isReactionChatEnabled(state: IReduxState): boolean {
-    const reactionsChatDisplayEnabled = state['features/base/flags'][REACTIONS_CHAT_DISPLAY_ENABLED];
-    return Boolean(reactionsChatDisplayEnabled); 
 }
