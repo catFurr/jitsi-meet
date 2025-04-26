@@ -24,12 +24,6 @@ function parseJwtPayload(token: string) {
     }
 }
 
-function isJwtExpired(token: string): boolean {
-    const payload = parseJwtPayload(token);
-    const currentTime = Math.floor(Date.now() / 1000);
-    return !payload?.exp || currentTime >= payload.exp;
-}
-
 const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
     const [isExpired, setIsExpired] = useState(false);
 
