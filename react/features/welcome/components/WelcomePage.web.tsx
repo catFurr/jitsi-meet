@@ -280,14 +280,14 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                     </div>
                 </div>
 
-                <div className="welcome-cards-container">
-                    <div className="welcome-card-column">
+                <div className = 'welcome-cards-container'>
+                    <div className = 'welcome-card-column'>
                         {showAdditionalCard ? (
-                            <div className="welcome-card">
+                            <div className = 'welcome-card'>
                                 <AuthCard />
                             </div>
                         ) : null}
-                        <div className="welcome-tabs welcome-card welcome-card--blue">{this._renderTabs()}</div>
+                        <div className = 'welcome-tabs welcome-card welcome-card--blue'>{this._renderTabs()}</div>
                     </div>
 
                     {showAdditionalContent
@@ -511,7 +511,7 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
      * @returns {boolean}
      */
     _shouldShowAdditionalCard() {
-        return interfaceConfig.DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD
+        return interfaceConfig.DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD;
     }
 
     /**

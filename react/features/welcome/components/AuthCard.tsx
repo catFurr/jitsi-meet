@@ -3,21 +3,19 @@ import { connect } from 'react-redux';
 import { IReduxState } from '../../app/types';
 
 interface Props {
-    jwtFromRedux?: {
-        jwt?: string;
-        name?: string;
-        email?: string;
-    };
+    jwtFromRedux?: object;
 }
 
 function base64UrlDecode(base64Url: string): string {
     const padded = base64Url + '==='.slice((base64Url.length + 3) % 4);
+
     return atob(padded.replace(/-/g, '+').replace(/_/g, '/'));
 }
 
 function parseJwtPayload(token: string) {
     try {
-        const [, payloadB64] = token.split('.');
+        const [ , payloadB64 ] = token.split('.');
+
         return JSON.parse(base64UrlDecode(payloadB64));
     } catch {
         return null;
@@ -25,7 +23,7 @@ function parseJwtPayload(token: string) {
 }
 
 const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
-    const [isExpired, setIsExpired] = useState(false);
+    const [ isExpired, setIsExpired ] = useState(false);
 
     const userData = useMemo(() => {
         const token = jwtFromRedux?.jwt;
@@ -36,15 +34,16 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
 
         return {
             user: {
-                name: jwtFromRedux?.name || '',
-                email: jwtFromRedux?.email || '',
+                name: contextUser?.name || '',
+                email: contextUser?.email || '',
                 subscriptionStatus: contextUser.subscription_status || 'pending'
             }
         };
-    }, [jwtFromRedux]);
+    }, [ jwtFromRedux ]);
 
     useEffect(() => {
         const token = jwtFromRedux?.jwt;
+
         if (!token) return;
 
         const payload = parseJwtPayload(token);
@@ -57,6 +56,7 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
 
         if (msUntilExpiry <= 0) {
             setIsExpired(true);
+
             return;
         }
 
@@ -65,12 +65,13 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
         }, msUntilExpiry);
 
         return () => clearTimeout(timeout);
-    }, [jwtFromRedux]);
+    }, [ jwtFromRedux ]);
 
 
     const handleLogin = () => {
         const config = (window as any).config;
         let loginUrl = config?.tokenAuthUrl;
+
         if (loginUrl) {
             loginUrl = loginUrl
                 .replace('{room}', '&no_room=true')
@@ -82,72 +83,96 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
 
     const handleLogout = () => {
         const logoutUrl = (window as any).config?.tokenLogoutUrl;
+
         if (logoutUrl) {
             window.location.href = logoutUrl;
         }
     };
 
     return (
-        <div className="welcome-card-text auth-card">
-            <div id="jitsi-auth-container">
+        <div className = 'welcome-card-text auth-card'>
+            <div id = 'jitsi-auth-container'>
                 {userData?.user ? (
-                    <div className="auth-user-info">
-                        <h3 className="auth-title">Account</h3>
+                    <div className = 'auth-user-info'>
+                        <div className = 'auth-header-row'>
+                            <h3 className = 'auth-title'>Account</h3>
+                            <div className = 'auth-header-buttons'>
+                                <button
+                                    className = 'welcome-page-button auth-button'
+                                    onClick = { handleLogin }
+                                    title = 'Refresh Session'>
+                                    <svg
+                                        fill = 'none'
+                                        height = '20'
+                                        stroke = 'currentColor'
+                                        strokeLinecap = 'round'
+                                        strokeLinejoin = 'round'
+                                        strokeWidth = '2'
+                                        viewBox = '0 0 24 24'
+                                        width = '20'
+                                        xmlns = 'http://www.w3.org/2000/svg'>
+                                        <path d = 'M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8' />
+                                        <path d = 'M21 3v5h-5' />
+                                        <path d = 'M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16' />
+                                        <path d = 'M8 16H3v5' />
+                                    </svg>
+                                </button>
+                                <button
+                                    className = 'welcome-page-button auth-button auth-logout'
+                                    onClick = { handleLogout }>
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
 
-                        {['Name', 'Email', 'Subscription Status'].map((label, i) => {
-                            const key = ['name', 'email', 'subscriptionStatus'][i] as keyof typeof userData.user;
+                        {[ 'Name', 'Email', 'Subscription Status' ].map((label, i) => {
+                            const key = [ 'name', 'email', 'subscriptionStatus' ][i] as keyof typeof userData.user;
                             const value = userData.user?.[key] || 'Not available';
                             const displayValue = key === 'subscriptionStatus' && value === 'active' ? ' Active' : value;
 
                             return (
-                                <div className="auth-user-detail" key={label}>
-                                    <span className="auth-label">{label}:</span>
-                                    <span className="auth-value">{displayValue}</span>
+                                <div
+                                    className = 'auth-user-detail'
+                                    key = { label }>
+                                    <span className = 'auth-label'>{label}:</span>
+                                    <span className = 'auth-value'>{displayValue}</span>
                                 </div>
                             );
                         })}
 
-                        <div className="auth-buttons">
-                            <a
-                                href="https://auth.sonacove.com/realms/jitsi/account"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`welcome-page-button auth-button ${isExpired ? 'disabled' : ''}`}
-                                onClick={(e) => isExpired && e.preventDefault()}
-                            >
-                                Manage Account
-                            </a>
+                        <div className = 'auth-buttons'>
+                            <div className = 'auth-button-row'>
+                                <a
+                                    className = { `welcome-page-button auth-button ${isExpired ? 'disabled' : ''}` }
+                                    href = 'https://auth.sonacove.com/realms/jitsi/account'
+                                    onClick = { e => isExpired && e.preventDefault() }
+                                    rel = 'noopener noreferrer'
+                                    target = '_blank'>
+                                    Manage Account
+                                </a>
 
-                            <a
-                                href={
-                                    userData.user.subscriptionStatus === 'active'
-                                        ? 'https://customer-portal.paddle.com/cpl_01jmwrfanv7gtn3y160bcw8c7w'
-                                        : 'https://sonacove.com/onboarding/'
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="welcome-page-button auth-button"
-                            >
-                                Manage Subscription
-                            </a>
-
-                            {isExpired && (
-                                <button onClick={handleLogin} className="welcome-page-button auth-button">
-                                    Refresh Session
-                                </button>
-                            )}
-
-                            <button onClick={handleLogout} className="welcome-page-button auth-button auth-logout">
-                                Logout
-                            </button>
+                                <a
+                                    className = 'welcome-page-button auth-button'
+                                    href = {
+                                        userData.user.subscriptionStatus === 'active'
+                                            ? 'https://customer-portal.paddle.com/cpl_01jmwrfanv7gtn3y160bcw8c7w'
+                                            : 'https://sonacove.com/onboarding/'
+                                    }
+                                    rel = 'noopener noreferrer'
+                                    target = '_blank'>
+                                    Manage Subscription
+                                </a>
+                            </div>
                         </div>
                     </div>
                 ) : (
-                    <div className="auth-login-container">
-                        <h3 className="auth-title">Login</h3>
-                        <p className="auth-description">Sign in to access your account and meetings</p>
+                    <div className = 'auth-login-container'>
+                        <h3 className = 'auth-title'>Login</h3>
+                        <p className = 'auth-description'>Sign in to access your account and meetings</p>
 
-                        <button onClick={handleLogin} className="welcome-page-button auth-button">
+                        <button
+                            className = 'welcome-page-button auth-button'
+                            onClick = { handleLogin }>
                             Login
                         </button>
                     </div>
