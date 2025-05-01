@@ -1,9 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
-import { IReduxState } from '../../app/types';
+import type { IReduxState } from '../../app/types';
+import type { IJwtState } from '../../base/jwt/reducer';
+import type { IConfig } from '../../base/config/configType';
 
-interface Props {
-    jwtFromRedux?: object;
+interface IProps {
+    jwtFromRedux?: IJwtState;
+    tokenAuthURL: IConfig['tokenAuthUrl'];
+    tokenLogoutURL: IConfig['tokenLogoutUrl'];
 }
 
 function base64UrlDecode(base64Url: string): string {
@@ -22,7 +26,7 @@ function parseJwtPayload(token: string) {
     }
 }
 
-const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
+const AuthCard: React.FC<IProps> = ({ jwtFromRedux, tokenAuthURL, tokenLogoutURL }) => {
     const [ isExpired, setIsExpired ] = useState(false);
 
     const userData = useMemo(() => {
@@ -68,9 +72,8 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
     }, [ jwtFromRedux ]);
 
 
-    const handleLogin = () => {
-        const config = (window as any).config;
-        let loginUrl = config?.tokenAuthUrl;
+    const handleLogin = useCallback(() => {
+        let loginUrl = tokenAuthURL;
 
         if (loginUrl) {
             loginUrl = loginUrl
@@ -79,15 +82,15 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
                 .replace('{state}', '{}');
             window.location.href = loginUrl;
         }
-    };
+    }, [ tokenAuthURL ]);
 
-    const handleLogout = () => {
-        const logoutUrl = (window as any).config?.tokenLogoutUrl;
+    const handleLogout = useCallback(() => {
+        const logoutUrl = tokenLogoutURL;
 
         if (logoutUrl) {
             window.location.href = logoutUrl;
         }
-    };
+    }, [ tokenLogoutURL ]);
 
     return (
         <div className = 'welcome-card-text auth-card'>
@@ -97,7 +100,7 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
                         <div className = 'auth-header-row'>
                             <h3 className = 'auth-title'>Account</h3>
                             <div className = 'auth-header-buttons'>
-                                <button
+                                {/* <button
                                     className = 'welcome-page-button auth-button'
                                     onClick = { handleLogin }
                                     title = 'Refresh Session'>
@@ -116,7 +119,7 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
                                         <path d = 'M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16' />
                                         <path d = 'M8 16H3v5' />
                                     </svg>
-                                </button>
+                                </button> */}
                                 <button
                                     className = 'welcome-page-button auth-button auth-logout'
                                     onClick = { handleLogout }>
@@ -143,9 +146,8 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
                         <div className = 'auth-buttons'>
                             <div className = 'auth-button-row'>
                                 <a
-                                    className = { `welcome-page-button auth-button ${isExpired ? 'disabled' : ''}` }
+                                    className = { 'welcome-page-button auth-button' }
                                     href = 'https://auth.sonacove.com/realms/jitsi/account'
-                                    onClick = { e => isExpired && e.preventDefault() }
                                     rel = 'noopener noreferrer'
                                     target = '_blank'>
                                     Manage Account
@@ -183,7 +185,9 @@ const AuthCard: React.FC<Props> = ({ jwtFromRedux }) => {
 };
 
 const mapStateToProps = (state: IReduxState) => ({
-    jwtFromRedux: state['features/base/jwt']
+    jwtFromRedux: state['features/base/jwt'],
+    tokenAuthURL: state['features/base/config'].tokenAuthUrl,
+    tokenLogoutURL: state['features/base/config'].tokenLogoutUrl
 });
 
 export default connect(mapStateToProps)(AuthCard);
