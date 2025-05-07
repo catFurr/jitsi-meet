@@ -249,6 +249,4 @@ export default [
     'webrtcIceTcpDisable',
     'webrtcIceUdpDisable',
     'whiteboard.enabled'
-]
-    .concat(extraConfigWhitelist)
-    .concat(isEmbedded() ? isEmbeddedConfigWhitelist : []);
+].concat(extraConfigWhitelist).concat(isEmbedded() ? isEmbeddedConfigWhitelist : []);

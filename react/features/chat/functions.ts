@@ -139,7 +139,6 @@ export function areSmileysDisabled(state: IReduxState) {
     return disableChatSmileys;
 }
 
-
 /**
  * Returns the timestamp to display for the message.
  *
