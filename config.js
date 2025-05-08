@@ -53,10 +53,11 @@ var config = {
 
     // Websocket URL (XMPP)
     websocket: 'wss://meet.sonacove.com/' + subdir + 'xmpp-websocket',
+    websocketKeepAlive: 0, // 0 = disabled, there is an issue with the keep alive
     websocketKeepAliveUrl: 'https://meet.sonacove.com/' + subdir + '_unlock',
 
     // Whether BOSH should be preferred over WebSocket if both are configured.
-    preferBosh: true,
+    preferBosh: false,
 
     // The real JID of focus participant - can be overridden here
     // Do not change username - FIXME: Make focus username configurable
