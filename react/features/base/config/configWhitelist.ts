@@ -108,6 +108,7 @@ export default [
     'disablePolls',
     'disableProfile',
     'disableReactions',
+    'disableReactionsInChat',
     'disableReactionsModeration',
     'disableRecordAudioNotification',
     'disableRemoteControl',
