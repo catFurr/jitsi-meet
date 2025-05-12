@@ -186,6 +186,9 @@ MiddlewareRegistry.register(store => next => action => {
             // we want to mark token auth success to false as if login is unsuccessful
             // the participant can join anonymously and not go in login loop
             dispatch(setTokenAuthUrlSuccess(false));
+
+            // TODO: let's remove the jwt if it fails (or is invalid)
+            // set auth url success to false regardless of jwt presence?
         }
 
         break;
