@@ -2,8 +2,6 @@ import { Component } from 'react';
 import { ReactReduxContext } from 'react-redux';
 
 import { IMessage } from '../types';
-import { getFeatureFlag } from '../../base/flags/functions';
-import { REACTIONS_IN_CHAT_ENABLED } from '../../base/flags/constants';
 
 export interface IProps {
 
@@ -41,12 +39,12 @@ export default class AbstractMessageContainer<P extends IProps, S> extends Compo
 
         const { store } = this.context;
         const state = store.getState();
-        const reactionsInChatEnabled = getFeatureFlag(state, REACTIONS_IN_CHAT_ENABLED, true)
+        const { disableReactionsInChat } = state['features/base/config'];
 
         for (let i = 0; i < messagesCount; i++) {
             const message = this.props.messages[i];
 
-            if (message.isReaction && !reactionsInChatEnabled) {
+            if (message.isReaction && disableReactionsInChat) {
                 continue;
             }
 
