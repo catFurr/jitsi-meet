@@ -28,6 +28,7 @@ function parseJwtPayload(token: string) {
 
 const AuthCard: React.FC<IProps> = ({ jwtFromRedux, tokenAuthURL, tokenLogoutURL }) => {
     const [ isExpired, setIsExpired ] = useState(false);
+    const [ subscriptionUrl, setSubscriptionUrl ] = useState('https://sonacove.com/onboarding/');
 
     const userData = useMemo(() => {
         const token = jwtFromRedux?.jwt;
@@ -71,6 +72,25 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, tokenAuthURL, tokenLogoutURL
         return () => clearTimeout(timeout);
     }, [ jwtFromRedux ]);
 
+    useEffect(() => {
+        setSubscriptionUrl(`https://sonacove.com/onboarding#access_token=${jwtFromRedux?.jwt}`);
+        if (userData?.user.subscriptionStatus === 'active') {
+            fetch('https://sonacove.com/api/paddle-customer-portal',
+                {
+                    headers: {
+                        Authorization: `Bearer ${jwtFromRedux?.jwt}`,
+                    },
+                }
+            )
+            .then(response => response.json())
+            .then(data => {
+                data.url && setSubscriptionUrl(data.url);
+            })
+            .catch(error => {
+                console.error('Error fetching subscription URL:', error);
+            });
+        }
+    }, [ userData, jwtFromRedux ]);
 
     const handleLogin = useCallback(() => {
         let loginUrl = tokenAuthURL;
@@ -155,11 +175,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, tokenAuthURL, tokenLogoutURL
 
                                 <a
                                     className = 'welcome-page-button auth-button'
-                                    href = {
-                                        userData.user.subscriptionStatus === 'active'
-                                            ? 'https://customer-portal.paddle.com/cpl_01jmwrfanv7gtn3y160bcw8c7w'
-                                            : 'https://sonacove.com/onboarding/'
-                                    }
+                                    href = { subscriptionUrl }
                                     rel = 'noopener noreferrer'
                                     target = '_blank'>
                                     Manage Subscription

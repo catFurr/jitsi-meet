@@ -1568,7 +1568,7 @@ var config = {
     // The URL for the service supports few params which will be filled in by the code.
     tokenAuthUrl:
         // eslint-disable-next-line max-len
-        'https://auth.sonacove.com/realms/jitsi/protocol/openid-connect/auth?client_id=jitsi-web&redirect_uri=https://meet.sonacove.com/{room}&response_type=token',
+        'https://auth.sonacove.com/realms/jitsi/protocol/openid-connect/auth?client_id=jitsi-web&redirect_uri=https://sonacove.com/meet/{room}&response_type=token',
 
     // Supported parameters in tokenAuthUrl:
     //      {room} - will be replaced with the room name
@@ -1587,7 +1587,7 @@ var config = {
     // If there is a logout service you can specify its URL with:
     tokenLogoutUrl:
         // eslint-disable-next-line max-len
-        'https://auth.sonacove.com/realms/jitsi/protocol/openid-connect/logout?post_logout_redirect_uri=https://meet.sonacove.com&client_id=jitsi-web',
+        'https://auth.sonacove.com/realms/jitsi/protocol/openid-connect/logout?post_logout_redirect_uri=https://sonacove.com/meet&client_id=jitsi-web',
 
     // You can enable tokenAuthUrlAutoRedirect which will detect that you have logged in successfully before
     // and will automatically redirect to the token service to get the token for the meeting.
