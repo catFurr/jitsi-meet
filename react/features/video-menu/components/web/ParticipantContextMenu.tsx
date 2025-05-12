@@ -251,8 +251,13 @@ const ParticipantContextMenu = ({
             buttons2.push(<GrantModeratorButton { ...getButtonProps(BUTTONS.GRANT_MODERATOR) } />);
         }
 
-        if (!disableDemote && visitorsSupported && _isModerator) {
-            buttons2.push(<DemoteToVisitorButton { ...getButtonProps(BUTTONS.DEMOTE) } />);
+        if (!disableDemote && _isModerator) {
+            // Hide button if target is a participant and visitors feature is not supported.
+            const isTargetParticipant = participant.role === PARTICIPANT_ROLE.PARTICIPANT;
+
+            if (!(isTargetParticipant && !visitorsSupported)) {
+                buttons2.push(<DemoteToVisitorButton { ...getButtonProps(BUTTONS.DEMOTE) } />);
+            }
         }
 
         if (!disableKick) {

@@ -1363,18 +1363,22 @@ var config = {
     // },
 
     // Options related to the remote participant menu.
-    // remoteVideoMenu: {
-    //     // Whether the remote video context menu to be rendered or not.
-    //     disabled: true,
-    //     // If set to true the 'Switch to visitor' button will be disabled.
-    //     disableDemote: true,
-    //     // If set to true the 'Kick out' button will be disabled.
-    //     disableKick: true,
-    //     // If set to true the 'Grant moderator' button will be disabled.
-    //     disableGrantModerator: true,
-    //     // If set to true the 'Send private message' button will be disabled.
-    //     disablePrivateChat: true,
-    // },
+    remoteVideoMenu: {
+        // Whether the remote video context menu to be rendered or not.
+        disabled: false,
+
+        // If set to true the 'Switch to visitor' button will be disabled.
+        disableDemote: false,
+
+        // If set to true the 'Kick out' button will be disabled.
+        disableKick: false,
+
+        // If set to true the 'Grant moderator' button will be disabled.
+        disableGrantModerator: false,
+
+        // If set to true the 'Send private message' button will be disabled.
+        disablePrivateChat: false,
+    },
 
     // Endpoint that enables support for salesforce integration with in-meeting resource linking
     // This is required for:

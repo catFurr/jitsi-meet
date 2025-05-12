@@ -113,6 +113,53 @@ function handle_send_system_message (event)
     return { status_code = 200 };
 end
 
+-- Internal function to send a message to all non-admin occupants in a room
+-- sender_jid: The JID to use in the 'from' field (e.g., room.jid or component JID)
+-- display_name: Optional display name to include in the message payload
+local function send_room_notification_internal(room, message_text, sender_jid, display_name)
+    if not room or not message_text or not sender_jid then
+        module:log("warn", "send_room_notification_internal called with missing parameters.");
+        return;
+    end
+
+    module:log("debug", "Sending system notification to room %s from %s: \"%s\"", room.jid, sender_jid, message_text);
+
+    local data = {
+        type = "system_chat_message", -- Keep consistent type
+        message = message_text
+    };
+    if display_name then
+        data.displayName = display_name;
+    end
+
+    local json_payload = json.encode(data);
+    if not json_payload then
+        module:log("error", "Failed to encode system message JSON for room %s", room.jid);
+        return;
+    end
+
+    for _, occupant in room:each_occupant() do
+        if not util.is_admin(occupant.bare_jid) then
+            local stanza = st.message({
+                from = sender_jid, -- Use the provided sender JID
+                to = occupant.jid,
+                type = "chat" -- Use chat type for broad compatibility
+            })
+            :tag('json-message', { xmlns = 'http://jitsi.org/jitmeet' })
+            :text(json_payload)
+            :up();
+
+            -- Use route_stanza to ensure it goes through room logic if needed
+            room:route_stanza(stanza);
+        end
+    end
+end
+
+-- Expose the internal function for other modules
+module:provides("system_chat", {
+    send_room_notification = send_room_notification_internal;
+});
+
 module:log("info", "Adding http handler for /send-system-chat-message on %s", module.host);
 module:depends("http");
 module:provides("http", {

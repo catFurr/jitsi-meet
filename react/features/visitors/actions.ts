@@ -3,7 +3,8 @@ import { sendAnalytics } from '../analytics/functions';
 import { IStore } from '../app/types';
 import { getCurrentConference } from '../base/conference/functions';
 import { connect, disconnect, setPreferVisitor } from '../base/connection/actions';
-import { getLocalParticipant } from '../base/participants/functions';
+import { getLocalParticipant, getParticipantById } from '../base/participants/functions';
+import { PARTICIPANT_ROLE } from '../base/participants/constants';
 
 import {
     CLEAR_VISITOR_PROMOTION_REQUEST,
@@ -88,6 +89,9 @@ export function demoteRequest(id: string) {
     return (dispatch: IStore['dispatch'], getState: IStore['getState']) => {
         const conference = getCurrentConference(getState);
         const localParticipant = getLocalParticipant(getState());
+        const targetParticipant = getParticipantById(getState(), id);
+        const state = getState();
+        const visitorsSupported = state['features/visitors'].supported;
 
         sendAnalytics(createRemoteVideoMenuButtonEvent('demote.button', { 'participant_id': id }));
 
@@ -99,13 +103,30 @@ export function demoteRequest(id: string) {
 
                     return dispatch(connect());
                 });
-        } else {
+        } else if (targetParticipant) {
+            if (targetParticipant.role === PARTICIPANT_ROLE.MODERATOR) {
+                conference?.sendMessage({
+                    type: 'meeting-host',
+                    action: 'demote-moderator',
+                    id,
+                    actor: localParticipant?.id,
+                });
+                logger.info(`Host ${localParticipant?.id} requested demotion of moderator ${id}`);
+            } else if (targetParticipant.role === PARTICIPANT_ROLE.PARTICIPANT && visitorsSupported) {
             conference?.sendMessage({
                 type: 'visitors',
                 action: 'demote-request',
                 id,
                 actor: localParticipant?.id
             });
+                logger.info(`Host ${localParticipant?.id} requested demotion of participant ${id} to visitor`);
+            } else {
+                logger.warn(
+                    `Demotion requested for participant ${id} with role ${targetParticipant.role} and visitorsSupported=${visitorsSupported} - unsupported operation.`
+                );
+            }
+        } else {
+            logger.error(`Demotion requested for unknown participant ID: ${id}`);
         }
     };
 }
