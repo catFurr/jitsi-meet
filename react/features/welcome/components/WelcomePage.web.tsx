@@ -126,6 +126,7 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
         // Bind event handlers so they are only bound once per instance.
         this._onFormSubmit = this._onFormSubmit.bind(this);
         this._onRoomChange = this._onRoomChange.bind(this);
+        this._setAdditionalCardRef = this._setAdditionalCardRef.bind(this);
         this._setAdditionalContentRef
             = this._setAdditionalContentRef.bind(this);
         this._setRoomInputRef = this._setRoomInputRef.bind(this);
@@ -282,12 +283,17 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
 
                 <div className = 'welcome-cards-container'>
                     <div className = 'welcome-card-column'>
-                        {showAdditionalCard ? (
-                            <div className = 'welcome-card'>
-                                <AuthCard />
-                            </div>
-                        ) : null}
-                        <div className = 'welcome-tabs welcome-card welcome-card--blue'>{this._renderTabs()}</div>
+                        <div className = 'welcome-card'>
+                            <AuthCard />
+                        </div>
+                        {showAdditionalCard
+                            ? <div
+                                className = 'welcome-card'
+                                ref = { this._setAdditionalCardRef } />
+                            : null}
+                        <div className = 'welcome-tabs welcome-card welcome-card--blue'>
+                            {this._renderTabs()}
+                        </div>
                     </div>
 
                     {showAdditionalContent
@@ -511,7 +517,9 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
      * @returns {boolean}
      */
     _shouldShowAdditionalCard() {
-        return interfaceConfig.DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD;
+        return interfaceConfig.DISPLAY_WELCOME_PAGE_ADDITIONAL_CARD
+            && this._additionalCardTemplate?.content
+            && this._additionalCardTemplate?.innerHTML?.trim();
     }
 
     /**
