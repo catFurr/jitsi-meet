@@ -68,7 +68,7 @@ export const getTokenAuthUrl = (
 
     let url = config.tokenAuthUrl;
 
-    if (!url || !roomName) {
+    if (!url) {
         return Promise.resolve(undefined);
     }
 
@@ -93,7 +93,7 @@ export const getTokenAuthUrl = (
         url = url.replace('{state}', encodeURIComponent(JSON.stringify(state)));
     }
 
-    url = url.replace('{room}', roomName);
+    url = url.replace('{room}', roomName || '');
 
     if (url.indexOf('{code_challenge}')) {
         let codeVerifier = '';

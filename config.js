@@ -674,7 +674,7 @@ var config = {
     // hideAddRoomButton: false,
 
     // Require users to always specify a display name.
-    requireDisplayName: false,
+    requireDisplayName: true,
 
     // Enables webhid functionality for Audio.
     enableWebHIDFeature: true,
@@ -1568,7 +1568,7 @@ var config = {
     // The URL for the service supports few params which will be filled in by the code.
     tokenAuthUrl:
         // eslint-disable-next-line max-len
-        'https://auth.sonacove.com/realms/jitsi/protocol/openid-connect/auth?client_id=jitsi-web&redirect_uri=https://sonacove.com/meet/{room}&response_type=token',
+        'https://auth.sonacove.com/realms/jitsi/protocol/openid-connect/auth?client_id=jitsi-web&redirect_uri=https://sonacove.com/meet/{room}#{state}&response_type=token',
 
     // Supported parameters in tokenAuthUrl:
     //      {room} - will be replaced with the room name

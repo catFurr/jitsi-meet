@@ -11,6 +11,8 @@ import LocalRecordingManager from '../../recording/components/Recording/LocalRec
 import { setJWT } from '../jwt/actions';
 
 import { _connectInternal } from './actions.any';
+import { validateJwt } from '../jwt/functions';
+import { LOGIN } from '../../authentication/actionTypes';
 
 export * from './actions.any';
 
@@ -39,6 +41,11 @@ export function connect(id?: string, password?: string) {
 
                     return dispatch(_connectInternal(id, password));
                 });
+        }
+
+        // Check if the jwt is valid. If not, get a new one
+        if (jwt && !validateJwt(jwt)) {
+            return dispatch({ type: LOGIN });
         }
 
         // used by jibri

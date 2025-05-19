@@ -102,8 +102,20 @@ function _setConfigOrLocationURL({ dispatch, getState }: IStore, next: Function,
 
     const { locationURL } = getState()['features/base/connection'];
 
-    dispatch(
-        setJWT(locationURL ? parseJWTFromURLParams(locationURL) : undefined));
+    if (locationURL) {
+        const jwt = parseJWTFromURLParams(locationURL);
+
+        dispatch(setJWT(jwt));
+        if (jwt) {
+            // Update browser history to remove the access token
+            const urlObj = new URL(locationURL.href);
+            const newHashParams = new URLSearchParams(urlObj.hash.substr(1));
+
+            newHashParams.delete('access_token');
+            urlObj.hash = newHashParams.toString();
+            window.history.replaceState(null, '', urlObj);
+        }
+    } else dispatch(setJWT(undefined));
 
     return result;
 }

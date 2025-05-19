@@ -283,9 +283,6 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
 
                 <div className = 'welcome-cards-container'>
                     <div className = 'welcome-card-column'>
-                        <div className = 'welcome-card'>
-                            <AuthCard />
-                        </div>
                         {showAdditionalCard
                             ? <div
                                 className = 'welcome-card'
@@ -293,6 +290,9 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
                             : null}
                         <div className = 'welcome-tabs welcome-card welcome-card--blue'>
                             {this._renderTabs()}
+                        </div>
+                        <div className = 'welcome-card'>
+                            <AuthCard />
                         </div>
                     </div>
 
