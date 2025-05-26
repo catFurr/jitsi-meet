@@ -13,7 +13,7 @@ const hints = [
 /**
  * Navigate to the home page
  */
-function goToHomePage() {
+export function goToHomePage() {
     window.location.href = '/';
 }
 

@@ -318,4 +318,4 @@ module:hook_global("config-reloaded", function()
         module:set_status("info", "Running."); -- Status remains OK
     end
     -- The timer will automatically use the new cf_turn_ttl for its next rescheduling interval.
-end); 
+end);

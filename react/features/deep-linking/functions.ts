@@ -5,7 +5,6 @@ import Platform from '../base/react/Platform';
 import { URI_PROTOCOL_PATTERN } from '../base/util/uri';
 import { isVpaasMeeting } from '../jaas/functions';
 
-import ConfirmRoomNamePage from './components/ConfirmRoomNamePage';
 import DeepLinkingDesktopPage from './components/DeepLinkingDesktopPage';
 import DeepLinkingMobilePage from './components/DeepLinkingMobilePage';
 import NoMobileApp from './components/NoMobileApp';
@@ -60,8 +59,8 @@ export function getDeepLinkingPage(state: IReduxState) {
 
     // Show only if there is no history
     if (history.length < 2 && isMobileBrowser()) {
-        return Promise.resolve(ConfirmRoomNamePage);
-    }
+        return Promise.resolve(DeepLinkingMobilePage);
+    } else return Promise.resolve();
 
     // @ts-ignore
     const { appScheme } = deeplinking?.[Platform.OS as keyof typeof deeplinking] || {};
