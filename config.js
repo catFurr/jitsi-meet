@@ -5,13 +5,8 @@
  * https://jitsi.github.io/handbook/docs/dev-guide/dev-guide-configuration
  */
 
-// var subdir = '<!--# echo var="subdir" default="" -->';
-// var subdomain = '<!--# echo var="subdomain" default="" -->';
-// var domain = '<!--# echo var="domain" default="" -->';
-var subdir = 'meet/';
-var subdomain = 'staj.';
-var domain = 'sonacove.com';
-var ngrokUrl = 'https%3A%2F%2Felectric-publicly-guinea.ngrok-free.app%2F';
+var subdir = '<!--# echo var="subdir" default="" -->';
+var subdomain = '<!--# echo var="subdomain" default="" -->';
 
 if (subdomain) {
     subdomain
@@ -30,6 +25,10 @@ if (subdomain.startsWith('<!--')) {
     subdomain = '';
 }
 
+// ex. ngrokUrl = 'electric-publicly-guinea.ngrok-free.app'
+// ex. ngrokUrl = 'mybranch.sonacove.pages.dev'
+var ngrokUrl = null;
+var authdomain = ngrokUrl ? 'staj.sonacove.com/auth' : 'auth.sonacove.com';
 var enableJaaS = false;
 
 var config = {
@@ -50,16 +49,16 @@ var config = {
         // focus: 'focus.meet.sonacove.com',
 
         // XMPP MUC domain. FIXME: use XEP-0030 to discover it.
-        muc: 'conference.meet.sonacove.com',
+        muc: 'conference.' + subdomain + 'meet.sonacove.com',
     },
 
     // BOSH URL. FIXME: use XEP-0156 to discover it.
-    bosh: 'https://meet.sonacove.com/http-bind',
+    bosh: 'https://meet.sonacove.com/' + subdir + 'http-bind',
 
     // Websocket URL (XMPP)
-    websocket: 'wss://meet.sonacove.com/xmpp-websocket',
+    websocket: 'wss://meet.sonacove.com/' + subdir + 'xmpp-websocket',
     websocketKeepAlive: 0, // 0 = disabled. NOTE: There is an issue with the keep alive
-    websocketKeepAliveUrl: 'https://meet.sonacove.com/_unlock',
+    websocketKeepAliveUrl: 'https://meet.sonacove.com/' + subdir + '_unlock',
 
     // Whether BOSH should be preferred over WebSocket if both are configured.
     preferBosh: false,
@@ -878,7 +877,7 @@ var config = {
         'toggle-camera',
         'videoquality',
 
-        'whiteboard',
+        //    'whiteboard',
     ],
 
     // Holds values related to toolbar visibility control.
@@ -1572,11 +1571,9 @@ var config = {
     // You can use tokenAuthUrl config to point to a URL of such service.
     // The URL for the service supports few params which will be filled in by the code.
     tokenAuthUrl:
-        'https://' + subdomain + domain + '/auth/realms/jitsi/protocol/openid-connect/auth'
+        'https://' + authdomain + '/realms/jitsi/protocol/openid-connect/auth'
         + '?client_id=jitsi-web'
-        + '&redirect_uri='
-        + (ngrokUrl ? ngrokUrl : subdomain + domain + '%2F' + subdir)
-        + '{room}%23{state}'
+        + '&redirect_uri=' + (ngrokUrl ?? 'sonacove.com%2Fmeet') + '%2F{room}%23{state}'
         + '&response_type=token',
 
     // Supported parameters in tokenAuthUrl:
@@ -1595,9 +1592,8 @@ var config = {
     //          - electron=true (when web is loaded in electron app)
     // If there is a logout service you can specify its URL with:
     tokenLogoutUrl:
-        'https://' + subdomain + domain + '/auth/realms/jitsi/protocol/openid-connect/logout'
-        + '?post_logout_redirect_uri='
-        + (ngrokUrl ? ngrokUrl : subdomain + domain + '%2F' + subdir)
+        'https://' + authdomain + '/realms/jitsi/protocol/openid-connect/logout'
+        + '?post_logout_redirect_uri=' + (ngrokUrl ?? 'sonacove.com%2Fmeet%2F')
         + '&client_id=jitsi-web',
 
     // You can enable tokenAuthUrlAutoRedirect which will detect that you have logged in successfully before
@@ -1859,21 +1855,21 @@ var config = {
     defaultLogoUrl: 'images/watermark.svg',
 
     // Settings for the Excalidraw whiteboard integration.
-    whiteboard: {
-        // Whether the feature is enabled or not.
-        enabled: true,
+    // whiteboard: {
+    //     // Whether the feature is enabled or not.
+    //     enabled: true,
 
-        // The server used to support whiteboard collaboration.
-        // https://github.com/jitsi/excalidraw-backend
-        collabServerBaseUrl: 'https://excalidraw.sonacove.com',
+    //     // The server used to support whiteboard collaboration.
+    //     // https://github.com/jitsi/excalidraw-backend
+    //     collabServerBaseUrl: 'https://excalidraw-backend.example.com',
 
-        // The user access limit to the whiteboard, introduced as a means
-        // to control the performance.
-        userLimit: 25,
+    //     // The user access limit to the whiteboard, introduced as a means
+    //     // to control the performance.
+    //     userLimit: 25,
 
-        // The url for more info about the whiteboard and its usage limitations.
-        limitUrl: 'https://example.com/blog/whiteboard-limits',
-    },
+    //     // The url for more info about the whiteboard and its usage limitations.
+    //     limitUrl: 'https://example.com/blog/whiteboard-limits',
+    // },
 
     // The watchRTC initialize config params as described :
     // https://testrtc.com/docs/installing-the-watchrtc-javascript-sdk/#h-set-up-the-sdk

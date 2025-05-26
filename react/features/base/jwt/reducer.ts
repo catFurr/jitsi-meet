@@ -51,5 +51,5 @@ PersistenceRegistry.register('features/base/jwt', {
     server: true,
     group: true,
     callee: true,
-    jwt: true, // TODO: is it rewritten on page load if no jwt in url?
+    jwt: true,
 });

@@ -14,7 +14,7 @@ import { parseURIString } from '../util/uri';
 
 import { SET_JWT } from './actionTypes';
 import { setJWT } from './actions';
-import { getJwtExpirationDate, parseJWTFromURLParams } from './functions';
+import { parseJWTFromURLParams } from './functions';
 import logger from './logger';
 
 /**
@@ -99,25 +99,15 @@ function _overwriteLocalParticipant(
  */
 function _setConfigOrLocationURL({ dispatch, getState }: IStore, next: Function, action: AnyAction) {
     const result = next(action);
-
     const { locationURL } = getState()['features/base/connection'];
-    const { jwt: existingJwt } = getState()['features/base/jwt'];
 
     if (locationURL) {
         const jwt = parseJWTFromURLParams(locationURL);
 
-        if (jwt && (getJwtExpirationDate(jwt)?.getTime() ?? 0) > (getJwtExpirationDate(existingJwt)?.getTime() ?? 0)) {
+        if (jwt) {
             dispatch(setJWT(jwt));
-            // Update browser history to remove the access token
-            // const urlObj = new URL(locationURL.href);
-            // const newHashParams = new URLSearchParams(urlObj.hash.substr(1));
-
-            // newHashParams.delete('access_token');
-            // urlObj.hash = newHashParams.toString();
-            // window.history.replaceState(null, '', urlObj);
         }
     }
-    // else dispatch(setJWT(undefined));
 
     return result;
 }
