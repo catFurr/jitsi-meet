@@ -27,8 +27,12 @@ function parseJwtPayload(token: string) {
 }
 
 const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
+    const hostname = window.location.hostname;
+    const isProd = hostname === 'sonacove.com' || hostname === 'www.sonacove.com';
+    const authDomain = isProd ? 'auth.sonacove.com' : 'staj.sonacove.com/auth';
+
     const [ isExpired, setIsExpired ] = useState(false);
-    const [ subscriptionUrl, setSubscriptionUrl ] = useState('https://sonacove.com/onboarding/');
+    const [ subscriptionUrl, setSubscriptionUrl ] = useState('https://' + hostname + '/onboarding/');
 
     const userData = useMemo(() => {
         const token = jwtFromRedux?.jwt;
@@ -73,9 +77,9 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
     }, [ jwtFromRedux ]);
 
     useEffect(() => {
-        setSubscriptionUrl(`https://sonacove.com/onboarding#access_token=${jwtFromRedux?.jwt}`);
+        setSubscriptionUrl(`https://${hostname}/onboarding#access_token=${jwtFromRedux?.jwt}`);
         if (userData?.user.subscriptionStatus === 'active') {
-            fetch('https://sonacove.com/api/paddle-customer-portal',
+            fetch('https://' + hostname + '/api/paddle-customer-portal',
                 {
                     headers: {
                         Authorization: `Bearer ${jwtFromRedux?.jwt}`,
@@ -183,7 +187,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
                             <div className = 'auth-button-row'>
                                 <a
                                     className = { 'welcome-page-button auth-button' }
-                                    href = 'https://auth.sonacove.com/realms/jitsi/account'
+                                    href = { 'https://' + authDomain + '/realms/jitsi/account' }
                                     rel = 'noopener noreferrer'
                                     target = '_blank'>
                                     Manage Account
