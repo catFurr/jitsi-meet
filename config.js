@@ -25,7 +25,7 @@ if (subdomain.startsWith('<!--')) {
     subdomain = '';
 }
 
-var domain = window.location.hostname;
+var domain = window.location.host;
 var isProd = domain === 'sonacove.com' || domain === 'www.sonacove.com';
 var authdomain = isProd ? 'auth.sonacove.com' : 'staj.sonacove.com/auth';
 var meetdomain = isProd ? 'meet.sonacove.com' : 'staj.sonacove.com/meet';
@@ -1573,7 +1573,7 @@ var config = {
     tokenAuthUrl:
         'https://' + authdomain + '/realms/jitsi/protocol/openid-connect/auth'
         + '?client_id=jitsi-web'
-        + '&redirect_uri=' + domain + '%2Fmeet%2F{room}%23{state}'
+        + '&redirect_uri=https%3A%2F%2F' + domain + '%2Fmeet%2F{room}%23{state}'
         + '&response_type=token',
 
     // Supported parameters in tokenAuthUrl:
@@ -1593,7 +1593,7 @@ var config = {
     // If there is a logout service you can specify its URL with:
     tokenLogoutUrl:
         'https://' + authdomain + '/realms/jitsi/protocol/openid-connect/logout'
-        + '?post_logout_redirect_uri=' + domain + '%2Fmeet%2F'
+        + '?post_logout_redirect_uri=https%3A%2F%2F' + domain + '%2Fmeet%2F'
         + '&client_id=jitsi-web',
 
     // You can enable tokenAuthUrlAutoRedirect which will detect that you have logged in successfully before

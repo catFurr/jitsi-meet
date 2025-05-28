@@ -27,7 +27,7 @@ function parseJwtPayload(token: string) {
 }
 
 const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
-    const hostname = window.location.hostname;
+    const hostname = window.location.host;
     const isProd = hostname === 'sonacove.com' || hostname === 'www.sonacove.com';
     const authDomain = isProd ? 'auth.sonacove.com' : 'staj.sonacove.com/auth';
 
