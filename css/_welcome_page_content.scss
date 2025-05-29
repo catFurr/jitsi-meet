@@ -65,6 +65,9 @@
 
     .auth-value {
       color: #131519;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -129,5 +132,14 @@
 
   &:hover {
     background: #C03747 !important;
+  }
+}
+
+.auth-button.auth-refresh {
+  color: #0361D4;
+  background-color: #d2d6da;
+
+  &:hover {
+    background-color: #c3c7cb;
   }
 }

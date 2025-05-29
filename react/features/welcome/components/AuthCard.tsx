@@ -4,6 +4,7 @@ import type { IReduxState } from '../../app/types';
 import type { IJwtState } from '../../base/jwt/reducer';
 import type { IConfig } from '../../base/config/configType';
 import { getTokenAuthUrl } from '../../authentication/functions.web';
+import { setJWT } from '../../base/jwt/actions';
 
 interface IProps {
     config: IConfig;
@@ -33,6 +34,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
 
     const [ isExpired, setIsExpired ] = useState(false);
     const [ subscriptionUrl, setSubscriptionUrl ] = useState('https://' + hostname + '/onboarding/');
+    const dispatch = useDispatch()
 
     const userData = useMemo(() => {
         const token = jwtFromRedux?.jwt;
@@ -117,6 +119,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
 
     const handleLogout = useCallback(() => {
         const logoutUrl = config.tokenLogoutUrl;
+        dispatch(setJWT(undefined))
 
         if (logoutUrl) {
             window.location.href = logoutUrl;
@@ -140,7 +143,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
                             <div className = 'auth-header-buttons'>
                                 {isExpired && (
                                     <button
-                                        className = 'welcome-page-button auth-button'
+                                        className = 'welcome-page-button auth-button auth-refresh'
                                         onClick = { handleLogin }
                                         title = 'Refresh Session'>
                                         <svg
@@ -149,7 +152,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
                                             stroke = 'currentColor'
                                             strokeLinecap = 'round'
                                             strokeLinejoin = 'round'
-                                            strokeWidth = '2'
+                                            strokeWidth = '2.5'
                                             viewBox = '0 0 24 24'
                                             width = '20'
                                             xmlns = 'http://www.w3.org/2000/svg'>
@@ -222,8 +225,10 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
 };
 
 const mapStateToProps = (state: IReduxState) => ({
-    jwtFromRedux: state['features/base/jwt'],
-    config: state['features/base/config']
+    jwtFromRedux: {
+        jwt: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ6ZDBLclk0emtrNkZ4UmtSWFR3MThUUEwzS2E4RU5XaktuUWp2NF80ZTN3In0.eyJleHAiOjE3NDg0NjU1ODksImlhdCI6MTc0ODQ2NDY4OSwiYXV0aF90aW1lIjoxNzQ4NDUyNjIxLCJqdGkiOiJkZjg3NzE3ZC02YjVjLTQ5NTMtOGQwZC1lMDkwY2Y4YmE4ZWMiLCJpc3MiOiJodHRwczovL2F1dGguc29uYWNvdmUuY29tL3JlYWxtcy9qaXRzaSIsImF1ZCI6WyJqaXRzaS13ZWIiLCJhY2NvdW50Il0sInN1YiI6Im1lZXQuaml0c2kiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJqaXRzaS13ZWIiLCJzaWQiOiJmN2M3MzY1ZS1mMjAwLTRjMmEtOGQ5Ni02NDRjOTcyNDFmNjIiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9tZWV0LnNvbmFjb3ZlLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJkZWZhdWx0LXJvbGVzLWppdHNpIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNvbnRleHQiOnsidXNlciI6eyJzdWJzY3JpcHRpb25fc3RhdHVzIjoiYWN0aXZlIiwibmFtZSI6IlphaWQgQWhtZWQgIiwiZW1haWwiOiJ6YWlkYWhtZWQwNDEyQGdtYWlsLmNvbSJ9fSwibmFtZSI6IlphaWQgQWhtZWQgIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiemFpZGFobWVkMDQxMkBnbWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiWmFpZCIsImZhbWlseV9uYW1lIjoiQWhtZWQgIiwicm9vbSI6IioiLCJlbWFpbCI6InphaWRhaG1lZDA0MTJAZ21haWwuY29tIn0.NOa0vGJj40831-bCgalJa-PDXVev8C7Kc_gyjuunL14uUozHYEkrWXLAsdOw0YTCgxCc9xSY_-qdcBy93X7etWkEi2ZDvOu0yFNVCCR0jCoWzNnnE0nWwJtxyKClYA9flTENeAeFQ5VawynaH1U8bWy5-smpTBeQhpGPNzJUDNuMq5ADk-581o5kAv2ZCZcAG0l1gK80Z4d67Ldby9TeXFXxINGXsarCa-lbRNR_EAK1lp5S0qiIBXMBIWySgMCAcG7VIDEATugcvjCTW1QTAC8GYF9JHW86_nsZORoW6QRPSWMkRvComS64ETaLoS7o5vBfEbmYyOphnpXEVLuzvA",
+    },
+    config: state["features/base/config"],
 });
 
 export default connect(mapStateToProps)(AuthCard);
