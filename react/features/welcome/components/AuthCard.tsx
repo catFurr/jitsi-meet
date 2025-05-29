@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import type { IReduxState } from '../../app/types';
 import type { IJwtState } from '../../base/jwt/reducer';
 import type { IConfig } from '../../base/config/configType';
+import { setJWT } from '../../base/jwt/actions';
 
 interface IProps {
     jwtFromRedux?: IJwtState;
@@ -28,6 +29,7 @@ function parseJwtPayload(token: string) {
 
 const AuthCard: React.FC<IProps> = ({ jwtFromRedux, tokenAuthURL, tokenLogoutURL }) => {
     const [ isExpired, setIsExpired ] = useState(false);
+    const dispatch = useDispatch();
 
     const userData = useMemo(() => {
         const token = jwtFromRedux?.jwt;
@@ -86,6 +88,8 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, tokenAuthURL, tokenLogoutURL
 
     const handleLogout = useCallback(() => {
         const logoutUrl = tokenLogoutURL;
+
+        dispatch(setJWT(undefined));
 
         if (logoutUrl) {
             window.location.href = logoutUrl;
@@ -185,9 +189,11 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, tokenAuthURL, tokenLogoutURL
 };
 
 const mapStateToProps = (state: IReduxState) => ({
-    jwtFromRedux: state['features/base/jwt'],
+    jwtFromRedux: {
+        jwt: 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ6ZDBLclk0emtrNkZ4UmtSWFR3MThUUEwzS2E4RU5XaktuUWp2NF80ZTN3In0.eyJleHAiOjE3NDg0NjU1ODksImlhdCI6MTc0ODQ2NDY4OSwiYXV0aF90aW1lIjoxNzQ4NDUyNjIxLCJqdGkiOiJkZjg3NzE3ZC02YjVjLTQ5NTMtOGQwZC1lMDkwY2Y4YmE4ZWMiLCJpc3MiOiJodHRwczovL2F1dGguc29uYWNvdmUuY29tL3JlYWxtcy9qaXRzaSIsImF1ZCI6WyJqaXRzaS13ZWIiLCJhY2NvdW50Il0sInN1YiI6Im1lZXQuaml0c2kiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJqaXRzaS13ZWIiLCJzaWQiOiJmN2M3MzY1ZS1mMjAwLTRjMmEtOGQ5Ni02NDRjOTcyNDFmNjIiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cHM6Ly9tZWV0LnNvbmFjb3ZlLmNvbSJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJkZWZhdWx0LXJvbGVzLWppdHNpIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImNvbnRleHQiOnsidXNlciI6eyJzdWJzY3JpcHRpb25fc3RhdHVzIjoiYWN0aXZlIiwibmFtZSI6IlphaWQgQWhtZWQgIiwiZW1haWwiOiJ6YWlkYWhtZWQwNDEyQGdtYWlsLmNvbSJ9fSwibmFtZSI6IlphaWQgQWhtZWQgIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiemFpZGFobWVkMDQxMkBnbWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiWmFpZCIsImZhbWlseV9uYW1lIjoiQWhtZWQgIiwicm9vbSI6IioiLCJlbWFpbCI6InphaWRhaG1lZDA0MTJAZ21haWwuY29tIn0.NOa0vGJj40831-bCgalJa-PDXVev8C7Kc_gyjuunL14uUozHYEkrWXLAsdOw0YTCgxCc9xSY_-qdcBy93X7etWkEi2ZDvOu0yFNVCCR0jCoWzNnnE0nWwJtxyKClYA9flTENeAeFQ5VawynaH1U8bWy5-smpTBeQhpGPNzJUDNuMq5ADk-581o5kAv2ZCZcAG0l1gK80Z4d67Ldby9TeXFXxINGXsarCa-lbRNR_EAK1lp5S0qiIBXMBIWySgMCAcG7VIDEATugcvjCTW1QTAC8GYF9JHW86_nsZORoW6QRPSWMkRvComS64ETaLoS7o5vBfEbmYyOphnpXEVLuzvA',
+    },
     tokenAuthURL: state['features/base/config'].tokenAuthUrl,
-    tokenLogoutURL: state['features/base/config'].tokenLogoutUrl
+    tokenLogoutURL: state['features/base/config'].tokenLogoutUrl,
 });
 
 export default connect(mapStateToProps)(AuthCard);
