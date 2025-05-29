@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import type { IReduxState } from '../../app/types';
 import type { IJwtState } from '../../base/jwt/reducer';
 import type { IConfig } from '../../base/config/configType';
 import { getTokenAuthUrl } from '../../authentication/functions.web';
+import { setJWT } from '../../base/jwt/actions';
 
 interface IProps {
     config: IConfig;
@@ -33,6 +34,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
 
     const [ isExpired, setIsExpired ] = useState(false);
     const [ subscriptionUrl, setSubscriptionUrl ] = useState('https://' + hostname + '/onboarding/');
+    const dispatch = useDispatch();
 
     const userData = useMemo(() => {
         const token = jwtFromRedux?.jwt;
@@ -117,6 +119,8 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
 
     const handleLogout = useCallback(() => {
         const logoutUrl = config.tokenLogoutUrl;
+        
+        dispatch(setJWT(undefined));
 
         if (logoutUrl) {
             window.location.href = logoutUrl;
@@ -140,7 +144,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
                             <div className = 'auth-header-buttons'>
                                 {isExpired && (
                                     <button
-                                        className = 'welcome-page-button auth-button'
+                                        className = 'welcome-page-button auth-button auth-refresh'
                                         onClick = { handleLogin }
                                         title = 'Refresh Session'>
                                         <svg
@@ -149,7 +153,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
                                             stroke = 'currentColor'
                                             strokeLinecap = 'round'
                                             strokeLinejoin = 'round'
-                                            strokeWidth = '2'
+                                            strokeWidth = '2.5'
                                             viewBox = '0 0 24 24'
                                             width = '20'
                                             xmlns = 'http://www.w3.org/2000/svg'>
@@ -223,7 +227,7 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
 
 const mapStateToProps = (state: IReduxState) => ({
     jwtFromRedux: state['features/base/jwt'],
-    config: state['features/base/config']
+    config: state['features/base/config'],
 });
 
 export default connect(mapStateToProps)(AuthCard);
