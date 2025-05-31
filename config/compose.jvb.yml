@@ -8,7 +8,7 @@ services:
             # HTTP API port
             - "9090:9090"
         volumes:
-            - ./custom-jvb.conf:/config/custom-jvb.conf:ro
+            - ./custom-jvb.conf:/config/custom-jvb.conf
         environment:
             # Authentication (must match what's configured in prosody)
             - JVB_AUTH_PASSWORD=2wPrOS7k
