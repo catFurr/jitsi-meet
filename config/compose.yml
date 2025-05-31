@@ -1,0 +1,54 @@
+services:
+    prosody:
+        image: jitsi/prosody:stable
+        restart: unless-stopped
+        expose:
+            - "5222"
+            - "5347"
+            - "5280"
+        volumes:
+            # Mount custom prosody plugins to the expected locations
+            - ../resources/prosody-plugins:/prosody-plugins:ro
+            - ./custom-prosody.cfg.lua:/config/conf.d/z.cfg.lua:ro
+            # Persistent storage for prosody data
+            - prosody-data:/config/data
+            # Certificates
+            - prosody-certs:/config/certs
+        environment:
+            # Authentication passwords
+            - JICOFO_AUTH_PASSWORD=jj42IJ4JcQxgXMrt
+            - JVB_AUTH_PASSWORD=2wPrOS7k
+            # Domain configuration (needed for certificate generation and templating)
+            - XMPP_DOMAIN=meet.sonacove.com
+            - XMPP_AUTH_DOMAIN=auth.meet.sonacove.com
+            - XMPP_MUC_DOMAIN
+            - XMPP_INTERNAL_MUC_DOMAIN
+            - JVB_AUTH_USER=jvb
+            - JIBRI_RECORDER_USER=recorder
+            - JIBRI_XMPP_USER=jibri
+            - JIGASI_XMPP_USER=jigasi
+            - XMPP_HIDDEN_DOMAIN=hidden.meet.jitsi
+            # All other configuration is in custom-prosody.cfg.lua
+        networks:
+            - jitsi-network
+
+    jicofo:
+        image: jitsi/jicofo:stable
+        restart: unless-stopped
+        volumes:
+            - ./custom-jicofo.conf:/config/custom-jicofo.conf:ro
+        environment:
+            - JICOFO_AUTH_PASSWORD=jj42IJ4JcQxgXMrt # Ensure this matches Prosody's focus user password
+            # We prefer using the custom-jicofo.conf file to override the default jicofo.conf file
+        networks:
+            - jitsi-network
+        depends_on:
+            - prosody
+
+volumes:
+    prosody-data:
+    prosody-certs:
+
+networks:
+    jitsi-network:
+        driver: bridge

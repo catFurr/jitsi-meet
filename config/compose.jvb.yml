@@ -1,0 +1,15 @@
+services:
+    jvb:
+        image: jitsi/jvb:stable
+        restart: unless-stopped
+        ports:
+            # ICE/UDP port for media
+            - "10000:10000/udp"
+            # HTTP API port
+            - "9090:9090"
+        volumes:
+            - ./custom-jvb.conf:/config/custom-jvb.conf:ro
+        environment:
+            # Authentication (must match what's configured in prosody)
+            - JVB_AUTH_PASSWORD=2wPrOS7k
+            # All other configuration is in custom-jvb.conf
