@@ -17,8 +17,10 @@ services:
             - ENABLE_OCTO=true
             - JVB_OCTO_REGION=banglore-1
             - JVB_OCTO_RELAY_ID=jvb-instance-1
-        labels: # Added for otel-collector
-            - "logging=otel"
+        logging:
+            driver: json-file
+            options:
+                tag: "{{.Name}}/{{.ImageName}}/{{.ID}}"
 
     otel-collector:
         image: otel/opentelemetry-collector-contrib:latest
@@ -26,7 +28,8 @@ services:
         command: ["--config=/etc/otelcol/config.yaml"]
         volumes:
             - ./otel-config.yaml:/etc/otelcol/config.yaml:ro
-            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - /var/run/docker.sock:/var/run/docker.sock:ro # For hostmetrics that might need it and potentially other future uses
+            - /var/lib/docker/containers:/var/lib/docker/containers:ro # Mount Docker log directory
         environment:
             - GC_OTLP_USER=${GC_OTLP_USER}
             - GC_OTLP_PASSWORD=${GC_OTLP_PASSWORD}

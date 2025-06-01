@@ -2,10 +2,37 @@
 # See https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/security-best-practices.md#safeguards-against-denial-of-service-attacks
 
 receivers:
-    dockerlogs/jvb:
-        container_label_selector: "logging=otel"
-        # The dockerlogs receiver automatically adds useful container metadata.
-        # Ensure JVB container has the label "logging=otel".
+    filelog/docker_json:
+        include: ["/var/lib/docker/containers/*/*-json.log"]
+        # include_file_path and include_file_name are true by default and add
+        # attributes: log.file.path, log.file.path_resolved, log.file.name
+        start_at: end
+        operators:
+            # Parse the JSON log line written by Docker's json-file logging driver
+            - type: json_parser
+              # Docker's json-file format: {"log":"<log_message>","stream":"<stdout/stderr>","time":"<timestamp>", "tag":"<configured_tag>"}
+              parse_to: attributes # Parse all fields into attributes, including the new 'tag'
+              timestamp:
+                  layout: "%Y-%m-%dT%H:%M:%S.%NZ" # RFC3339Nano format, e.g., 2023-01-01T12:00:00.123456789Z
+                  parse_from: attributes.time
+              severity:
+                  parse_from: attributes.stream # 'stream' field (stdout/stderr)
+                  mapping:
+                      stdout: INFO
+                      stderr: ERROR
+            # The log message is in 'attributes.log' after json_parser. Move it to the official 'body'.
+            - type: move
+              from: attributes.log
+              to: body
+            # Extract container name, image name, and ID from the tag.
+            # The 'tag' attribute comes from Docker's logging options.
+            # Example tag: myproject_jvb_1/jitsi/jvb:latest/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            - type: regex_parser
+              if: attributes.tag != nil # Only process if tag exists
+              source: attributes.tag
+              regex: "^(?P<container.name>[^/]+)/(?P<container.image.name>[^/]+(?:/[^/]+)?(?:[:@][^/]+)?)/(?P<container.id>[0-9a-f]{12,64})$"
+              # This regex attempts to be flexible with image names that might contain a registry path and/or tag/digest.
+              # It adds attributes["container.name"], attributes["container.image.name"], and attributes["container.id"]
 
     hostmetrics:
         # Optional. Host Metrics Receiver added as an example of Infra Monitoring capabilities of the OpenTelemetry Collector
@@ -139,6 +166,6 @@ service:
                 #exporters: [otlphttp/grafana_cloud]
 
         logs:
-            receivers: [dockerlogs/jvb]
+            receivers: [filelog/docker_json]
             processors: [resourcedetection, transform/drop_unneeded_resource_attributes, batch]
             exporters: [otlphttp/grafana_cloud]
