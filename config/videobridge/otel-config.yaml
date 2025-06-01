@@ -1,0 +1,144 @@
+# To limit exposure to denial of service attacks, change the host in endpoints below from 0.0.0.0 to a specific network interface.
+# See https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/security-best-practices.md#safeguards-against-denial-of-service-attacks
+
+receivers:
+    dockerlogs/jvb:
+        container_label_selector: "logging=otel"
+        # The dockerlogs receiver automatically adds useful container metadata.
+        # Ensure JVB container has the label "logging=otel".
+
+    hostmetrics:
+        # Optional. Host Metrics Receiver added as an example of Infra Monitoring capabilities of the OpenTelemetry Collector
+        # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/hostmetricsreceiver
+        collection_interval: 90s
+        resource:
+            service.name: "system-metrics"
+        scrapers:
+            cpu:
+            memory:
+            disk:
+            filesystem:
+            network:
+            load:
+            #process:
+
+    prometheus:
+        config:
+            scrape_configs:
+                - job_name: "jvb"
+                  scrape_interval: 120s
+                  static_configs:
+                      - targets: ["jvb:9090"]
+                        labels:
+                            service: "jvb"
+                  metrics_path: "/metrics"
+
+processors:
+    batch:
+    # https://github.com/open-telemetry/opentelemetry-collector/tree/main/processor/batchprocessor
+    resourcedetection:
+        # Enriches telemetry data with resource information from the host
+        # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/resourcedetectionprocessor
+        detectors: ["env", "system"]
+        override: false
+    transform/drop_unneeded_resource_attributes:
+        # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/transformprocessor
+        error_mode: ignore
+        trace_statements:
+            - context: resource
+              statements:
+                  - delete_key(attributes, "k8s.pod.start_time")
+                  - delete_key(attributes, "os.description")
+                  - delete_key(attributes, "os.type")
+                  - delete_key(attributes, "process.command_args")
+                  - delete_key(attributes, "process.executable.path")
+                  - delete_key(attributes, "process.pid")
+                  - delete_key(attributes, "process.runtime.description")
+                  - delete_key(attributes, "process.runtime.name")
+                  - delete_key(attributes, "process.runtime.version")
+        metric_statements:
+            - context: resource
+              statements:
+                  - delete_key(attributes, "k8s.pod.start_time")
+                  - delete_key(attributes, "os.description")                                                                - delete_key(attributes, "os.type")
+                  - delete_key(attributes, "process.command_args")
+                  - delete_key(attributes, "process.executable.path")                                                       - delete_key(attributes, "process.pid")
+                  - delete_key(attributes, "process.runtime.description")
+                  - delete_key(attributes, "process.runtime.name")
+                  - delete_key(attributes, "process.runtime.version")
+        log_statements:
+            - context: resource
+              statements:
+                  - delete_key(attributes, "k8s.pod.start_time")
+                  - delete_key(attributes, "os.description")
+                  - delete_key(attributes, "os.type")
+                  - delete_key(attributes, "process.command_args")
+                  - delete_key(attributes, "process.executable.path")
+                  - delete_key(attributes, "process.pid")
+                  - delete_key(attributes, "process.runtime.description")
+                  - delete_key(attributes, "process.runtime.name")
+                  - delete_key(attributes, "process.runtime.version")
+    transform/add_resource_attributes_as_metric_attributes:
+        # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/transformprocessor
+        error_mode: ignore
+        metric_statements:
+            - context: datapoint
+              statements:
+                  - set(attributes["deployment.environment"], resource.attributes["deployment.environment"])
+                  - set(attributes["service.version"], resource.attributes["service.version"])
+
+exporters:
+    otlphttp/grafana_cloud:
+        # https://github.com/open-telemetry/opentelemetry-collector/tree/main/exporter/otlphttpexporter
+        endpoint: "https://otlp-gateway-prod-eu-west-2.grafana.net/otlp"
+        auth:
+            authenticator: basicauth/grafana_cloud
+
+extensions:
+    basicauth/grafana_cloud:
+        # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/basicauthextension
+        client_auth:
+            username: "${GC_OTLP_USER}"
+            password: "${GC_OTLP_PASSWORD}"
+
+connectors:
+    grafanacloud:
+        # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/connector/grafanacloudconnector
+        host_identifiers: ["host.name"]
+
+service:
+    extensions: [basicauth/grafana_cloud]
+
+    telemetry:
+        metrics:
+            level: none # Disables internal metrics collection
+            #address: 0.0.0.0:8889  # Changed from default 8888
+
+    pipelines:
+        #traces:
+        #  receivers: []
+        #  processors:
+        #    [resourcedetection, transform/drop_unneeded_resource_attributes, batch]
+        #  exporters: [otlphttp/grafana_cloud, grafanacloud]
+
+        metrics:
+            receivers: [prometheus, hostmetrics]
+            processors:
+                [
+                    resourcedetection,
+                    transform/drop_unneeded_resource_attributes,
+                    transform/add_resource_attributes_as_metric_attributes,
+                    batch,
+                ]
+            exporters:
+                [otlphttp/grafana_cloud]
+
+                #metrics/grafanacloud:
+                #receivers: [grafanacloud]
+                #processors: [batch]
+                #exporters: [otlphttp/grafana_cloud]
+
+        logs:
+            receivers: [dockerlogs/jvb]
+            processors: [resourcedetection, transform/drop_unneeded_resource_attributes, batch]
+            exporters: [otlphttp/grafana_cloud]

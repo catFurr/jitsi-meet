@@ -1170,9 +1170,12 @@ var config = {
     // Information about the jitsi-meet instance we are connecting to, including
     // the user region as seen by the server.
     deploymentInfo: {
-        shard: 'vmone',
-        region: 'europe',
-        userRegion: 'turkey',
+        envType: 'prod', // 'dev',
+        environment: 'prod', // 'dev',
+        product: 'sonacove',
+        region: 'banglore-1',
+        shard: 'base',
+        userRegion: 'banglore-1',
     },
 
     // Array<string> of disabled sounds.
