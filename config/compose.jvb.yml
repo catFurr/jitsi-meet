@@ -1,0 +1,22 @@
+services:
+    jvb:
+        image: jitsi/jvb:stable
+        restart: unless-stopped
+        ports:
+            # ICE/UDP port for media
+            - "10000:10000/udp"
+            # HTTP API port for colibri websocket
+            - "9090:9090"
+            # 8080 is the port for health and metrics
+        volumes:
+            - ./custom-jvb.conf:/config/custom-jvb.conf
+        env_file:
+            - ./.env
+        environment:
+            # Authentication (must match what's configured in prosody)
+            - JVB_AUTH_PASSWORD=${JVB_AUTH_PASSWORD}
+            - XMPP_SERVER=${XMPP_SERVER}
+            - JVB_MUC_NICKNAME=${JVB_MUC_NICKNAME}
+            - ENABLE_OCTO=${ENABLE_OCTO}
+            - JVB_OCTO_REGION=${JVB_OCTO_REGION}
+            - JVB_OCTO_RELAY_ID=${JVB_OCTO_RELAY_ID}

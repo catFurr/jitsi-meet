@@ -7,26 +7,28 @@ services:
             - "5347"
             - "5280"
         volumes:
-            - ../resources/prosody-plugins:/prosody-plugins:ro
-            - ./custom-prosody.cfg.lua:/config/conf.d/z.cfg.lua:ro
+            - ../resources/prosody-plugins:/prosody-plugins
+            - ./custom-prosody.cfg.lua:/config/conf.d/z.cfg.lua
             # Persistent storage for prosody data
             - prosody-data:/config/data
             # Certificates
-            - prosody-certs:/config/certs
+            - ./certs:/config/certs
+        env_file:
+            - ./.env
         environment:
             # Authentication passwords
-            - JICOFO_AUTH_PASSWORD=jj42IJ4JcQxgXMrt
-            - JVB_AUTH_PASSWORD=2wPrOS7k
+            - JICOFO_AUTH_PASSWORD=${JICOFO_AUTH_PASSWORD}
+            - JVB_AUTH_PASSWORD=${JVB_AUTH_PASSWORD}
             # Domain configuration (needed for certificate generation and templating)
-            - XMPP_DOMAIN=meet.sonacove.com
-            - XMPP_AUTH_DOMAIN=auth.meet.sonacove.com
-            - XMPP_MUC_DOMAIN=conference.meet.sonacove.com
-            - XMPP_INTERNAL_MUC_DOMAIN=internal.auth.meet.sonacove.com
-            - JVB_AUTH_USER=jvb
-            - JIBRI_RECORDER_USER=recorder
-            - JIBRI_XMPP_USER=jibri
-            - JIGASI_XMPP_USER=jigasi
-            - XMPP_HIDDEN_DOMAIN=recorder.meet.sonacove.com
+            - XMPP_DOMAIN=${XMPP_DOMAIN}
+            - XMPP_AUTH_DOMAIN=${XMPP_AUTH_DOMAIN}
+            - XMPP_MUC_DOMAIN=${XMPP_MUC_DOMAIN}
+            - XMPP_INTERNAL_MUC_DOMAIN=${XMPP_INTERNAL_MUC_DOMAIN}
+            - JVB_AUTH_USER=${JVB_AUTH_USER}
+            - JIBRI_RECORDER_USER=${JIBRI_RECORDER_USER}
+            - JIBRI_XMPP_USER=${JIBRI_XMPP_USER}
+            - JIGASI_XMPP_USER=${JIGASI_XMPP_USER}
+            - XMPP_HIDDEN_DOMAIN=${XMPP_HIDDEN_DOMAIN}
             # All other configuration is in custom-prosody.cfg.lua
         networks:
             - jitsi-network
@@ -35,11 +37,13 @@ services:
         image: jitsi/jicofo:stable
         restart: unless-stopped
         volumes:
-            - ./custom-jicofo.conf:/config/custom-jicofo.conf:ro
+            - ./custom-jicofo.conf:/config/custom-jicofo.conf
+        env_file:
+            - ./.env
         environment:
-            - JICOFO_AUTH_PASSWORD=jj42IJ4JcQxgXMrt # Ensure this matches Prosody's focus user password
+            - JICOFO_AUTH_PASSWORD=${JICOFO_AUTH_PASSWORD} # Ensure this matches Prosody's focus user password
             # We prefer using the custom-jicofo.conf file to override the default jicofo.conf file
-            - JICOFO_OCTO_REGION=paris-1
+            - JICOFO_OCTO_REGION=${JICOFO_OCTO_REGION}
         networks:
             - jitsi-network
         depends_on:
@@ -47,7 +51,6 @@ services:
 
 volumes:
     prosody-data:
-    prosody-certs:
 
 networks:
     jitsi-network:
