@@ -36,6 +36,17 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
     const [ subscriptionUrl, setSubscriptionUrl ] = useState('https://' + hostname + '/onboarding/');
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        const hashParams = new URLSearchParams(window.location.hash.slice(1));
+        const isLoggedOut = hashParams.get('loggedOut') === 'true';
+
+        if (isLoggedOut) {
+            dispatch(setJWT(undefined));
+            window.history.replaceState({}, '', window.location.pathname + window.location.search);
+        }
+    }, [ dispatch ]);
+
+
     const userData = useMemo(() => {
         const token = jwtFromRedux?.jwt;
         const payload = token ? parseJwtPayload(token) : null;
@@ -119,8 +130,6 @@ const AuthCard: React.FC<IProps> = ({ jwtFromRedux, config }) => {
 
     const handleLogout = useCallback(() => {
         const logoutUrl = config.tokenLogoutUrl;
-        
-        dispatch(setJWT(undefined));
 
         if (logoutUrl) {
             window.location.href = logoutUrl;
