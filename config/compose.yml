@@ -1,11 +1,19 @@
 services:
     prosody:
         image: jitsi/prosody:stable
+        container_name: prosody
         restart: unless-stopped
         expose:
+            # XMPP client port for jvb and jicofo
             - "5222"
-            - "5347"
+            # XMPP port for HTTP services (BOSH, websockets)
             - "5280"
+        healthcheck:
+            test: ["CMD", "prosodyctl", "check", "config"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 60s
         volumes:
             - ../resources/prosody-plugins:/prosody-plugins
             - ./custom-prosody.cfg.lua:/config/conf.d/z.cfg.lua
@@ -31,27 +39,72 @@ services:
             - XMPP_HIDDEN_DOMAIN=${XMPP_HIDDEN_DOMAIN}
             # All other configuration is in custom-prosody.cfg.lua
         networks:
-            - jitsi-network
+            - proxy-network
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=proxy-network"
+
+            # Router for HTTP-BIND (Prosody)
+            - "traefik.http.routers.prosody-http-bind.rule=Host(`${XMPP_DOMAIN}`) && Path(`/http-bind`)"
+            - "traefik.http.routers.prosody-http-bind.entrypoints=websecure"
+            - "traefik.http.routers.prosody-http-bind.tls.certresolver=myresolver"
+            - "traefik.http.services.prosody-http-bind-svc.loadbalancer.server.port=5280"
+            # common-security-headers & compress-middleware are now global on websecure entrypoint
+
+            # Router for XMPP-WebSocket (Prosody)
+            - "traefik.http.routers.prosody-xmpp-ws.rule=Host(`${XMPP_DOMAIN}`) && Path(`/xmpp-websocket`)"
+            - "traefik.http.routers.prosody-xmpp-ws.entrypoints=websecure"
+            - "traefik.http.routers.prosody-xmpp-ws.tls.certresolver=myresolver"
+            - "traefik.http.services.prosody-xmpp-ws-svc.loadbalancer.server.port=5280"
+            # common-security-headers & compress-middleware are now global on websecure entrypoint
+
+            # Router for Room Info API (Prosody)
+            - "traefik.http.routers.prosody-room-info.rule=Host(`${XMPP_DOMAIN}`) && PathPrefix(`/_api/room-info`)"
+            - "traefik.http.routers.prosody-room-info.entrypoints=websecure"
+            - "traefik.http.routers.prosody-room-info.tls.certresolver=myresolver"
+            - "traefik.http.routers.prosody-room-info.middlewares=prosody-room-info-rewrite@file"
+            - "traefik.http.services.prosody-room-info-svc.loadbalancer.server.port=5280"
 
     jicofo:
         image: jitsi/jicofo:stable
+        container_name: jicofo
         restart: unless-stopped
+        healthcheck:
+            test: ["CMD-SHELL", "curl -f http://localhost:8888/about/health || exit 1"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 60s
         volumes:
             - ./custom-jicofo.conf:/config/custom-jicofo.conf
         env_file:
             - ./.env
         environment:
-            - JICOFO_AUTH_PASSWORD=${JICOFO_AUTH_PASSWORD} # Ensure this matches Prosody's focus user password
+            - JICOFO_AUTH_PASSWORD=${JICOFO_AUTH_PASSWORD}
             # We prefer using the custom-jicofo.conf file to override the default jicofo.conf file
             - JICOFO_OCTO_REGION=${JICOFO_OCTO_REGION}
         networks:
-            - jitsi-network
+            - proxy-network
         depends_on:
-            - prosody
+            prosody:
+                condition: service_healthy
+        expose:
+            # REST including metrics, conference-request, etc.
+            - "8888"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=proxy-network"
+
+            # Router for Jicofo Conference Request API
+            - "traefik.http.routers.jicofo-conf-req.rule=Host(`${XMPP_DOMAIN}`) && PathPrefix(`/conference-request/v1`)"
+            - "traefik.http.routers.jicofo-conf-req.entrypoints=websecure"
+            - "traefik.http.routers.jicofo-conf-req.tls.certresolver=myresolver"
+            - "traefik.http.routers.jicofo-conf-req.middlewares=jicofo-specific-headers@file"
+            - "traefik.http.services.jicofo-conf-req-svc.loadbalancer.server.port=8888"
 
 volumes:
     prosody-data:
 
 networks:
-    jitsi-network:
-        driver: bridge
+    proxy-network:
+        external: true

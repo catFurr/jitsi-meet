@@ -1,0 +1,41 @@
+services:
+    traefik:
+        image: traefik:v3.4
+        container_name: traefik
+        command:
+            - "--log.level=INFO"
+            - "--accesslog=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--providers.file.directory=/etc/traefik/dynamic"
+            - "--providers.file.watch=true"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.websecure.address=:443"
+            - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+            - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+            - "--entrypoints.websecure.http.middlewares=common-security-headers@file,compress-middleware@file"
+            - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}"
+            - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
+            - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+            - "traefik_acme_storage:/acme.json"
+            - "./traefik_dynamic.yml:/etc/traefik/dynamic/traefik_dynamic.yml:ro"
+        networks:
+            - proxy-network
+        restart: unless-stopped
+        security_opt:
+            - no-new-privileges:true
+        labels:
+            - "traefik.enable=true"
+
+networks:
+    proxy-network:
+        driver: bridge
+        name: proxy-network
+
+volumes:
+    traefik_acme_storage: {}
