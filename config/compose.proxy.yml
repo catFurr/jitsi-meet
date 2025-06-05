@@ -1,3 +1,6 @@
+# Run this to create the acme.json file
+# docker run --rm -v traefik_acme_storage:/data alpine sh -c "touch /data/acme.json && chmod 600 /data/acme.json"
+
 services:
     traefik:
         image: traefik:v3.4
@@ -15,14 +18,14 @@ services:
             - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
             - "--entrypoints.websecure.http.middlewares=common-security-headers@file,compress-middleware@file"
             - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}"
-            - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
+            - "--certificatesresolvers.myresolver.acme.storage=/data/acme.json"
             - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
         ports:
             - "80:80"
             - "443:443"
         volumes:
             - "/var/run/docker.sock:/var/run/docker.sock:ro"
-            - "traefik_acme_storage:/acme.json"
+            - "traefik_acme_storage:/data"
             - "./traefik_dynamic.yml:/etc/traefik/dynamic/traefik_dynamic.yml:ro"
         networks:
             - proxy-network

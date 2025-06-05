@@ -9,13 +9,17 @@ services:
             # XMPP port for HTTP services (BOSH, websockets)
             - "5280"
         healthcheck:
-            test: ["CMD", "prosodyctl", "check", "config"]
+            test: ["CMD-SHELL", "curl -f http://localhost:5280/health || exit 1"]
             interval: 30s
             timeout: 10s
             retries: 3
             start_period: 60s
         volumes:
-            - ../resources/prosody-plugins:/prosody-plugins
+            # Override the default plugins with our own
+            - ../resources/prosody-plugins/token/util.lib.lua:/prosody-plugins/token/util.lib.lua
+            - ../resources/prosody-plugins/luajwtjitsi.lib.lua:/prosody-plugins/luajwtjitsi.lib.lua
+
+            - ../resources/prosody-plugins/custom:/prosody-plugins/prosody-plugins-custom
             - ./custom-prosody.cfg.lua:/config/conf.d/z.cfg.lua
             # Persistent storage for prosody data
             - prosody-data:/config/data
