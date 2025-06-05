@@ -24,6 +24,11 @@ services:
         environment:
             # Authentication (must match what's configured in prosody)
             - JVB_AUTH_PASSWORD=${JVB_AUTH_PASSWORD}
+
+            - JVB_AUTH_USER=jvb
+            - XMPP_AUTH_DOMAIN=${XMPP_AUTH_DOMAIN}
+            - XMPP_INTERNAL_MUC_DOMAIN=${XMPP_INTERNAL_MUC_DOMAIN}
+            - JVB_BREWERY_MUC=JvbBrewery
             - XMPP_SERVER=${XMPP_SERVER}
             - JVB_MUC_NICKNAME=${JVB_MUC_NICKNAME}
             - ENABLE_OCTO=${ENABLE_OCTO}

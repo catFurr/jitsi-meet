@@ -86,6 +86,11 @@ services:
         environment:
             - JICOFO_AUTH_PASSWORD=${JICOFO_AUTH_PASSWORD}
             # We prefer using the custom-jicofo.conf file to override the default jicofo.conf file
+            - XMPP_AUTH_DOMAIN=${XMPP_AUTH_DOMAIN}
+            - XMPP_DOMAIN=${XMPP_DOMAIN}
+            - XMPP_MUC_DOMAIN=${XMPP_MUC_DOMAIN}
+            - XMPP_INTERNAL_MUC_DOMAIN=${XMPP_INTERNAL_MUC_DOMAIN}
+            - JVB_BREWERY_MUC=JvbBrewery
             - JICOFO_OCTO_REGION=${JICOFO_OCTO_REGION}
         networks:
             - proxy-network
