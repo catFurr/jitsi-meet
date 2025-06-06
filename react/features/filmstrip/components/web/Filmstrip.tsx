@@ -1,4 +1,3 @@
-import { Theme } from '@mui/material';
 import clsx from 'clsx';
 import { throttle } from 'lodash-es';
 import React, { PureComponent } from 'react';
@@ -14,7 +13,6 @@ import { isMobileBrowser } from '../../../base/environment/utils';
 import { translate } from '../../../base/i18n/functions';
 import Icon from '../../../base/icons/components/Icon';
 import { IconArrowDown, IconArrowUp } from '../../../base/icons/svg';
-import { isNarrowScreenWithChatOpen } from '../../../base/responsive-ui/functions';
 import { getHideSelfView } from '../../../base/settings/functions.any';
 import { registerShortcut, unregisterShortcut } from '../../../keyboard-shortcuts/actions';
 import { showToolbox } from '../../../toolbox/actions.web';
@@ -49,6 +47,8 @@ import {
 import AudioTracksContainer from './AudioTracksContainer';
 import Thumbnail from './Thumbnail';
 import ThumbnailWrapper from './ThumbnailWrapper';
+import { Theme } from '@mui/material';
+import { isNarrowScreenWithChatOpen } from '../../../base/responsive-ui/functions';
 
 
 const BACKGROUND_COLOR = 'rgba(51, 51, 51, .5)';

@@ -1,4 +1,5 @@
-import { type DebouncedFunc, debounce } from 'lodash-es';
+import { debounce } from 'lodash-es';
+import type { DebouncedFunc } from 'lodash-es';
 import { Component } from 'react';
 import { WithTranslation } from 'react-i18next';
 

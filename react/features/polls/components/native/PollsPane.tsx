@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-color-literals */
+
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
@@ -11,10 +13,8 @@ import { BUTTON_TYPES } from '../../../base/ui/constants.native';
 import { ChatTabs } from '../../../chat/constants';
 import { TabBarLabelCounter }
     from '../../../mobile/navigation/components/TabBarLabelCounter';
-import {
-    default as AbstractPollsPane,
-    type AbstractProps
-} from '../AbstractPollsPane';
+import AbstractPollsPane from '../AbstractPollsPane';
+import type { AbstractProps } from '../AbstractPollsPane';
 
 import PollCreate from './PollCreate';
 import PollsList from './PollsList';

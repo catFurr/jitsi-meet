@@ -1,8 +1,7 @@
+import { ensureOneParticipant, ensureTwoParticipants } from '../../helpers/participants';
 import { expect } from '@wdio/globals';
-
 import type { Participant } from '../../helpers/Participant';
 import type WebhookProxy from '../../helpers/WebhookProxy';
-import { ensureOneParticipant, ensureTwoParticipants } from '../../helpers/participants';
 
 describe('Transcriptions', () => {
     it('joining the meeting', async () => {

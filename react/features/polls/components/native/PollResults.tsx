@@ -3,11 +3,8 @@ import { FlatList, Text, TextStyle, View, ViewStyle } from 'react-native';
 
 import Button from '../../../base/ui/components/native/Button';
 import { BUTTON_TYPES } from '../../../base/ui/constants.native';
-import {
-    default as AbstractPollResults,
-    type AbstractProps,
-    type AnswerInfo
-} from '../AbstractPollResults';
+import AbstractPollResults from '../AbstractPollResults';
+import type { AbstractProps, AnswerInfo } from '../AbstractPollResults';
 
 import { dialogStyles, pollsStyles, resultsStyles } from './styles';
 

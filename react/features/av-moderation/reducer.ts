@@ -1,4 +1,5 @@
-import { MEDIA_TYPE, type MediaType } from '../base/media/constants';
+import { MEDIA_TYPE } from '../base/media/constants';
+import type { MediaType } from '../base/media/constants';
 import {
     PARTICIPANT_LEFT,
     PARTICIPANT_UPDATED

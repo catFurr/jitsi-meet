@@ -1,7 +1,6 @@
 import { IStateful } from '../app/types';
 import { isMobileBrowser } from '../environment/utils';
 import { toState } from '../redux/functions';
-
 import { SMALL_DESKTOP_WIDTH } from './constants';
 
 /**

@@ -1,10 +1,7 @@
-import {
-    default as NetInfo,
-    type NetInfoState,
-    type NetInfoSubscription
-} from '@react-native-community/netinfo';
+import NetInfo from '@react-native-community/netinfo';
+import type { NetInfoState, NetInfoSubscription } from '@react-native-community/netinfo';
 // eslint-disable-next-line lines-around-comment
-// @ts-ignore
+// @ts-expect-error
 import EventEmitter from 'events';
 
 import { ONLINE_STATE_CHANGED_EVENT } from './events';
