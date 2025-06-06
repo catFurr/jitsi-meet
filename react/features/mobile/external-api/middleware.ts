@@ -588,7 +588,7 @@ function _registerForNativeEvents(store: IStore) {
         }
 
         if (transcription) {
-            store.dispatch(setRequestingSubtitles(true, false, null, true));
+            store.dispatch(setRequestingSubtitles(true, false, null));
             conference.getMetadataHandler().setMetadata(RECORDING_METADATA_ID, {
                 isTranscribingEnabled: true
             });

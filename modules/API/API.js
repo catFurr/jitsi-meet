@@ -769,7 +769,7 @@ function initCommands() {
             }
 
             if (transcription) {
-                APP.store.dispatch(setRequestingSubtitles(true, false, null, true));
+                APP.store.dispatch(setRequestingSubtitles(true, false, null));
                 conference.getMetadataHandler().setMetadata(RECORDING_METADATA_ID, {
                     isTranscribingEnabled: true
                 });
