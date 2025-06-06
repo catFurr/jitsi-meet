@@ -10,9 +10,8 @@ import { DOWNLOAD_FILE, REMOVE_FILE, UPLOAD_FILES } from './actionTypes';
 import { addFile, removeFile, updateFileProgress } from './actions';
 import { getFileExtension } from './functions.any';
 import logger from './logger';
-import { FILE_SHARING_PREFIX, FILE_SHARING_SERVICE } from './constants';
+import { FILE_SHARING_PREFIX } from './constants';
 import { IFileMetadata } from './types';
-import { IStore } from '../app/types';
 
 /**
  * Middleware that handles file sharing actions.
@@ -25,12 +24,86 @@ MiddlewareRegistry.register(store => next => action => {
     case UPLOAD_FILES: {
         const state = store.getState();
         const conference = getCurrentConference(state);
+        const sessionId = conference?.getMeetingUniqueId();
+        const localParticipant = getLocalParticipant(state);
+        const { fileSharing } = state['features/base/config'];
+        const { connection } = state['features/base/connection'];
+        const { jwt } = state['features/base/jwt'];
+        const roomJid = conference?.room?.roomjid;
 
-        conference?.getShortTermCredentials(FILE_SHARING_SERVICE).then((token: string) => {
-            for (const file of action.files) {
-                uploadFile(file, store, token);
+        for (const file of action.files) {
+            const jid = connection!.getJid();
+            const fileId = uuidv4();
+            const fileMetadata: IFileMetadata = {
+                authorParticipantId: localParticipant!.id,
+                authorParticipantJid: jid,
+                authorParticipantName: getParticipantDisplayName(state, localParticipant!.id),
+                conferenceFullName: roomJid ?? '',
+                fileId,
+                fileName: file.name,
+                fileSize: file.size,
+                fileType: getFileExtension(file.name),
+                timestamp: Date.now()
+            };
+
+            store.dispatch(addFile(fileMetadata));
+            store.dispatch(updateFileProgress(fileId, 1));
+
+            // Upload file.
+            const formData = new FormData();
+
+            formData.append('metadata', JSON.stringify(fileMetadata));
+
+            // @ts-ignore
+            formData.append('file', file as Blob, file.name);
+
+            // Use XMLHttpRequest to track upload
+            const xhr = new XMLHttpRequest();
+
+            const handleError = () => {
+                logger.warn('Could not upload file:', xhr.statusText);
+
+                store.dispatch(removeFile(fileId));
+                store.dispatch(showErrorNotification({
+                    titleKey: 'fileSharing.uploadFailedTitle',
+                    descriptionKey: 'fileSharing.uploadFailedDescription',
+                    appearance: NOTIFICATION_TYPE.ERROR
+                }, NOTIFICATION_TIMEOUT_TYPE.STICKY));
+            };
+
+            xhr.open('POST', `${fileSharing!.apiUrl!}/sessions/${sessionId}/files`);
+            xhr.responseType = 'json';
+
+            if (jwt) {
+                xhr.setRequestHeader('Authorization', `Bearer ${jwt}`);
             }
-        });
+
+            xhr.upload.onprogress = event => {
+                if (event.lengthComputable) {
+                    // We use 99% as the max value to avoid showing 100% before the
+                    // upload is actually finished, that is, when the request is completed.
+                    const percent = Math.max((event.loaded / event.total) * 100, 99);
+
+                    store.dispatch(updateFileProgress(fileId, percent));
+                }
+            };
+
+            xhr.onload = () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    store.dispatch(updateFileProgress(fileId, 100));
+
+                    const metadataHandler = conference?.getMetadataHandler();
+
+                    metadataHandler?.setMetadata(`${FILE_SHARING_PREFIX}.${fileId}`, fileMetadata);
+                } else {
+                    handleError();
+                }
+            };
+
+            xhr.onerror = handleError;
+
+            xhr.send(formData);
+        }
 
         return next(action);
     }
@@ -39,6 +112,7 @@ MiddlewareRegistry.register(store => next => action => {
         const state = store.getState();
         const conference = getCurrentConference(state);
         const { fileSharing } = state['features/base/config'];
+        const { jwt } = state['features/base/jwt'];
         const sessionId = conference?.getMeetingUniqueId();
         let doDelete = false;
 
@@ -59,19 +133,18 @@ MiddlewareRegistry.register(store => next => action => {
         }
 
         // Now delete it from the server.
-        conference?.getShortTermCredentials(FILE_SHARING_SERVICE)
-        .then((token: string) => fetch(`${fileSharing!.apiUrl!}/sessions/${sessionId}/files/${action.fileId}`, {
+        fetch(`${fileSharing!.apiUrl!}/sessions/${sessionId}/files/${action.fileId}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`
+                ...jwt && { 'Authorization': `Bearer ${jwt}` }
             }
-        }))
-        .then((response: { ok: any; statusText: any; }) => {
+        })
+        .then(response => {
             if (!response.ok) {
                 throw new Error(`Failed to delete file: ${response.statusText}`);
             }
         })
-        .catch((error: any) => {
+        .catch(error => {
             logger.warn('Could not delete file:', error);
         });
 
@@ -84,15 +157,14 @@ MiddlewareRegistry.register(store => next => action => {
         const conference = getCurrentConference(state);
         const sessionId = conference?.getMeetingUniqueId();
 
-        conference?.getShortTermCredentials(FILE_SHARING_SERVICE)
-        .then((token: string) => fetch(`${fileSharing!.apiUrl!}/sessions/${sessionId}/files/${action.fileId}`, {
+        fetch(`${fileSharing!.apiUrl!}/sessions/${sessionId}/document`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'X-File-Id': action.fileId,
             }
-        }))
-        .then((response: any) => response.json())
-        .then((data: { presignedUrl: any; }) => {
+        })
+        .then(response => response.json())
+        .then(data => {
             const url = data.presignedUrl;
 
             if (!url) {
@@ -101,7 +173,7 @@ MiddlewareRegistry.register(store => next => action => {
 
             window.open(url, '_blank', 'noreferrer,noopener');
         })
-        .catch((error: any) => {
+        .catch(error => {
             logger.warn('Could not download file:', error);
 
             store.dispatch(showErrorNotification({
@@ -117,93 +189,3 @@ MiddlewareRegistry.register(store => next => action => {
 
     return next(action);
 });
-
-/**
- * Uploads a file to the server.
- *
- * @param {File} file - The file to upload.
- * @param {IStore} store - The redux store.
- * @param {string} token - The token to use for requests.
- * @returns {void}
- */
-function uploadFile(file: File, store: IStore, token: string): void {
-    const state = store.getState();
-    const conference = getCurrentConference(state);
-    const sessionId = conference?.getMeetingUniqueId();
-    const localParticipant = getLocalParticipant(state);
-    const { fileSharing } = state['features/base/config'];
-    const { connection } = state['features/base/connection'];
-    const roomJid = conference?.room?.roomjid;
-
-    const jid = connection!.getJid();
-    const fileId = uuidv4();
-    const fileMetadata: IFileMetadata = {
-        authorParticipantId: localParticipant!.id,
-        authorParticipantJid: jid,
-        authorParticipantName: getParticipantDisplayName(state, localParticipant!.id),
-        conferenceFullName: roomJid ?? '',
-        fileId,
-        fileName: file.name,
-        fileSize: file.size,
-        fileType: getFileExtension(file.name),
-        timestamp: Date.now()
-    };
-
-    store.dispatch(addFile(fileMetadata));
-    store.dispatch(updateFileProgress(fileId, 1));
-
-    // Upload file.
-    const formData = new FormData();
-
-    formData.append('metadata', JSON.stringify(fileMetadata));
-
-    // @ts-ignore
-    formData.append('file', file as Blob, file.name);
-
-    // Use XMLHttpRequest to track upload
-    const xhr = new XMLHttpRequest();
-
-    const handleError = () => {
-        logger.warn('Could not upload file:', xhr.statusText);
-
-        store.dispatch(removeFile(fileId));
-        store.dispatch(showErrorNotification({
-            titleKey: 'fileSharing.uploadFailedTitle',
-            descriptionKey: 'fileSharing.uploadFailedDescription',
-            appearance: NOTIFICATION_TYPE.ERROR
-        }, NOTIFICATION_TIMEOUT_TYPE.STICKY));
-    };
-
-    xhr.open('POST', `${fileSharing!.apiUrl!}/sessions/${sessionId}/files`);
-    xhr.responseType = 'json';
-
-    if (token) {
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-    }
-
-    xhr.upload.onprogress = event => {
-        if (event.lengthComputable) {
-            // We use 99% as the max value to avoid showing 100% before the
-            // upload is actually finished, that is, when the request is completed.
-            const percent = Math.max((event.loaded / event.total) * 100, 99);
-
-            store.dispatch(updateFileProgress(fileId, percent));
-        }
-    };
-
-    xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-            store.dispatch(updateFileProgress(fileId, 100));
-
-            const metadataHandler = conference?.getMetadataHandler();
-
-            metadataHandler?.setMetadata(`${FILE_SHARING_PREFIX}.${fileId}`, fileMetadata);
-        } else {
-            handleError();
-        }
-    };
-
-    xhr.onerror = handleError;
-
-    xhr.send(formData);
-}
