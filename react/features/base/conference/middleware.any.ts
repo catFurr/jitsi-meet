@@ -262,9 +262,7 @@ function _conferenceFailed({ dispatch, getState }: IStore, next: Function, actio
         _removeUnloadHandler(getState);
     }
 
-    if (enableForcedReload
-        && (error?.name === JitsiConferenceErrors.CONFERENCE_RESTARTED
-            || error?.name === JitsiConnectionErrors.SHARD_CHANGED_ERROR)) {
+    if (enableForcedReload && error?.name === JitsiConferenceErrors.CONFERENCE_RESTARTED) {
         dispatch(conferenceWillLeave(conference));
         dispatch(reloadNow());
     }
