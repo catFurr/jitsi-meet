@@ -205,7 +205,6 @@ export const VISITORS_MODE_BUTTONS: ToolbarButton[] = [
     'closedcaptions',
     'fullscreen',
     'hangup',
-    'participants-pane',
     'raisehand',
     'settings',
     'stats',

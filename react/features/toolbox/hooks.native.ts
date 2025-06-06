@@ -95,7 +95,11 @@ function getVideoMuteButton() {
  *  @returns {Object | undefined}
  */
 function getChatButton() {
-    return chat;
+    const _iAmVisitor = useSelector(iAmVisitor);
+
+    if (!_iAmVisitor) {
+        return chat;
+    }
 }
 
 /**
@@ -118,7 +122,11 @@ function getScreenSharingButton() {
  *  @returns {Object | undefined}
  */
 function getTileViewButton() {
-    return tileview;
+    const _iAmVisitor = useSelector(iAmVisitor);
+
+    if (!_iAmVisitor) {
+        return tileview;
+    }
 }
 
 /**
@@ -127,7 +135,11 @@ function getTileViewButton() {
  *  @returns {Object | undefined}
  */
 function getOverflowMenuButton() {
-    return overflowmenu;
+    const _iAmVisitor = useSelector(iAmVisitor);
+
+    if (!_iAmVisitor) {
+        return overflowmenu;
+    }
 }
 
 /**

@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import { IReduxState } from '../../../app/types';
 import { IconUsers } from '../../../base/icons/svg';
 import Label from '../../../base/label/components/native/Label';
 import BaseTheme from '../../../base/ui/components/BaseTheme.native';
-import { getVisitorsCount, getVisitorsShortText } from '../../functions';
+import { getVisitorsCount, getVisitorsShortText, iAmVisitor } from '../../functions';
 
 const styles = {
     raisedHandsCountLabel: {
@@ -23,9 +24,10 @@ const styles = {
 };
 
 const VisitorsCountLabel = () => {
+    const visitorsMode = useSelector((state: IReduxState) => iAmVisitor(state));
     const visitorsCount = useSelector(getVisitorsCount);
 
-    return visitorsCount > 0 ? (
+    return !visitorsMode && visitorsCount > 0 ? (
         <Label
             icon = { IconUsers }
             iconColor = { BaseTheme.palette.uiBackground }
