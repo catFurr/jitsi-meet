@@ -5,9 +5,8 @@ import path from "path";
 import { spawn, exec } from "child_process";
 
 // Utility function to execute commands and log output in real-time
-async function runCommand(command: string, cwd?: string): Promise<void> {
+async function runCommand(command, cwd) {
     const actualCwd = cwd || process.cwd();
-
     console.log(`\n🚀 Running: ${command} (in ${actualCwd})`);
 
     return new Promise((resolve, reject) => {
@@ -48,23 +47,21 @@ async function runCommand(command: string, cwd?: string): Promise<void> {
 }
 
 // Check if a command exists in the PATH
-async function commandExists(command: string): Promise<boolean> {
+async function commandExists(command) {
     try {
         await runCommand(process.platform === "win32" ? `where ${command}` : `which ${command}`);
-
         return true;
     } catch (error) {
         return false;
     }
 }
 
-async function getGitBranch(): Promise<string> {
+async function getGitBranch() {
     return new Promise((resolve, reject) => {
         exec("git rev-parse --abbrev-ref HEAD", (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error getting git branch: ${stderr}`);
                 reject(new Error("Could not get git branch."));
-
                 return;
             }
             resolve(stdout.trim());
@@ -73,15 +70,15 @@ async function getGitBranch(): Promise<string> {
 }
 
 // Utility function to ensure a directory exists
-function ensureDirectoryExists(dirPath: string): void {
+function ensureDirectoryExists(dirPath) {
     if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
-        console.log(`📁 Created directory: ${dirPath}`);
+        console.log(`�� Created directory: ${dirPath}`);
     }
 }
 
 // Utility function to copy a file or directory
-function copyFileOrDirectory(source: string, destination: string, isTopLevelCall = true): void {
+function copyFileOrDirectory(source, destination, isTopLevelCall = true) {
     if (!fs.existsSync(source)) {
         console.error(`❌ Source does not exist: ${source}`);
         process.exit(1);
@@ -95,7 +92,6 @@ function copyFileOrDirectory(source: string, destination: string, isTopLevelCall
         }
         ensureDirectoryExists(destination);
         const files = fs.readdirSync(source);
-
         for (const file of files) {
             copyFileOrDirectory(path.join(source, file), path.join(destination, file), false);
         }
@@ -110,17 +106,16 @@ function copyFileOrDirectory(source: string, destination: string, isTopLevelCall
 
 /**
  * Process SSI directives in HTML files
- * @param filePath - The path to the HTML file
- * @param meetRootDir - The root directory for meet (for resolving paths with leading slash)
- * @param depth - Current recursion depth
- * @param includedFiles - Set of already included files to prevent cycles
+ * @param {string} filePath - The path to the HTML file
+ * @param {string} meetRootDir - The root directory for meet (for resolving paths with leading slash)
+ * @param {number} depth - Current recursion depth
+ * @param {Set<string>} includedFiles - Set of already included files to prevent cycles
  */
-function processSSI(filePath: string, meetRootDir: string, depth = 0, includedFiles = new Set<string>()): void {
+function processSSI(filePath, meetRootDir, depth = 0, includedFiles = new Set()) {
     const MAX_DEPTH = 5;
 
     if (depth >= MAX_DEPTH) {
         console.warn(`⚠️ SSI processing reached max depth of ${MAX_DEPTH} for ${filePath}, stopping recursion`);
-
         return;
     }
 
@@ -132,8 +127,7 @@ function processSSI(filePath: string, meetRootDir: string, depth = 0, includedFi
         const fileDir = path.dirname(filePath);
 
         html = html.replace(ssiPattern, (fullMatch, includePath) => {
-            let resolvedPath: string;
-
+            let resolvedPath;
             if (includePath.startsWith("/")) {
                 resolvedPath = path.join(meetRootDir, includePath.substring(1));
             } else {
@@ -142,15 +136,12 @@ function processSSI(filePath: string, meetRootDir: string, depth = 0, includedFi
 
             if (includedFiles.has(resolvedPath)) {
                 console.warn(`⚠️ SSI circular include detected: ${resolvedPath}`);
-
                 return "<!-- SSI circular include detected -->";
             }
 
             if (fs.existsSync(resolvedPath)) {
                 const content = fs.readFileSync(resolvedPath, "utf8");
-
                 includedFiles.add(resolvedPath);
-
                 return processSSIContent(
                     content,
                     path.dirname(resolvedPath),
@@ -161,34 +152,23 @@ function processSSI(filePath: string, meetRootDir: string, depth = 0, includedFi
             }
 
             console.warn(`⚠️ SSI include file not found: ${resolvedPath}`);
-
             return `<!-- SSI include file not found: ${resolvedPath} -->`;
         });
         fs.writeFileSync(filePath, html);
-    } catch (err: any) {
+    } catch (err) {
         console.error(`❌ Error processing SSI in ${filePath}:`, err);
     }
 }
 
-function processSSIContent(
-    content: string,
-    baseDir: string,
-    meetRootDir: string,
-    depth = 0,
-    includedFiles = new Set<string>()
-): string {
+function processSSIContent(content, baseDir, meetRootDir, depth = 0, includedFiles = new Set()) {
     const MAX_DEPTH = 5;
-
     if (depth >= MAX_DEPTH) {
         console.warn(`⚠️ SSI content processing reached max depth of ${MAX_DEPTH}, stopping recursion`);
-
         return content;
     }
     const ssiPattern = /<!--#include\s+virtual="([^"]+)"\s*-->/g;
-
     return content.replace(ssiPattern, (fullMatch, includePath) => {
-        let resolvedPath: string;
-
+        let resolvedPath;
         if (includePath.startsWith("/")) {
             resolvedPath = path.join(meetRootDir, includePath.substring(1));
         } else {
@@ -197,14 +177,11 @@ function processSSIContent(
 
         if (includedFiles.has(resolvedPath)) {
             console.warn(`⚠️ SSI circular include detected: ${resolvedPath}`);
-
             return "<!-- SSI circular include detected -->";
         }
         if (fs.existsSync(resolvedPath)) {
             const includeContent = fs.readFileSync(resolvedPath, "utf8");
-
             includedFiles.add(resolvedPath);
-
             return processSSIContent(
                 includeContent,
                 path.dirname(resolvedPath),
@@ -214,23 +191,19 @@ function processSSIContent(
             );
         }
         console.warn(`⚠️ SSI include file not found: ${resolvedPath}`);
-
         return `<!-- SSI include file not found: ${resolvedPath} -->`;
     });
 }
 
-function processDirectoryForSSI(directory: string, meetRootDir: string): void {
+function processDirectoryForSSI(directory, meetRootDir) {
     if (!fs.existsSync(directory)) {
         console.error(`❌ Directory does not exist: ${directory}`);
-
         return;
     }
     const files = fs.readdirSync(directory);
-
     for (const file of files) {
         const filePath = path.join(directory, file);
         const stats = fs.statSync(filePath);
-
         if (stats.isDirectory()) {
             processDirectoryForSSI(filePath, meetRootDir);
         } else if (filePath.endsWith(".html")) {
@@ -260,7 +233,6 @@ async function deploy() {
         console.log("✅ Running from project root.");
 
         const hasWrangler = await commandExists("wrangler");
-
         if (!hasWrangler) {
             console.log("📦 Wrangler not found, attempting to install it globally via npm...");
             await runCommand("npm install -g wrangler");
@@ -299,11 +271,9 @@ async function deploy() {
         // Step 4: Copy files and folders to the dist folder
         console.log("\n📂 Step 4: Copying files to dist folder...");
         const foldersToCopy = ["fonts", "lang", "images", "libs", "sounds", "static"];
-
         foldersToCopy.forEach((folder) => {
             const src = path.join(projectRoot, folder);
             const dest = path.join(distMeetDir, folder);
-
             if (fs.existsSync(src)) {
                 copyFileOrDirectory(src, dest);
             } else {
@@ -324,7 +294,6 @@ async function deploy() {
         filesToCopy.forEach((file) => {
             const src = path.join(projectRoot, file);
             const dest = path.join(distMeetDir, file);
-
             if (fs.existsSync(src)) {
                 fs.copyFileSync(src, dest);
                 console.log(`  -> Copied ${file}`);
@@ -348,7 +317,6 @@ async function deploy() {
 
         const a404source = path.join(projectRoot, "static/404.html");
         const a404dest = path.join(distMeetDir, "404.html");
-
         if (fs.existsSync(a404source)) {
             fs.copyFileSync(a404source, a404dest);
             console.log("  -> Copied static/404.html to dist/meet/404.html");
@@ -374,11 +342,10 @@ async function deploy() {
 
         // Step 6: Deploy by running wrangler deploy
         if (skipDeploy) {
-            console.log("\n⏭️ Skipping deployment (--skip-deploy or --dry-run).");
+            console.log("\n⏭️ Skipping deployment (--skip-deploy).");
         } else {
             console.log("\n🚀 Step 6: Deploying to Cloudflare...");
             const branch = await getGitBranch();
-
             console.log(`Detected git branch: ${branch}`);
 
             const wranglerConfigPath = "config/wrangler.jsonc";

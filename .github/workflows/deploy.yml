@@ -25,7 +25,7 @@ jobs:
               run: npm ci
 
             - name: Build and Deploy to Cloudflare
-              run: node config/deploy-cf.ts --skip-deps
+              run: node config/deploy-cf.mjs --skip-deps
               env:
                   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
                   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
