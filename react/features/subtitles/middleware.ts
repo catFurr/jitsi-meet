@@ -351,7 +351,7 @@ function _requestingSubtitlesChange(
         const featureAllowed = isJwtFeatureEnabled(getState(), MEET_FEATURES.TRANSCRIPTION, false);
 
         // the default value for inviteJigasiOnBackendTranscribing is true (when undefined)
-        if (featureAllowed && (!backendRecordingOn || (transcription?.inviteJigasiOnBackendTranscribing ?? true))) {
+        if (featureAllowed && (!backendRecordingOn || transcription?.inviteJigasiOnBackendTranscribing === false)) {
             conference?.dial(TRANSCRIBER_DIAL_NUMBER)
                 .catch((e: any) => {
                     logger.error('Error dialing', e);
