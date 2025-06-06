@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 
 import org.jitsi.meet.sdk.JitsiMeet;
 import org.jitsi.meet.sdk.JitsiMeetActivity;
@@ -21,6 +22,18 @@ final class GoogleServicesHelper {
             Log.d(activity.getClass().getSimpleName(), "Initializing Google Services");
 
             FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!JitsiMeet.isCrashReportingDisabled(activity));
+            FirebaseDynamicLinks.getInstance().getDynamicLink(activity.getIntent())
+                .addOnSuccessListener(activity, pendingDynamicLinkData -> {
+                    Uri dynamicLink = null;
+
+                    if (pendingDynamicLinkData != null) {
+                        dynamicLink = pendingDynamicLinkData.getLink();
+                    }
+
+                    if (dynamicLink != null) {
+                        activity.join(dynamicLink.toString());
+                    }
+                });
         }
     }
 }

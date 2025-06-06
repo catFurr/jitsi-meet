@@ -18,7 +18,8 @@ import {
     IConfig,
     IDeeplinkingConfig,
     IDeeplinkingDesktopConfig,
-    IDeeplinkingMobileConfig
+    IDeeplinkingMobileConfig,
+    IMobileDynamicLink
 } from './configType';
 import { _cleanupConfig, _setDeeplinkingDefaults } from './functions';
 
@@ -320,6 +321,15 @@ function _translateInterfaceConfig(oldValue: IConfig) {
         };
 
         if (typeof interfaceConfig === 'object') {
+            const mobileDynamicLink = interfaceConfig.MOBILE_DYNAMIC_LINK;
+            const dynamicLink: IMobileDynamicLink | undefined = mobileDynamicLink ? {
+                apn: mobileDynamicLink.APN,
+                appCode: mobileDynamicLink.APP_CODE,
+                ibi: mobileDynamicLink.IBI,
+                isi: mobileDynamicLink.ISI,
+                customDomain: mobileDynamicLink.CUSTOM_DOMAIN
+            } : undefined;
+
             if (deeplinking.desktop) {
                 deeplinking.desktop.appName = interfaceConfig.NATIVE_APP_NAME;
             }
@@ -330,12 +340,14 @@ function _translateInterfaceConfig(oldValue: IConfig) {
                 appScheme: interfaceConfig.APP_SCHEME,
                 downloadLink: interfaceConfig.MOBILE_DOWNLOAD_LINK_ANDROID,
                 appPackage: interfaceConfig.ANDROID_APP_PACKAGE,
-                fDroidUrl: interfaceConfig.MOBILE_DOWNLOAD_LINK_F_DROID
+                fDroidUrl: interfaceConfig.MOBILE_DOWNLOAD_LINK_F_DROID,
+                dynamicLink
             };
             deeplinking.ios = {
                 appName: interfaceConfig.NATIVE_APP_NAME,
                 appScheme: interfaceConfig.APP_SCHEME,
-                downloadLink: interfaceConfig.MOBILE_DOWNLOAD_LINK_IOS
+                downloadLink: interfaceConfig.MOBILE_DOWNLOAD_LINK_IOS,
+                dynamicLink
             };
         }
         newValue.deeplinking = deeplinking;

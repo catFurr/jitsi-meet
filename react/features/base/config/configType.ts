@@ -86,6 +86,15 @@ export type Sounds = 'ASKED_TO_UNMUTE_SOUND' |
     'RECORDING_ON_SOUND' |
     'TALK_WHILE_MUTED_SOUND';
 
+
+export interface IMobileDynamicLink {
+    apn: string;
+    appCode: string;
+    customDomain?: string;
+    ibi: string;
+    isi: string;
+}
+
 export interface IDeeplinkingPlatformConfig {
     appName: string;
     appScheme: string;
@@ -94,6 +103,7 @@ export interface IDeeplinkingPlatformConfig {
 export interface IDeeplinkingMobileConfig extends IDeeplinkingPlatformConfig {
     appPackage?: string;
     downloadLink: string;
+    dynamicLink?: IMobileDynamicLink;
     fDroidUrl?: string;
 }
 
