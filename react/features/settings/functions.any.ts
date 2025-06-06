@@ -145,8 +145,7 @@ export function getModeratorTabProps(stateful: IStateful) {
     const followMeActive = isFollowMeActive(state);
     const followMeRecorderActive = isFollowMeRecorderActive(state);
     const showModeratorSettings = shouldShowModeratorSettings(state);
-    const conferenceMetadata = conference?.getMetadataHandler()?.getMetadata();
-    const disableChatWithPermissions = !conferenceMetadata?.allownersEnabled;
+    const disableChatWithPermissions = !conference?.getMetadataHandler().getMetadata().allownersEnabled;
     const isAudioModerationEnabled = isEnabledFromState(MEDIA_TYPE.AUDIO, state);
     const isVideoModerationEnabled = isEnabledFromState(MEDIA_TYPE.VIDEO, state);
 
