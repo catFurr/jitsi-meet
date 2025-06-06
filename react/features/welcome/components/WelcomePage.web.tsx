@@ -13,6 +13,7 @@ import SettingsButton from '../../settings/components/web/SettingsButton';
 import { SETTINGS_TABS } from '../../settings/constants';
 
 import { AbstractWelcomePage, IProps, _mapStateToProps } from './AbstractWelcomePage';
+import AuthCard from './AuthCard';
 import Tabs from './Tabs';
 
 /**
@@ -282,14 +283,17 @@ class WelcomePage extends AbstractWelcomePage<IProps> {
 
                 <div className = 'welcome-cards-container'>
                     <div className = 'welcome-card-column'>
-                        <div className = 'welcome-tabs welcome-card welcome-card--blue'>
-                            {this._renderTabs()}
+                        <div className = 'welcome-card'>
+                            <AuthCard />
                         </div>
                         {showAdditionalCard
                             ? <div
-                                className = 'welcome-card welcome-card--dark'
+                                className = 'welcome-card'
                                 ref = { this._setAdditionalCardRef } />
                             : null}
+                        <div className = 'welcome-tabs welcome-card welcome-card--blue'>
+                            {this._renderTabs()}
+                        </div>
                     </div>
 
                     {showAdditionalContent
