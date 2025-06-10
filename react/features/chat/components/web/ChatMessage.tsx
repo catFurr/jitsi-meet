@@ -16,6 +16,7 @@ import MessageMenu from './MessageMenu';
 import ReactButton from './ReactButton';
 
 interface IProps extends IChatMessageProps {
+    isModerator: boolean;
     shouldDisplayChatMessageMenu: boolean;
     state?: IReduxState;
     type: string;
@@ -83,7 +84,8 @@ const useStyles = makeStyles()((theme: Theme) => {
             },
             '&.lobbymessage': {
                 backgroundColor: theme.palette.support05
-            }
+            },
+            '&.modmessage': { }
         },
         sideBySideContainer: {
             display: 'flex',
@@ -196,6 +198,7 @@ const ChatMessage = ({
     type,
     shouldDisplayChatMessageMenu,
     knocking,
+    isModerator,
     t
 }: IProps) => {
     const { classes, cx } = useStyles();
@@ -350,7 +353,8 @@ const ChatMessage = ({
                         classes.chatMessage,
                         type,
                         message.privateMessage && 'privatemessage',
-                        message.lobbyChat && !knocking && 'lobbymessage'
+                        message.lobbyChat && !knocking && 'lobbymessage',
+                        isModerator && 'modmessage'
                     ) }>
                     <div className = { classes.replyWrapper }>
                         <div className = { cx('messagecontent', classes.messageContent) }>
