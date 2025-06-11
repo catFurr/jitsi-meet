@@ -37,6 +37,9 @@ import VisitorsQueue from '../../../visitors/components/web/VisitorsQueue';
 import { showVisitorsQueue } from '../../../visitors/functions';
 import { init } from '../../actions.web';
 import { maybeShowSuboptimalExperienceNotification } from '../../functions.web';
+import { beginAddPeople } from '../../../invite/actions.any';
+import MiddlewareRegistry from '../../../base/redux/MiddlewareRegistry';
+import { CONFERENCE_JOINED } from '../../../base/conference/actionTypes';
 import {
     AbstractConference,
     abstractMapStateToProps
