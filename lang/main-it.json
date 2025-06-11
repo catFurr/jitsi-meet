@@ -566,7 +566,7 @@
         "answer": "Rispondi",
         "audioCallTitle": "Chiamata in arrivo",
         "decline": "Respingi",
-        "productLabel": "da Jitsi Meet",
+        "productLabel": "da Sonacove Meets",
         "videoCallTitle": "Videochiamata in arrivo"
     },
     "info": {
@@ -833,7 +833,7 @@
         "noiseSuppressionDesktopAudioDescription": "La cancellazione del rumore non può essere attivata durante la condivisione dell'audio del desktop, disabilitala e riprova.",
         "noiseSuppressionFailedTitle": "Avvio della cancellazione del rumore non riuscito",
         "noiseSuppressionStereoDescription": "La cancellazione del rumore con l'audio stereo non è attualmente supportata.",
-        "oldElectronClientDescription1": "Sembra che tu stia usando una versione obsoleta del client Jitsi Meet, che ha vulnerabilità note. Assicurati di aggiornarlo alla nostra ",
+        "oldElectronClientDescription1": "Sembra che tu stia usando una versione obsoleta del client Sonacove Meets, che ha vulnerabilità note. Assicurati di aggiornarlo alla nostra ",
         "oldElectronClientDescription2": "ultima versione",
         "oldElectronClientDescription3": " ora!",
         "participantWantsToJoin": "Vuole unirsi alla riunione",
@@ -1586,7 +1586,7 @@
         "go": "VAI",
         "goSmall": "VAI",
         "headerSubtitle": "Riunioni sicure e di alta qualità",
-        "headerTitle": "Jitsi Meet",
+        "headerTitle": "Sonacove Meets",
         "info": "Informazioni chiamata",
         "jitsiOnMobile": "Jitsi su mobile – scarica le nostre applicazioni e dai inizio ad una riunione dovunque tu sia",
         "join": "CREA/UNISCITI",
@@ -1594,7 +1594,7 @@
             "calendar": "Logo calendario",
             "desktopPreviewThumbnail": "Miniatura anteprima del desktop",
             "googleLogo": "Logo Google",
-            "logoDeepLinking": "Logo Jitsi meet",
+            "logoDeepLinking": "Logo Sonacove Meets",
             "microsoftLogo": "Logo Microsoft",
             "policyLogo": "Logo politica"
         },

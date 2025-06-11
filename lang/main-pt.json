@@ -531,7 +531,7 @@
         "answer": "Responder",
         "audioCallTitle": "Chamada recebida",
         "decline": "Recusar",
-        "productLabel": "do Jitsi Meet",
+        "productLabel": "do Sonacove Meets",
         "videoCallTitle": "Chamada de vídeo recebida"
     },
     "info": {
@@ -790,7 +790,7 @@
         "noiseSuppressionDesktopAudioDescription": "A supressão de ruído não pode ser ativada enquanto se partilha o áudio do ambiente de trabalho, por favor desative-o e tente novamente.",
         "noiseSuppressionFailedTitle": "Falha ao iniciar a supressão de ruído",
         "noiseSuppressionStereoDescription": "A supressão do ruído de áudio estéreo não é atualmente suportada.",
-        "oldElectronClientDescription1": "Parece estar a utilizar uma versão antiga do cliente Jitsi Meet que tem vulnerabilidades de segurança conhecidas. Por favor, certifique-se de que actualiza a nossa ",
+        "oldElectronClientDescription1": "Parece estar a utilizar uma versão antiga do cliente Sonacove Meets que tem vulnerabilidades de segurança conhecidas. Por favor, certifique-se de que actualiza a nossa ",
         "oldElectronClientDescription2": "compilação mais recente",
         "oldElectronClientDescription3": " agora!",
         "participantWantsToJoin": "Deseja juntar-se à reunião",
@@ -1522,7 +1522,7 @@
         "go": "IR",
         "goSmall": "IR",
         "headerSubtitle": "Reuniões com segurança e alta qualidade",
-        "headerTitle": "Jitsi Meet",
+        "headerTitle": "Sonacove Meets",
         "info": "Informações",
         "jitsiOnMobile": "Jitsi em dispositivos móveis – descarregue as nossas aplicações e inicie uma reunião em qualquer lugar",
         "join": "CRIAR / ENTRAR",
@@ -1530,7 +1530,7 @@
             "calendar": "Logo do Calendário",
             "desktopPreviewThumbnail": "Miniatura de Visualização do Desktop",
             "googleLogo": "Logo do Google",
-            "logoDeepLinking": "Logo do Jitsi Meet",
+            "logoDeepLinking": "Logo do Sonacove Meets",
             "microsoftLogo": "Logo da Microsoft",
             "policyLogo": "Logo da Política de Privacidade"
         },
