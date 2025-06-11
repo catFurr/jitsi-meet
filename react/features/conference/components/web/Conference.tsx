@@ -34,6 +34,9 @@ import VisitorsQueue from '../../../visitors/components/web/VisitorsQueue';
 import { showVisitorsQueue } from '../../../visitors/functions';
 import { init } from '../../actions.web';
 import { maybeShowSuboptimalExperienceNotification } from '../../functions.web';
+import { beginAddPeople } from '../../../invite/actions.any';
+import MiddlewareRegistry from '../../../base/redux/MiddlewareRegistry';
+import { CONFERENCE_JOINED } from '../../../base/conference/actionTypes';
 import {
     AbstractConference,
     abstractMapStateToProps
@@ -42,6 +45,24 @@ import type { AbstractProps } from '../AbstractConference';
 
 import ConferenceInfo from './ConferenceInfo';
 import { default as Notice } from './Notice';
+
+MiddlewareRegistry.register(store => next => action => {
+    switch (action.type) {
+    case CONFERENCE_JOINED: {
+        const state = store.getState();
+        const participants = state['features/base/participants'];
+
+        if (participants.local?.role === 'moderator' && !Boolean(participants.remote.size)) {
+            store.dispatch(beginAddPeople());
+        }
+
+        break;
+    }
+    }
+
+    return next(action);
+});
+
 
 /**
  * DOM events for when full screen mode has changed. Different browsers need
