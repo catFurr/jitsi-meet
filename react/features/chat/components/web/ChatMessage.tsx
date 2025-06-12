@@ -14,6 +14,7 @@ import { IChatMessageProps } from '../../types';
 
 import MessageMenu from './MessageMenu';
 import ReactButton from './ReactButton';
+import ModeratorIndicator from '../../../filmstrip/components/web/ModeratorIndicator';
 
 interface IProps extends IChatMessageProps {
     isModerator: boolean;
@@ -136,7 +137,11 @@ const useStyles = makeStyles()((theme: Theme) => {
             textOverflow: 'ellipsis',
             overflow: 'hidden',
             marginBottom: theme.spacing(1),
-            maxWidth: '130px'
+            width: '100%',
+            display: 'flex',
+            gap: '6px',
+            alignItems: 'center',
+            justifyContent: 'space-between'
         },
         userMessage: {
             ...withPixelLineHeight(theme.typography.bodyShortRegular),
@@ -232,6 +237,9 @@ const ChatMessage = ({
                 aria-hidden = { true }
                 className = { cx('display-name', classes.displayName) }>
                 {message.displayName}
+                {isModerator && <ModeratorIndicator
+                    key = { message.messageId }
+                    tooltipPosition = 'top' />}
             </div>
         );
     }
