@@ -3,10 +3,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
 
-import Avatar from '../../../base/avatar/components/Avatar';
-import { IMessage } from '../../types';
 import { IReduxState } from '../../../app/types';
+import Avatar from '../../../base/avatar/components/Avatar';
 import { IParticipant } from '../../../base/participants/types';
+import { IMessage } from '../../types';
 
 import ChatMessage from './ChatMessage';
 
@@ -62,7 +62,7 @@ const useStyles = makeStyles()(theme => {
 
 
 const ChatMessageGroup = ({ className = '', messages, participants }: IProps) => {
-    const { classes, cx } = useStyles();
+    const { classes } = useStyles();
     const messagesLength = messages.length;
 
     if (!messagesLength) {

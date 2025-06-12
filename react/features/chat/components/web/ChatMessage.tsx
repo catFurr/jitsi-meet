@@ -9,12 +9,12 @@ import { getParticipantDisplayName } from '../../../base/participants/functions'
 import Popover from '../../../base/popover/components/Popover.web';
 import Message from '../../../base/react/components/web/Message';
 import { withPixelLineHeight } from '../../../base/styles/functions.web';
+import ModeratorIndicator from '../../../filmstrip/components/web/ModeratorIndicator';
 import { getFormattedTimestamp, getMessageText, getPrivateNoticeMessage } from '../../functions';
 import { IChatMessageProps } from '../../types';
 
 import MessageMenu from './MessageMenu';
 import ReactButton from './ReactButton';
-import ModeratorIndicator from '../../../filmstrip/components/web/ModeratorIndicator';
 
 interface IProps extends IChatMessageProps {
     isModerator: boolean;
