@@ -82,7 +82,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "增加會議連結",
-        "confirmAddLink": "您要為此活動加入 Jitsi 連結嗎？",
+        "confirmAddLink": "您要為此活動加入 Sonacove 連結嗎？",
         "error": {
             "appConfiguration": "行事曆整合尚未正確設定。",
             "generic": "發生錯誤，請檢查行事曆設定，或是重新整理行事曆。",
@@ -729,7 +729,7 @@
         "dataChannelClosed": "視訊品質受限",
         "dataChannelClosedDescription": "橋接通道已斷開，視訊品質降至最低設定。",
         "disabledIframe": "嵌入僅供示範使用，此通話將於 {{timeout}} 分鐘後中斷連線。",
-        "disabledIframeSecondary": "內嵌 {{domain}} 僅為展示用途，此通話將在 {{timeout}} 分鐘後中斷連線。請使用在正式環境使用 <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Jitsi 服務</a>來內嵌！",
+        "disabledIframeSecondary": "內嵌 {{domain}} 僅為展示用途，此通話將在 {{timeout}} 分鐘後中斷連線。請使用在正式環境使用 <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Sonacove 服務</a>來內嵌！",
         "disconnected": "已經中斷連接",
         "displayNotifications": "顯示通知給",
         "dontRemindMe": "不要再提醒我",
@@ -1484,7 +1484,7 @@
         "headerSubtitle": "安全且高品質的視訊會議",
         "headerTitle": "Sonacove Meets",
         "info": "資訊",
-        "jitsiOnMobile": "Jitsi 手機應用程式 – 下載應用程式，不論何時何地都能發起會議",
+        "jitsiOnMobile": "Sonacove 手機應用程式 – 下載應用程式，不論何時何地都能發起會議",
         "join": "建立/加入",
         "logo": {
             "calendar": "行事曆圖示",

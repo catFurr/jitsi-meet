@@ -60,7 +60,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Agiunghe unu ligòngiu a s'addòbiu",
-        "confirmAddLink": "Boles agiùnghere unu ligòngiu de Jitsi a custu addòbiu?",
+        "confirmAddLink": "Boles agiùnghere unu ligòngiu de Sonacove a custu addòbiu?",
         "error": {
             "appConfiguration": "S'integratzione de su calendàriu no est cunfigurada bene.",
             "generic": "Faddina. Controlla sa cunfiguratzione de calendàriu o proa de atualizare su calendàriu.",
@@ -1340,7 +1340,7 @@
         "headerSubtitle": "Riunione seguras e de arta calidade",
         "headerTitle": "Sonacove Meets",
         "info": "Informatzione pro sa mutida",
-        "jitsiOnMobile": "Jitsi pro mòbiles - iscàrriga is aplicatziones nostras e avia una riunione dae ònnia logu",
+        "jitsiOnMobile": "Sonacove pro mòbiles - iscàrriga is aplicatziones nostras e avia una riunione dae ònnia logu",
         "join": "CREA / INTRA",
         "logo": {
             "calendar": "Icona de calendàriu",

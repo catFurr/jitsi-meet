@@ -77,7 +77,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "添加会议链接",
-        "confirmAddLink": "是否在此事件中添加Jitsi链接",
+        "confirmAddLink": "是否在此事件中添加Sonacove链接",
         "error": {
             "appConfiguration": "日历整合没有正确配置。",
             "generic": "发生错误，请检查日历设置或尝试刷新日历。",
@@ -1465,7 +1465,7 @@
         "headerSubtitle": "安全且高品质的会议",
         "headerTitle": "Sonacove Meets",
         "info": "拨入信息",
-        "jitsiOnMobile": "手机版Jitsi – 下载我们的APP，随时随地开始会议",
+        "jitsiOnMobile": "手机版Sonacove – 下载我们的APP，随时随地开始会议",
         "join": "创建/加入",
         "logo": {
             "calendar": "日历图标",

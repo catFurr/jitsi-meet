@@ -60,7 +60,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Dodaj poveznicu za sastanak",
-        "confirmAddLink": "Želiš li dodati Jitsi poveznicu ovom događaju?",
+        "confirmAddLink": "Želiš li dodati Sonacove poveznicu ovom događaju?",
         "error": {
             "appConfiguration": "Integracija kalendara nije ispravno konfigurirana.",
             "generic": "Došlo je do greške. Provjeri postavke kalendara ili pokušaj aktualizirati kalendar.",
@@ -1333,7 +1333,7 @@
         "headerSubtitle": "Sigurni sastanci viskoke kvalitete",
         "headerTitle": "Sonacove Meets",
         "info": "informacije zvanih brojeva",
-        "jitsiOnMobile": "Jitsi na mobilnim uređajima – preuzmi naše aplikacije i započni sastanak od kuda god želiš",
+        "jitsiOnMobile": "Sonacove na mobilnim uređajima – preuzmi naše aplikacije i započni sastanak od kuda god želiš",
         "join": "STVORI/PRIDRUŽI SE",
         "logo": {
             "calendar": "Logotip kalendara",

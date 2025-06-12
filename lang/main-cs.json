@@ -82,7 +82,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Přidejte odkaz na setkání",
-        "confirmAddLink": "Chcete k této události přidat odkaz Jitsi?",
+        "confirmAddLink": "Chcete k této události přidat odkaz Sonacove?",
         "error": {
             "appConfiguration": "Integrace kalendáře není správně nastavena.",
             "generic": "Došlo k chybě. Zkontrolujte nastavení kalendáře nebo zkuste obnovit kalendář.",
@@ -747,7 +747,7 @@
         "dataChannelClosedDescriptionWithAudio": "Přemosťovací kanál je vypnutý, a proto může dojít k přerušení zvuku a obrazu.",
         "dataChannelClosedWithAudio": "Kvalita zvuku a videa může být snížena",
         "disabledIframe": "Vkládání je určeno pouze pro demo účely, takže tento hovor bude za {{timeout}} minut odpojen.",
-        "disabledIframeSecondary": "Vložení domény {{domain}} je určeno pouze pro demo účely, takže tento hovor bude za {{timeout}} minut odpojen. Pro produkční vkládání použijte prosím <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Jitsi as a service</a>!",
+        "disabledIframeSecondary": "Vložení domény {{domain}} je určeno pouze pro demo účely, takže tento hovor bude za {{timeout}} minut odpojen. Pro produkční vkládání použijte prosím <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Sonacove as a service</a>!",
         "disconnected": "odpojeno",
         "displayNotifications": "Zobrazit upozornění pro",
         "dontRemindMe": "Nepřipomínej mi to",
@@ -1542,7 +1542,7 @@
         "headerSubtitle": "Bezpečné a kvalitní setkávání",
         "headerTitle": "Sonacove Meets",
         "info": "Informace o vytáčení",
-        "jitsiOnMobile": "Jitsi na mobilu – stáhněte si naše aplikace a spusťte hovor odkudkoliv",
+        "jitsiOnMobile": "Sonacove na mobilu – stáhněte si naše aplikace a spusťte hovor odkudkoliv",
         "join": "VYTVOŘIT / PŘIPOJIT",
         "logo": {
             "calendar": "Logo kalendáře",

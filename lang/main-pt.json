@@ -82,7 +82,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Adicionar um link da reunião",
-        "confirmAddLink": "Gostaria de adicionar um link do Jitsi a esse evento?",
+        "confirmAddLink": "Gostaria de adicionar um link do Sonacove a esse evento?",
         "error": {
             "appConfiguration": "A integração com calendário não está configurada adequadamente.",
             "generic": "Ocorreu um erro. Verifique as configurações de calendário ou tente atualizar o calendário.",
@@ -741,7 +741,7 @@
         "dataChannelClosedDescriptionWithAudio": "O canal de ponte está em baixo, pelo que podem ocorrer interrupções no áudio e no vídeo.",
         "dataChannelClosedWithAudio": "A qualidade do áudio e do vídeo pode ser afetada",
         "disabledIframe": "A incorporação destina-se apenas a fins de demonstração, pelo que esta chamada será desligada em {{timeout}} minutos.",
-        "disabledIframeSecondary": "A incorporação de {{domain}} destina-se apenas a fins de demonstração, pelo que esta chamada será desligada em {{timeout}} minutos. Por favor, use <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Jitsi as a Service</a> para incorporação em produção!",
+        "disabledIframeSecondary": "A incorporação de {{domain}} destina-se apenas a fins de demonstração, pelo que esta chamada será desligada em {{timeout}} minutos. Por favor, use <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Sonacove as a Service</a> para incorporação em produção!",
         "disconnected": "desconectado",
         "displayNotifications": "Mostrar notificações para",
         "dontRemindMe": "Não me lembre",
@@ -1524,7 +1524,7 @@
         "headerSubtitle": "Reuniões com segurança e alta qualidade",
         "headerTitle": "Sonacove Meets",
         "info": "Informações",
-        "jitsiOnMobile": "Jitsi em dispositivos móveis – descarregue as nossas aplicações e inicie uma reunião em qualquer lugar",
+        "jitsiOnMobile": "Sonacove em dispositivos móveis – descarregue as nossas aplicações e inicie uma reunião em qualquer lugar",
         "join": "CRIAR / ENTRAR",
         "logo": {
             "calendar": "Logo do Calendário",

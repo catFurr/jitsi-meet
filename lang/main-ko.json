@@ -82,7 +82,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "회의 링크 추가",
-        "confirmAddLink": "이 이벤트에 Jitsi 링크를 추가 하시겠습니까?",
+        "confirmAddLink": "이 이벤트에 Sonacove 링크를 추가 하시겠습니까?",
         "error": {
             "appConfiguration": "캘린더가 제대로 구성되지 않았습니다.",
             "generic": "오류가 발생했습니다. 캘린더 설정을 확인하거나 캘린더를 새로 고침 해보세요.",
@@ -746,7 +746,7 @@
         "dataChannelClosedDescriptionWithAudio": "브리지 채널이 다운되어 오디오 및 비디오에 장애가 발생할 수 있습니다.",
         "dataChannelClosedWithAudio": "오디오 및 비디오 품질이 저하될 수 있습니다",
         "disabledIframe": "임베딩은 데모 목적에만 사용되므로 이 통화는 {{timeout}}분 후에 연결이 끊어집니다.",
-        "disabledIframeSecondary": "{{domain}} 임베딩은 데모 목적에만 사용되므로 이 통화는 {{timeout}}분 후에 연결이 끊어집니다. 프로덕션 임베딩을 위해 <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Jitsi as a Service</a>를 사용하세요!",
+        "disabledIframeSecondary": "{{domain}} 임베딩은 데모 목적에만 사용되므로 이 통화는 {{timeout}}분 후에 연결이 끊어집니다. 프로덕션 임베딩을 위해 <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Sonacove as a Service</a>를 사용하세요!",
         "disconnected": "연결이 끊김",
         "displayNotifications": "다음에 대한 알림 표시",
         "dontRemindMe": "다시 알리지 않기",
@@ -1541,7 +1541,7 @@
         "headerSubtitle": "안전하고 고품질의 회의",
         "headerTitle": "Sonacove Meets",
         "info": "정보",
-        "jitsiOnMobile": "모바일에서 Jitsi – 앱을 다운로드하고 어디서나 회의를 시작하세요",
+        "jitsiOnMobile": "모바일에서 Sonacove – 앱을 다운로드하고 어디서나 회의를 시작하세요",
         "join": "가입",
         "logo": {
             "calendar": "캘린더 로고",

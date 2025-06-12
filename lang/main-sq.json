@@ -82,7 +82,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Shtoni një lidhje takimi",
-        "confirmAddLink": "Doni të shtohet një lidhje Jitsi te kjo veprimtari?",
+        "confirmAddLink": "Doni të shtohet një lidhje Sonacove te kjo veprimtari?",
         "error": {
             "appConfiguration": "Integrimi i kalendarëve s’është formësuar si duhet.",
             "generic": "Ndodhi një gabim. Ju lutemi, kontrolloni rregullimet për kalendarin tuaj, ose provoni të rifreskoni kalendarin.",
@@ -746,7 +746,7 @@
         "dataChannelClosedDescriptionWithAudio": "Kanali urë është jashtë funksionimi, prandaj mund të ndodhin shkëputje te audioja dhe videoja.",
         "dataChannelClosedWithAudio": "Cilësia e audios dhe videos mund të jetë dëmtuar",
         "disabledIframe": "Trupëzimi është menduar vetëm për qëllime demonstrimi, ndaj kjo thirrje do të ndërpritet pas {{timeout}} minutash.",
-        "disabledIframeSecondary": "Trupëzimi i {{domain}} është menduar vetëm për qëllime demonstrimi, ndaj kjo thirrje do të ndërpritet pas {{timeout}} minutash. Ju lutemi, për trupëzime të njëmendta përdorni <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Jitsi as a Service</a>!",
+        "disabledIframeSecondary": "Trupëzimi i {{domain}} është menduar vetëm për qëllime demonstrimi, ndaj kjo thirrje do të ndërpritet pas {{timeout}} minutash. Ju lutemi, për trupëzime të njëmendta përdorni <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Sonacove as a Service</a>!",
         "disconnected": "u shkëput",
         "displayNotifications": "Shfaq njoftime për",
         "dontRemindMe": "Mos ma kujto",
@@ -1541,7 +1541,7 @@
         "headerSubtitle": "Takime me siguri dhe me cilësi të lartë",
         "headerTitle": "Sonacove Meets",
         "info": "Hollësi për t’i rënë numrit",
-        "jitsiOnMobile": "Jitsi në celular – Shkarkoni aplikacionet tona dhe nisni një takim prej ngado",
+        "jitsiOnMobile": "Sonacove në celular – Shkarkoni aplikacionet tona dhe nisni një takim prej ngado",
         "join": "KRIJONI / MERRNI PJESË",
         "logo": {
             "calendar": "Stemë kalendari",

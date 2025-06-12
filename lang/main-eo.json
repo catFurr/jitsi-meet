@@ -82,7 +82,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Aldoni ligilon al la kunveno",
-        "confirmAddLink": "Ĉu vi volas aldoni Jitsi-ligilon al ĉi-tiu evento?",
+        "confirmAddLink": "Ĉu vi volas aldoni Sonacove-ligilon al ĉi-tiu evento?",
         "error": {
             "appConfiguration": "Kalendara integrigo ne estas ĝuste agordita.",
             "generic": "Okazis eraro. Bonvolu kontroli viajn kalendarajn agordojn aŭ provu aktualigi la kalendaron.",
@@ -1488,7 +1488,7 @@
         "headerSubtitle": "Sekuraj kaj altkvalitaj renkontiĝoj",
         "headerTitle": "Sonacove Meets",
         "info": "Informoj",
-        "jitsiOnMobile": "Jitsi ĉe poŝtelefono - elŝutu niajn apojn kaj komencu renkontiĝon de ie ajn",
+        "jitsiOnMobile": "Sonacove ĉe poŝtelefono - elŝutu niajn apojn kaj komencu renkontiĝon de ie ajn",
         "join": "KREI / ALIĜI",
         "logo": {
             "calendar": "Kalendara",

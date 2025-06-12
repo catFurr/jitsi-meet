@@ -63,7 +63,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "ミーティングのリンクを追加する",
-        "confirmAddLink": "このイベントに Jitsi のリンクを追加しますか?",
+        "confirmAddLink": "このイベントに Sonacove のリンクを追加しますか?",
         "error": {
             "appConfiguration": "カレンダー統合が正しく設定されていません。",
             "generic": "エラーが発生しました。カレンダーの設定を確認するか、カレンダーを更新してください。",
@@ -1228,7 +1228,7 @@
         "headerSubtitle": "安全で高品質なミーティング",
         "headerTitle": "Sonacove Meets",
         "info": "ダイヤルイン情報",
-        "jitsiOnMobile": "モバイル版 Jitsi - アプリをダウンロードして、どこからでもミーティングを開始できます",
+        "jitsiOnMobile": "モバイル版 Sonacove - アプリをダウンロードして、どこからでもミーティングを開始できます",
         "join": "作成 / 参加",
         "logo": {
             "calendar": "カレンダーロゴ",

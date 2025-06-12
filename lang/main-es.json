@@ -72,7 +72,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Agregar un vínculo a la reunión",
-        "confirmAddLink": "¿Quiere añadir un enlace de Jitsi a este evento?",
+        "confirmAddLink": "¿Quiere añadir un enlace de Sonacove a este evento?",
         "error": {
             "appConfiguration": "La integración del calendario no está configurada correctamente",
             "generic": "Se ha producido un error. Compruebe la configuración del calendario o pruebe cargarlo nuevamente.",
@@ -1429,13 +1429,13 @@
         "headerSubtitle": "Reuniones seguras y de alta calidad",
         "headerTitle": "Sonacove Meets",
         "info": "Información",
-        "jitsiOnMobile": "Jitsi en el móvil: descarga nuestras aplicaciones y comienza una reunión desde cualquier lugar",
+        "jitsiOnMobile": "Sonacove en el móvil: descarga nuestras aplicaciones y comienza una reunión desde cualquier lugar",
         "join": "CREAR / UNIRSE",
         "logo": {
             "calendar": "Logotipo del calendario",
             "desktopPreviewThumbnail": "Vista previa del escritorio en miniatura",
             "googleLogo": "Logotipo de Google",
-            "logoDeepLinking": "Logotipo de la reunión de Jitsi",
+            "logoDeepLinking": "Logotipo de la reunión de Sonacove",
             "microsoftLogo": "Logotipo de Microsoft",
             "policyLogo": "Logotipo de la política"
         },

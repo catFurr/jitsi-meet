@@ -744,7 +744,7 @@
         "dataChannelClosedDescriptionWithAudio": "Köprü kanalı kapalı olduğu için ses ve video kesintileri yaşanabilir.",
         "dataChannelClosedWithAudio": "Ses ve video kalitesi etkilenebilir.",
         "disabledIframe": "Yerleştirme yalnızca demo amaçlı olduğundan bu çağrının bağlantısı {{timeout}} dakika içinde kesilecek.",
-        "disabledIframeSecondary": "{{domain}} alanının yerleştirilmesi yalnızca demo amaçlı olduğundan bu çağrının bağlantısı {{timeout}} dakika içinde kesilecektir. Üretim yerleştirme için lütfen <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Hizmet olarak Jitsi</a>'yi kullanın!",
+        "disabledIframeSecondary": "{{domain}} alanının yerleştirilmesi yalnızca demo amaçlı olduğundan bu çağrının bağlantısı {{timeout}} dakika içinde kesilecektir. Üretim yerleştirme için lütfen <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Hizmet olarak Sonacove</a>'yi kullanın!",
         "disconnected": "Bağlantı kesildi",
         "displayNotifications": "Bildirimleri görüntüle",
         "dontRemindMe": "Bana hatırlatma",
@@ -1532,7 +1532,7 @@
         "headerSubtitle": "Güvenli ve yüksek kaliteli toplantılar",
         "headerTitle": "Sonacove Meets",
         "info": "Bilgi",
-        "jitsiOnMobile": "Mobil'de Jitsi – uygulamalarımızı indirin ve her yerden bir toplantı başlatın",
+        "jitsiOnMobile": "Mobil'de Sonacove – uygulamalarımızı indirin ve her yerden bir toplantı başlatın",
         "join": "KATIL",
         "logo": {
             "calendar": "Takvim logo",

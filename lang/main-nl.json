@@ -61,7 +61,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Een link naar een vergadering toevoegen",
-        "confirmAddLink": "Wilt u een Jitsi-link aan deze afspraak toevoegen?",
+        "confirmAddLink": "Wilt u een Sonacove-link aan deze afspraak toevoegen?",
         "error": {
             "appConfiguration": "De agenda-integratie is niet juist ingesteld.",
             "generic": "Er is een fout opgetreden. Controleer uw agenda-instellingen of vernieuw de agenda.",
@@ -1092,7 +1092,7 @@
         "headerSubtitle": "Veilige vergaderingen van hoge kwaliteit",
         "headerTitle": "Sonacove Meets",
         "info": "Informatie",
-        "jitsiOnMobile": "Jitsi op de mobiele telefoon - download onze apps en start overal een vergadering",
+        "jitsiOnMobile": "Sonacove op de mobiele telefoon - download onze apps en start overal een vergadering",
         "join": "AANMAKEN / DEELNEMEN",
         "moderatedMessage": "Of <a href=\"{{url}}\" rel=\"noopener noreferrer\" target=\"_blank\">boek een vergadering URL</a> van tevoren waar u de enige moderator bent.",
         "privacy": "Privacy",

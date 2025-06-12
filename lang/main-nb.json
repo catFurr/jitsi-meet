@@ -82,7 +82,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Legg til en møtelenke",
-        "confirmAddLink": "Vil du legge til en Jitsi-lenke til denne hendelsen?",
+        "confirmAddLink": "Vil du legge til en Sonacove-lenke til denne hendelsen?",
         "error": {
             "appConfiguration": "Kalenderintegrasjonen er ikke riktig konfigurert.",
             "generic": "En feil har oppstått. Sjekk kalenderinnstillingene dine eller prøv å oppdatere kalenderen.",
@@ -747,7 +747,7 @@
         "dataChannelClosedDescriptionWithAudio": "Brokkanalen er nede, og dermed kan det oppstå forstyrrelser i lyd og video.",
         "dataChannelClosedWithAudio": "Lyd- og videokvaliteten kan være svekket",
         "disabledIframe": "Innebygging er kun ment for demonstrasjonsformål, så denne samtalen vil kobles fra om {{timeout}} minutter.",
-        "disabledIframeSecondary": "Innebygging av {{domain}} er kun ment for demonstrasjonsformål, så denne samtalen vil kobles fra om {{timeout}} minutter. Vennligst bruk <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Jitsi as a Service</a> for innebygging i produksjon!",
+        "disabledIframeSecondary": "Innebygging av {{domain}} er kun ment for demonstrasjonsformål, så denne samtalen vil kobles fra om {{timeout}} minutter. Vennligst bruk <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Sonacove as a Service</a> for innebygging i produksjon!",
         "disconnected": "frakoblet",
         "displayNotifications": "Vis varsler for",
         "dontRemindMe": "Ikke minn meg på dette",
@@ -1543,7 +1543,7 @@
         "headerSubtitle": "Sikre møter av høy kvalitet",
         "headerTitle": "Sonacove Meets",
         "info": "Innringingsinformasjon",
-        "jitsiOnMobile": "Jitsi på mobil – last ned appene våre og start et møte fra hvor som helst",
+        "jitsiOnMobile": "Sonacove på mobil – last ned appene våre og start et møte fra hvor som helst",
         "join": "OPPRETT / BLI MED",
         "logo": {
             "calendar": "Kalenderlogo",

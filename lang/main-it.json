@@ -82,7 +82,7 @@
     },
     "calendarSync": {
         "addMeetingURL": "Aggiungi un collegamento alla riunione",
-        "confirmAddLink": "Vuoi aggiungere un collegamento Jitsi a questo evento?",
+        "confirmAddLink": "Vuoi aggiungere un collegamento Sonacove a questo evento?",
         "error": {
             "appConfiguration": "L'integrazione del calendario non è configurata correttamente.",
             "generic": "Si è verificato un errore. Controlla le impostazioni del calendario o ricarica la pagina.",
@@ -781,7 +781,7 @@
         "dataChannelClosedWithAudio": "La qualità audio e video potrebbe essere scarsa",
         "disabledIframe": "L'incorporamento serve solo come dimostrazione, quindi questa chiamata si disconnetterà tra {{timeout}} minuti.",
         "disabledIframeSecondaryNative": "L'incorporamento {{domain}} serve solo come dimostrazione, quindi questa chiamata si disconnetterà tra {{timeout}} minuti.",
-        "disabledIframeSecondaryWeb": "L'incorporamento {{domain}} serve solo come dimostrazione, quindi questa chiamata si disconnetterà tra {{timeout}} minuti. Si prega di usare <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Jitsi as a Service</a> per la produzione di riunioni incorporate!",
+        "disabledIframeSecondaryWeb": "L'incorporamento {{domain}} serve solo come dimostrazione, quindi questa chiamata si disconnetterà tra {{timeout}} minuti. Si prega di usare <a href='{{jaasDomain}}' rel='noopener noreferrer' target='_blank'>Sonacove as a Service</a> per la produzione di riunioni incorporate!",
         "disconnected": "disconnesso",
         "displayNotifications": "Mostra le notifiche per",
         "dontRemindMe": "Non chiederlo più",
@@ -1588,7 +1588,7 @@
         "headerSubtitle": "Riunioni sicure e di alta qualità",
         "headerTitle": "Sonacove Meets",
         "info": "Informazioni chiamata",
-        "jitsiOnMobile": "Jitsi su mobile – scarica le nostre applicazioni e dai inizio ad una riunione dovunque tu sia",
+        "jitsiOnMobile": "Sonacove su mobile – scarica le nostre applicazioni e dai inizio ad una riunione dovunque tu sia",
         "join": "CREA/UNISCITI",
         "logo": {
             "calendar": "Logo calendario",
