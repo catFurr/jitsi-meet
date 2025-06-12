@@ -55,7 +55,7 @@ MiddlewareRegistry.register(store => next => action => {
         const state = store.getState();
         const participants = state['features/base/participants'];
 
-        if (participants.local?.role === 'moderator' && !Boolean(participants.remote.size)) {
+        if (!Boolean(participants.remote.size)) {
             store.dispatch(beginAddPeople());
         }
 
