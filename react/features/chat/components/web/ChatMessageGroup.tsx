@@ -70,7 +70,20 @@ const ChatMessageGroup = ({ className = '', messages, participants }: IProps) =>
     }
 
     const messagesWithSender = messages.map(message => {
-        const participant = participants.find(p => p.id === message.participantId);
+        let participant;
+
+        for (const p of participants) {
+            if (p instanceof Map) {
+                for (const [ _, value ] of p) {
+                    if (value.id === message.participantId) {
+                        participant = value;
+                        break;
+                    }
+                }
+            }
+
+            if (participant) break;
+        }
 
         return {
             ...message,
