@@ -32,8 +32,8 @@ import {
     isDisplayNameRequired,
     isJoinByPhoneButtonVisible,
     isJoinByPhoneDialogVisible,
-    isPrejoinDisplayNameVisible,
-    isNameReadOnly
+    isNameReadOnly,
+    isPrejoinDisplayNameVisible
 } from '../../functions';
 import { getDeviceStatusType } from '../../functions.any';
 import logger from '../../logger';
@@ -239,14 +239,14 @@ const Prejoin = ({
     const showErrorOnField = useMemo(
         () => showDisplayNameField && showErrorOnJoin,
         [ showDisplayNameField, showErrorOnJoin ]);
-    const [showJoinByPhoneButtons, setShowJoinByPhoneButtons] = useState(false);
-    const [showPermissionsHelp, setShowPermissionsHelp] = useState(false);
+    const [ showJoinByPhoneButtons, setShowJoinByPhoneButtons ] = useState(false);
+    const [ showPermissionsHelp, setShowPermissionsHelp ] = useState(false);
     const { classes } = useStyles();
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
     const deviceStatusType = useSelector(getDeviceStatusType);
-    const hasError = deviceStatusType === "warning";
+    const hasError = deviceStatusType === 'warning';
 
     /**
      * Handler for the join button.
@@ -270,7 +270,7 @@ const Prejoin = ({
             setShowPermissionsHelp(false);
         }
 
-        logger.info("Prejoin join button clicked.");
+        logger.info('Prejoin join button clicked.');
         joinConference();
     };
 
@@ -352,7 +352,7 @@ const Prejoin = ({
             && (e.key === ' '
                 || e.key === 'Enter')) {
             e.preventDefault();
-            logger.info("Prejoin joinConferenceWithoutAudio dispatched on a key pressed.");
+            logger.info('Prejoin joinConferenceWithoutAudio dispatched on a key pressed.');
             joinConferenceWithoutAudio();
         }
     };
@@ -497,7 +497,7 @@ const Prejoin = ({
                     onClose = { closeDialog } />
             )}
 
-            {showPermissionsHelp && <PermissionsGuideDialog onClose={() => setShowPermissionsHelp(false)} />}
+            {showPermissionsHelp && <PermissionsGuideDialog onClose = { () => setShowPermissionsHelp(false) } />}
         </PreMeetingScreen>
     );
 };

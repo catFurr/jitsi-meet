@@ -803,40 +803,40 @@ export function getCountryFromDialCodeText(text: string) {
  */
 export async function detectBrowserAndDevice() {
     const userAgent = navigator.userAgent;
-    const platform = navigator.platform || "unknown";
+    const platform = navigator.platform || 'unknown';
 
-    let browser = "Unknown";
-    let device = "Unknown";
+    let browser = 'Unknown';
+    let device = 'Unknown';
 
-    const isBrave =
-        typeof navigator?.brave !== "undefined" &&
-        typeof navigator?.brave.isBrave === "function" &&
-        (await navigator?.brave.isBrave());
+    const isBrave
+        = typeof navigator?.brave !== 'undefined'
+        && typeof navigator?.brave.isBrave === 'function'
+        && (await navigator?.brave.isBrave());
 
     if (isBrave) {
-        browser = "Brave";
+        browser = 'Brave';
     } else if (/edg/i.test(userAgent)) {
-        browser = "Edge";
+        browser = 'Edge';
     } else if (/opr\//i.test(userAgent)) {
-        browser = "Opera";
+        browser = 'Opera';
     } else if (/chrome|crios/i.test(userAgent) && !/edge|opr/i.test(userAgent)) {
-        browser = "Chrome";
+        browser = 'Chrome';
     } else if (/firefox|fxios/i.test(userAgent)) {
-        browser = "Firefox";
+        browser = 'Firefox';
     } else if (/safari/i.test(userAgent) && !/chrome|crios|android/i.test(userAgent)) {
-        browser = "Safari";
+        browser = 'Safari';
     }
 
     if (/android/i.test(userAgent)) {
-        device = "Android";
+        device = 'Android';
     } else if (/iPad|iPhone|iPod/.test(userAgent) || /iOS/.test(platform)) {
-        device = "iOS";
+        device = 'iOS';
     } else if (/Win/i.test(platform)) {
-        device = "Windows";
+        device = 'Windows';
     } else if (/Mac/i.test(platform)) {
-        device = "macOS";
+        device = 'macOS';
     } else if (/Linux/i.test(platform)) {
-        device = "Linux";
+        device = 'Linux';
     }
 
     return { browser, device };
