@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
 
 import { IReduxState } from '../../../app/types';
@@ -35,8 +35,10 @@ import {
     isPrejoinDisplayNameVisible,
     isNameReadOnly
 } from '../../functions';
+import { getDeviceStatusType } from '../../functions.any';
 import logger from '../../logger';
 import { hasDisplayName } from '../../utils';
+import PermissionsGuideDialog from '../PermissionsGuideDialog';
 
 import JoinByPhoneDialog from './dialogs/JoinByPhoneDialog';
 
@@ -237,10 +239,14 @@ const Prejoin = ({
     const showErrorOnField = useMemo(
         () => showDisplayNameField && showErrorOnJoin,
         [ showDisplayNameField, showErrorOnJoin ]);
-    const [ showJoinByPhoneButtons, setShowJoinByPhoneButtons ] = useState(false);
+    const [showJoinByPhoneButtons, setShowJoinByPhoneButtons] = useState(false);
+    const [showPermissionsHelp, setShowPermissionsHelp] = useState(false);
     const { classes } = useStyles();
     const { t } = useTranslation();
     const dispatch = useDispatch();
+
+    const deviceStatusType = useSelector(getDeviceStatusType);
+    const hasError = deviceStatusType === "warning";
 
     /**
      * Handler for the join button.
@@ -258,8 +264,13 @@ const Prejoin = ({
             return;
         }
 
-        logger.info('Prejoin join button clicked.');
+        if (hasError) {
+            return setShowPermissionsHelp(true);
+        } else {
+            setShowPermissionsHelp(false);
+        }
 
+        logger.info("Prejoin join button clicked.");
         joinConference();
     };
 
@@ -341,7 +352,7 @@ const Prejoin = ({
             && (e.key === ' '
                 || e.key === 'Enter')) {
             e.preventDefault();
-            logger.info('Prejoin joinConferenceWithoutAudio dispatched on a key pressed.');
+            logger.info("Prejoin joinConferenceWithoutAudio dispatched on a key pressed.");
             joinConferenceWithoutAudio();
         }
     };
@@ -485,6 +496,8 @@ const Prejoin = ({
                     joinConferenceWithoutAudio = { joinConferenceWithoutAudio }
                     onClose = { closeDialog } />
             )}
+
+            {showPermissionsHelp && <PermissionsGuideDialog onClose={() => setShowPermissionsHelp(false)} />}
         </PreMeetingScreen>
     );
 };
