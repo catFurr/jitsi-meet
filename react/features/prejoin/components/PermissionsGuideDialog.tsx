@@ -1,25 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import Dialog from '../../base/ui/components/web/Dialog';
 import { detectBrowserAndDevice } from '../utils';
+
+import TuneIcon from './TuneIcon';
+
+const styles = {
+    ol: {
+        paddingLeft: 20,
+        marginTop: 16,
+    },
+    li: {
+        marginBottom: 8,
+    },
+};
 
 type Props = {
     onClose: () => void;
 };
 
-const browserSteps: Record<string, string[]> = {
+const browserSteps: Record<string, (string | JSX.Element)[]> = {
     Chrome_Windows: [
-        'Click the lock icon next to the URL in the address bar.',
+        <>
+            Click the Tune icon <TuneIcon /> in the address bar.
+        </>,
         'Click \'Site settings\'.',
-        'Set both Camera and Microphone to \'Allow\'.',
-        'Refresh the page.',
+        'Allow Camera and Microphone under Permissions.',
     ],
     Chrome_macOS: [
-        'Click the lock icon next to the URL in the address bar.',
-        'Select \'Site settings\'.',
-        'Set \'Camera\' and \'Microphone\' to \'Allow\'.',
-        'Reload the page.',
+        <>
+            Click the Tune icon <TuneIcon /> in the address bar.
+        </>,
+        'Click \'Site settings\'.',
+        'Allow Camera and Microphone under Permissions.',
     ],
     Chrome_Linux: [
         'Click the lock icon next to the URL in the address bar.',
@@ -28,10 +41,11 @@ const browserSteps: Record<string, string[]> = {
         'Reload the page.',
     ],
     Chrome_Android: [
-        'Tap the lock icon next to the URL.',
+        <>
+            Click the Tune icon <TuneIcon /> in the address bar.
+        </>,
         'Select \'Permissions\'.',
-        'Allow Camera and Microphone.',
-        'Reload the page.',
+        'Set \'Camera\' and \'Microphone\' to \'Allow\'.',
     ],
     Chrome_iOS: [
         'Open iOS Settings > Chrome.',
@@ -47,7 +61,9 @@ const browserSteps: Record<string, string[]> = {
         'Refresh the page.',
     ],
     Firefox_macOS: [
-        'Click the lock icon next to the URL.',
+        <>
+            Click the Tune icon <TuneIcon /> next to the URL.
+        </>,
         'Click the arrow > \'More information\'.',
         'Go to the \'Permissions\' tab.',
         'Allow Camera and Microphone.',
@@ -81,38 +97,38 @@ const browserSteps: Record<string, string[]> = {
         'Set both to \'Allow\'.',
         'Return to Safari and refresh.',
     ],
-    Edge_Windows: [
-        'Click the lock icon next to the site URL.',
-        'Select \'Permissions for this site\'.',
-        'Allow Camera and Microphone.',
-        'Refresh the page.',
-    ],
+    Edge_Windows: [ 'Click the lock icon next to the site URL.', 'Allow Camera and Microphone.', 'Refresh the page.' ],
     Edge_macOS: [
-        'Click the lock icon in the address bar.',
-        'Click \'Site settings\'.',
+        <>
+            Click the Tune icon <TuneIcon /> in the address bar.
+        </>,
         'Set Camera and Microphone to \'Allow\'.',
-        'Reload the page.',
     ],
     Brave_Windows: [
-        'Click the lock icon in the address bar.',
-        'Choose \'Site settings\'.',
-        'Allow Camera and Microphone.',
+        <>
+            Click the Tune icon <TuneIcon /> in the address bar.
+        </>,
+        'Enable Mic and Camera.',
         'Refresh the page.',
     ],
     Brave_macOS: [
-        'Click the lock icon in the address bar.',
-        'Select \'Site settings\'.',
-        'Enable Camera and Microphone.',
+        <>
+            Click the Tune icon <TuneIcon /> in the address bar.
+        </>,
+        'Enable Camera and Microphone in the permissions menu.',
         'Reload the page.',
     ],
     Brave_Linux: [
-        'Click the lock icon in the address bar.',
-        'Go to \'Site settings\'.',
-        'Allow Camera and Microphone.',
+        <>
+            Click the Tune icon <TuneIcon /> in the address bar.
+        </>,
+        'Allow Camera and Microphone in the permissions list.',
         'Refresh the page.',
     ],
     Brave_Android: [
-        'Tap the lock icon next to the URL.',
+        <>
+            Click the Tune icon <TuneIcon /> next to the URL.
+        </>,
         'Tap \'Permissions\'.',
         'Allow Camera and Microphone.',
         'Refresh the page.',
@@ -132,14 +148,13 @@ const browserSteps: Record<string, string[]> = {
 };
 
 const PermissionsGuideDialog = ({ onClose }: Props) => {
-    const { t } = useTranslation();
     const [ browser, setBrowser ] = useState('Unknown');
     const [ device, setDevice ] = useState('Unknown');
 
     useEffect(() => {
-        Promise.resolve(detectBrowserAndDevice()).then(({ browser, device }) => {
-            setBrowser(browser);
-            setDevice(device);
+        Promise.resolve(detectBrowserAndDevice()).then(({ browser: b, device: d }) => {
+            setBrowser(b);
+            setDevice(d);
         });
     }, []);
 
@@ -148,11 +163,11 @@ const PermissionsGuideDialog = ({ onClose }: Props) => {
         const steps = browserSteps[key] || browserSteps.default;
 
         return (
-            <ol style = {{ paddingLeft: 20, marginTop: 16 }}>
+            <ol style = { styles.ol }>
                 {steps.map((step, idx) => (
                     <li
                         key = { idx }
-                        style = {{ marginBottom: 8 }}>
+                        style = { styles.li }>
                         {step}
                     </li>
                 ))}

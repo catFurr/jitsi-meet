@@ -268,10 +268,10 @@ const Prejoin = ({
             return setShowPermissionsHelp(true);
         } else {
             setShowPermissionsHelp(false);
-        }
 
-        logger.info('Prejoin join button clicked.');
-        joinConference();
+            logger.info('Prejoin join button clicked.');
+            joinConference();
+        }
     };
 
     /**
