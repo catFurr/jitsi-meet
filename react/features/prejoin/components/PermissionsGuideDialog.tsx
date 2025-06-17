@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Dialog from '../../base/ui/components/web/Dialog';
 import { detectBrowserAndDevice } from '../utils';
@@ -12,6 +12,20 @@ const styles = {
     },
     li: {
         marginBottom: 8
+    },
+    details: {
+        marginTop: 24,
+        borderRadius: 8,
+        padding: 12
+    } as React.CSSProperties,
+    summary: {
+        cursor: 'pointer',
+        fontWeight: 500,
+        color: '#007bff'
+    },
+    deviceHelp: {
+        marginTop: 12,
+        paddingLeft: 8
     }
 };
 
@@ -151,6 +165,23 @@ const browserSteps: Record<string, (string | JSX.Element)[]> = {
     ]
 };
 
+const deviceHelpSteps: Record<string, string[]> = {
+    Android: [
+        'Open your phone’s Settings.',
+        'Tap "Apps" > your browser (e.g. Chrome, Brave).',
+        'Tap "Permissions".',
+        'Allow access to Camera and Microphone.',
+        'Restart the browser and try again.'
+    ],
+    iOS: [
+        'Open iOS Settings.',
+        'Scroll down and select your browser (e.g. Safari, Chrome).',
+        'Tap "Camera" and "Microphone".',
+        'Set both to "Allow".',
+        'Return to the browser and reload the page.'
+    ]
+};
+
 const PermissionsGuideDialog = ({ onClose }: Props) => {
     const [ browser, setBrowser ] = useState('Unknown');
     const [ device, setDevice ] = useState('Unknown');
@@ -162,9 +193,9 @@ const PermissionsGuideDialog = ({ onClose }: Props) => {
         });
     }, []);
 
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(() => {
         window.location.reload();
-    };
+    }, []);
 
     const renderInstructions = () => {
         const key = `${browser}_${device}`;
@@ -183,23 +214,55 @@ const PermissionsGuideDialog = ({ onClose }: Props) => {
         );
     };
 
+    const renderDeviceHelp = () => {
+        if (device !== 'Android' && device !== 'iOS') {
+            return null;
+        }
+
+        const steps = deviceHelpSteps[device] || [];
+
+        if (!steps.length) {
+            return null;
+        }
+
+        return (
+            <details style = { styles.details }>
+                <summary style = { styles.summary }>
+                    Still not working?
+                </summary>
+                <div style = { styles.deviceHelp }>
+                    <ol style = { styles.ol }>
+                        {steps.map((step, idx) => (
+                            <li
+                                key = { idx }
+                                style = { styles.li }>
+                                {step}
+                            </li>
+                        ))}
+                    </ol>
+                </div>
+            </details>
+        );
+    };
+
     return (
         <Dialog
             cancel = {{ translationKey: 'dialog.close' }}
             onCancel = { onClose }
             onSubmit = { handleSubmit }
             submit = {{ translationKey: 'dialog.Ok' }}
-            titleKey = 'Enable Mic and Camera'>
+            titleKey = 'Enable Mic and Camera'
+            useCall = { true }>
             <div className = 'prejoin-permissions-dialog'>
                 <p>
                     <strong>Detected:</strong> {browser} on {device}
                 </p>
                 <h4>How to allow access:</h4>
                 {renderInstructions()}
+                {renderDeviceHelp()}
             </div>
         </Dialog>
     );
 };
-
 
 export default PermissionsGuideDialog;

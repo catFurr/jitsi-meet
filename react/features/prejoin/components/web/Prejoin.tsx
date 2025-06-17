@@ -242,7 +242,6 @@ const Prejoin = ({
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-
     /**
      * Handler for the join button.
      *
@@ -260,6 +259,7 @@ const Prejoin = ({
         }
 
         logger.info('Prejoin join button clicked.');
+
         joinConference();
     };
 
@@ -485,7 +485,6 @@ const Prejoin = ({
                     joinConferenceWithoutAudio = { joinConferenceWithoutAudio }
                     onClose = { closeDialog } />
             )}
-
         </PreMeetingScreen>
     );
 };
