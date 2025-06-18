@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-
 import Dialog from '../../base/ui/components/web/Dialog';
 import { detectBrowserAndDevice } from '../utils';
 
@@ -28,6 +27,13 @@ const styles = {
     deviceHelp: {
         marginTop: 12,
         paddingLeft: 8
+    },
+    gifContainer: {
+        marginTop: 24
+    },
+    gifImage: {
+        maxWidth: '100%',
+        borderRadius: 8
     }
 };
 
@@ -114,6 +120,19 @@ const PermissionsGuideDialog = ({ onClose }: Props) => {
         );
     };
 
+    const renderGif = () => {
+        const isDesktop = [ 'Windows', 'macOS', 'Linux' ].includes(device);
+
+        return (
+            <div style = { styles.gifContainer }>
+                <img
+                    alt = { `Camera and microphone permissions guide for ${device}` }
+                    src = { `images/permissions_guide_${isDesktop ? 'desktop' : 'mobile'}.gif` }
+                    style = { styles.gifImage } />
+            </div>
+        );
+    };
+
     return (
         <Dialog
             cancel = {{ translationKey: 'prejoin.permissionsGuide.close' }}
@@ -128,6 +147,7 @@ const PermissionsGuideDialog = ({ onClose }: Props) => {
                 <h4>{t('prejoin.permissionsGuide.howToAllow')}</h4>
                 {renderInstructions()}
                 {renderDeviceHelp()}
+                {renderGif()}
             </div>
         </Dialog>
     );

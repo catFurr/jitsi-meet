@@ -809,9 +809,9 @@ export async function detectBrowserAndDevice() {
     let device = 'Unknown';
 
     const isBrave
-        = typeof navigator?.brave !== 'undefined'
-        && typeof navigator?.brave.isBrave === 'function'
-        && (await navigator?.brave.isBrave());
+        = 'brave' in navigator
+        && typeof (navigator as any).brave?.isBrave === 'function'
+        && await (navigator as any).brave.isBrave();
 
     if (isBrave) {
         browser = 'Brave';
