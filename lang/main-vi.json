@@ -907,6 +907,121 @@
             "nonOptimal": "Kết nối internet của bạn không tối ưu",
             "poor": "Kết nối internet của bạn kém"
         },
+        "permissionsGuide": {
+            "title": "Bật mic và camera",
+            "detected": "Đã phát hiện:",
+            "howToAllow": "Cách cho phép truy cập:",
+            "stillNotWorking": "Vẫn chưa hoạt động?",
+            "close": "Đóng",
+            "needHelp": "Cần trợ giúp?",
+            "steps": {
+                "Chrome_Windows": [
+                    "Nhấp vào biểu tượng <0>Tune</0> trên thanh địa chỉ.",
+                    "Chọn 'Cài đặt trang web'.",
+                    "Bật camera và mic trong phần 'Quyền'."
+                ],
+                "Chrome_macOS": [
+                    "Nhấp vào biểu tượng <0>Tune</0> trên thanh địa chỉ.",
+                    "Chọn 'Cài đặt trang web'.",
+                    "Bật camera và mic trong phần 'Quyền'."
+                ],
+                "Chrome_Linux": [
+                    "Nhấp vào biểu tượng ổ khóa bên cạnh URL trên thanh địa chỉ.",
+                    "Chọn 'Cài đặt trang web'.",
+                    "Bật camera và mic.",
+                    "Tải lại trang."
+                ],
+                "Chrome_Android": [
+                    "Nhấp vào biểu tượng <0>Tune</0> trên thanh địa chỉ.",
+                    "Chọn 'Quyền'.",
+                    "Đặt 'Camera' và 'Mic' thành 'Cho phép'."
+                ],
+                "Chrome_iOS": [
+                    "Mở Cài đặt iOS > Chrome.",
+                    "Chọn 'Camera' và 'Mic'.",
+                    "Đặt thành 'Cho phép'.",
+                    "Quay lại Chrome và tải lại trang."
+                ],
+                "Firefox_Windows": [
+                    "Nhấp vào biểu tượng <0>Tune</0> bên cạnh URL.",
+                    "Bật mic và camera.",
+                    "Tải lại trang."
+                ],
+                "Firefox_macOS": [
+                    "Nhấp vào biểu tượng <0>Tune</0> bên cạnh URL.",
+                    "Nhấp vào mũi tên > 'Thông tin thêm'.",
+                    "Đi đến tab 'Quyền'.",
+                    "Bật camera và mic.",
+                    "Tải lại trang."
+                ],
+                "Firefox_Linux": [
+                    "Nhấp vào biểu tượng ổ khóa bên cạnh thanh địa chỉ.",
+                    "Nhấp vào 'Thông tin thêm'.",
+                    "Bật camera và mic trong phần quyền.",
+                    "Tải lại trang."
+                ],
+                "Firefox_Android": [
+                    "Nhấn vào biểu tượng ổ khóa bên cạnh thanh URL.",
+                    "Chọn 'Chỉnh sửa cài đặt trang'.",
+                    "Bật camera và mic.",
+                    "Tải lại trang."
+                ],
+                "Firefox_iOS": [
+                    "Mở Cài đặt iOS > Firefox.",
+                    "Bật camera và mic.",
+                    "Quay lại Firefox và tải lại trang."
+                ],
+                "Safari_macOS": [
+                    "Trong thanh menu Safari, nhấp 'Safari' > 'Cài đặt cho trang web này'.",
+                    "Đặt camera và mic thành 'Cho phép'.",
+                    "Tải lại trang."
+                ],
+                "Safari_iOS": [
+                    "Đi tới Cài đặt iOS > Safari.",
+                    "Chọn 'Camera' và 'Mic'.",
+                    "Đặt thành 'Cho phép'.",
+                    "Quay lại Safari và tải lại trang."
+                ],
+                "Edge_Windows": ["Nhấp vào biểu tượng ổ khóa bên cạnh URL.", "Bật camera và mic.", "Tải lại trang."],
+                "Edge_macOS": [
+                    "Nhấp vào biểu tượng <0>Tune</0> trên thanh địa chỉ.",
+                    "Đặt camera và mic thành 'Cho phép'."
+                ],
+                "Brave_Windows": [
+                    "Nhấp vào biểu tượng <0>Tune</0> trên thanh địa chỉ.",
+                    "Bật mic và camera.",
+                    "Tải lại trang."
+                ],
+                "Brave_macOS": [
+                    "Nhấp vào biểu tượng <0>Tune</0> trên thanh địa chỉ.",
+                    "Bật camera và mic trong cài đặt quyền.",
+                    "Tải lại trang."
+                ],
+                "Brave_Linux": [
+                    "Nhấp vào biểu tượng <0>Tune</0> trên thanh địa chỉ.",
+                    "Cho phép camera và mic trong danh sách quyền.",
+                    "Tải lại trang."
+                ],
+                "Brave_Android": [
+                    "Nhấp vào biểu tượng <0>Tune</0> bên cạnh URL.",
+                    "Chọn 'Quyền'.",
+                    "Bật camera và mic.",
+                    "Tải lại trang."
+                ],
+                "Brave_iOS": [
+                    "Mở Cài đặt iOS > Brave.",
+                    "Chọn 'Camera' và 'Mic'.",
+                    "Đặt thành 'Cho phép'.",
+                    "Quay lại Brave và tải lại trang."
+                ],
+                "default": [
+                    "Mở cài đặt trình duyệt.",
+                    "Tìm phần 'Quyền riêng tư' hoặc 'Quyền'.",
+                    "Bật camera và mic cho trang này.",
+                    "Tải lại trang."
+                ]
+            }
+        },
         "connectionDetails": {
             "audioClipping": "Chúng tôi dự kiến âm thanh của bạn sẽ bị cắt.",
             "audioHighQuality": "Chúng tôi dự kiến âm thanh của bạn sẽ có chất lượng tuyệt vời.",

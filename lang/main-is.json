@@ -896,6 +896,125 @@
             "nonOptimal": "Internettengingin þín er ekki upp á sitt besta",
             "poor": "Þú ert með lélega internettengingu"
         },
+        "permissionsGuide": {
+            "title": "Virkja hljóðnema og myndavél",
+            "detected": "Uppgötvað:",
+            "howToAllow": "Hvernig á að leyfa aðgang:",
+            "stillNotWorking": "Virkar það enn ekki?",
+            "close": "Loka",
+            "needHelp": "Þarftu hjálp?",
+            "steps": {
+                "Chrome_Windows": [
+                    "Smelltu á <0>Tune</0> táknið í vefslóðastikunni.",
+                    "Smelltu á 'Stillingar vefsíðu'.",
+                    "Leyfðu myndavél og hljóðnema undir 'Leyfi'."
+                ],
+                "Chrome_macOS": [
+                    "Smelltu á <0>Tune</0> táknið í vefslóðastikunni.",
+                    "Smelltu á 'Stillingar vefsíðu'.",
+                    "Leyfðu myndavél og hljóðnema undir 'Leyfi'."
+                ],
+                "Chrome_Linux": [
+                    "Smelltu á lásatáknið við hliðina á slóðinni í vefslóðastikunni.",
+                    "Smelltu á 'Stillingar vefsíðu'.",
+                    "Leyfðu myndavél og hljóðnema.",
+                    "Endurhleððu síðuna."
+                ],
+                "Chrome_Android": [
+                    "Smelltu á <0>Tune</0> táknið í vefslóðastikunni.",
+                    "Veldu 'Leyfi'.",
+                    "Stilltu 'Myndavél' og 'Hljóðnemi' á 'Leyfa'."
+                ],
+                "Chrome_iOS": [
+                    "Opnaðu iOS Stillingar > Chrome.",
+                    "Bankaðu á 'Myndavél' og 'Hljóðnemi'.",
+                    "Stilltu á 'Leyfa'.",
+                    "Farðu aftur í Chrome og endurhleððu síðuna."
+                ],
+                "Firefox_Windows": [
+                    "Smelltu á <0>Tune</0> táknið við hliðina á slóðinni.",
+                    "Kveiktu á hljóðnema og myndavél.",
+                    "Endurhleððu síðuna."
+                ],
+                "Firefox_macOS": [
+                    "Smelltu á <0>Tune</0> táknið við hliðina á slóðinni.",
+                    "Smelltu á örina > 'Frekari upplýsingar'.",
+                    "Fara í flipann 'Leyfi'.",
+                    "Leyfðu myndavél og hljóðnema.",
+                    "Endurhleððu síðuna."
+                ],
+                "Firefox_Linux": [
+                    "Smelltu á lásatáknið við hliðina á vefslóðastikunni.",
+                    "Smelltu á 'Frekari upplýsingar'.",
+                    "Leyfðu myndavél og hljóðnema undir leyfum.",
+                    "Endurhleððu síðuna."
+                ],
+                "Firefox_Android": [
+                    "Bankaðu á lásatáknið við hliðina á slóðastikunni.",
+                    "Bankaðu á 'Breyta síðustillingum'.",
+                    "Leyfðu myndavél og hljóðnema.",
+                    "Endurhleððu síðuna."
+                ],
+                "Firefox_iOS": [
+                    "Opnaðu iOS Stillingar > Firefox.",
+                    "Kveiktu á myndavél og hljóðnema.",
+                    "Farðu aftur í Firefox og endurhleððu síðuna."
+                ],
+                "Safari_macOS": [
+                    "Smelltu á 'Safari' > 'Stillingar fyrir þessa vefsíðu' í valmyndastikunni.",
+                    "Stilltu myndavél og hljóðnema á 'Leyfa'.",
+                    "Endurhleððu síðuna."
+                ],
+                "Safari_iOS": [
+                    "Opnaðu iOS Stillingar > Safari.",
+                    "Bankaðu á 'Myndavél' og 'Hljóðnemi'.",
+                    "Stilltu á 'Leyfa'.",
+                    "Farðu aftur í Safari og endurhleððu síðuna."
+                ],
+                "Edge_Windows": [
+                    "Smelltu á lásatáknið við hliðina á slóðinni.",
+                    "Leyfðu myndavél og hljóðnema.",
+                    "Endurhleððu síðuna."
+                ],
+                "Edge_macOS": [
+                    "Smelltu á <0>Tune</0> táknið í vefslóðastikunni.",
+                    "Stilltu myndavél og hljóðnema á 'Leyfa'."
+                ],
+                "Brave_Windows": [
+                    "Smelltu á <0>Tune</0> táknið í vefslóðastikunni.",
+                    "Kveiktu á hljóðnema og myndavél.",
+                    "Endurhleððu síðuna."
+                ],
+                "Brave_macOS": [
+                    "Smelltu á <0>Tune</0> táknið í vefslóðastikunni.",
+                    "Kveiktu á myndavél og hljóðnema í leyfisstillingum.",
+                    "Endurhleððu síðuna."
+                ],
+                "Brave_Linux": [
+                    "Smelltu á <0>Tune</0> táknið í vefslóðastikunni.",
+                    "Leyfðu myndavél og hljóðnema í leyfisskránni.",
+                    "Endurhleððu síðuna."
+                ],
+                "Brave_Android": [
+                    "Smelltu á <0>Tune</0> táknið við hliðina á slóðinni.",
+                    "Bankaðu á 'Leyfi'.",
+                    "Leyfðu myndavél og hljóðnema.",
+                    "Endurhleððu síðuna."
+                ],
+                "Brave_iOS": [
+                    "Opnaðu iOS Stillingar > Brave.",
+                    "Bankaðu á 'Myndavél' og 'Hljóðnemi'.",
+                    "Stilltu á 'Leyfa'.",
+                    "Farðu aftur í Brave og endurhleððu síðuna."
+                ],
+                "default": [
+                    "Opnaðu vafra stillingar.",
+                    "Leitaðu að kafla 'Persónuvernd' eða 'Leyfi'.",
+                    "Kveiktu á myndavél og hljóðnema fyrir þessa síðu.",
+                    "Endurhleððu síðuna."
+                ]
+            }
+        },
         "connectionDetails": {
             "audioClipping": "Við gerum ráð fyrir að hljóðið frá þér klippist.",
             "audioHighQuality": "Við gerum ráð fyrir að hljóðið frá þér sé með góð gæði.",

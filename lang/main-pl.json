@@ -834,6 +834,122 @@
             "nonOptimal": "Twoje połączenie internetowe nie jest optymalne.",
             "poor": "Masz złe połączenie internetowe."
         },
+        "permissionsGuide": {
+            "title": "Włącz mikrofon i kamerę",
+            "detected": "Wykryto:",
+            "howToAllow": "Jak zezwolić na dostęp:",
+            "stillNotWorking": "Nadal nie działa?",
+            "close": "Zamknij",
+            "needHelp": "Potrzebujesz pomocy?",
+            "steps": {
+                "Chrome_Windows": [
+                    "Kliknij ikonę <0>Tune</0> na pasku adresu.",
+                    "Kliknij 'Ustawienia witryny'.",
+                    "Zezwól na kamerę i mikrofon w sekcji 'Uprawnienia'."
+                ],
+                "Chrome_macOS": [
+                    "Kliknij ikonę <0>Tune</0> na pasku adresu.",
+                    "Kliknij 'Ustawienia witryny'.",
+                    "Zezwól na kamerę i mikrofon w sekcji 'Uprawnienia'."
+                ],
+                "Chrome_Linux": [
+                    "Kliknij ikonę kłódki obok adresu URL na pasku adresu.",
+                    "Kliknij 'Ustawienia witryny'.",
+                    "Zezwól na kamerę i mikrofon.",
+                    "Odśwież stronę."
+                ],
+                "Chrome_Android": [
+                    "Kliknij ikonę <0>Tune</0> na pasku adresu.",
+                    "Wybierz 'Uprawnienia'.",
+                    "Ustaw 'Kamera' i 'Mikrofon' na 'Zezwól'."
+                ],
+                "Chrome_iOS": [
+                    "Otwórz Ustawienia iOS > Chrome.",
+                    "Stuknij 'Kamera' i 'Mikrofon'.",
+                    "Ustaw je na 'Zezwól'.",
+                    "Wróć do Chrome i odśwież stronę."
+                ],
+                "Firefox_Windows": [
+                    "Kliknij ikonę <0>Tune</0> obok adresu URL.",
+                    "Włącz mikrofon i kamerę.",
+                    "Odśwież stronę."
+                ],
+                "Firefox_macOS": [
+                    "Kliknij ikonę <0>Tune</0> obok adresu URL.",
+                    "Kliknij strzałkę > 'Więcej informacji'.",
+                    "Przejdź do zakładki 'Uprawnienia'.",
+                    "Zezwól na kamerę i mikrofon.",
+                    "Odśwież stronę."
+                ],
+                "Firefox_Linux": [
+                    "Kliknij ikonę kłódki obok paska adresu.",
+                    "Kliknij 'Więcej informacji'.",
+                    "Zezwól na kamerę i mikrofon w uprawnieniach.",
+                    "Odśwież stronę."
+                ],
+                "Firefox_Android": [
+                    "Stuknij ikonę kłódki obok paska adresu URL.",
+                    "Stuknij 'Edytuj ustawienia strony'.",
+                    "Zezwól na kamerę i mikrofon.",
+                    "Odśwież stronę."
+                ],
+                "Firefox_iOS": [
+                    "Otwórz Ustawienia iOS > Firefox.",
+                    "Włącz kamerę i mikrofon.",
+                    "Wróć do Firefox i odśwież stronę."
+                ],
+                "Safari_macOS": [
+                    "Kliknij 'Safari' w pasku menu > 'Ustawienia dla tej witryny'.",
+                    "Ustaw kamerę i mikrofon na 'Zezwól'.",
+                    "Odśwież stronę."
+                ],
+                "Safari_iOS": [
+                    "Przejdź do Ustawień iOS > Safari.",
+                    "Stuknij 'Kamera' i 'Mikrofon'.",
+                    "Ustaw je na 'Zezwól'.",
+                    "Wróć do Safari i odśwież stronę."
+                ],
+                "Edge_Windows": [
+                    "Kliknij ikonę kłódki obok adresu URL.",
+                    "Zezwól na kamerę i mikrofon.",
+                    "Odśwież stronę."
+                ],
+                "Edge_macOS": ["Kliknij ikonę <0>Tune</0> na pasku adresu.", "Ustaw kamerę i mikrofon na 'Zezwól'."],
+                "Brave_Windows": [
+                    "Kliknij ikonę <0>Tune</0> na pasku adresu.",
+                    "Włącz mikrofon i kamerę.",
+                    "Odśwież stronę."
+                ],
+                "Brave_macOS": [
+                    "Kliknij ikonę <0>Tune</0> na pasku adresu.",
+                    "Włącz kamerę i mikrofon w ustawieniach uprawnień.",
+                    "Odśwież stronę."
+                ],
+                "Brave_Linux": [
+                    "Kliknij ikonę <0>Tune</0> na pasku adresu.",
+                    "Zezwól na kamerę i mikrofon na liście uprawnień.",
+                    "Odśwież stronę."
+                ],
+                "Brave_Android": [
+                    "Kliknij ikonę <0>Tune</0> obok adresu URL.",
+                    "Stuknij 'Uprawnienia'.",
+                    "Zezwól na kamerę i mikrofon.",
+                    "Odśwież stronę."
+                ],
+                "Brave_iOS": [
+                    "Otwórz Ustawienia iOS > Brave.",
+                    "Stuknij 'Kamera' i 'Mikrofon'.",
+                    "Ustaw je na 'Zezwól'.",
+                    "Wróć do Brave i odśwież stronę."
+                ],
+                "default": [
+                    "Otwórz ustawienia przeglądarki.",
+                    "Znajdź sekcję 'Prywatność' lub 'Uprawnienia'.",
+                    "Włącz kamerę i mikrofon dla tej strony.",
+                    "Odśwież stronę."
+                ]
+            }
+        },
         "connectionDetails": {
             "audioClipping": "Twój dźwięk będzie się przycinał.",
             "audioHighQuality": "Twój dźwięk będzie miał doskonałą jakość.",

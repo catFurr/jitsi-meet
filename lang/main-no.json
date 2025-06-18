@@ -934,6 +934,122 @@
             "poor": "Du har en dårlig internettforbindelse",
             "running": "Kjører tilkoblingstest…"
         },
+        "permissionsGuide": {
+            "title": "Aktiver mikrofon og kamera",
+            "detected": "Oppdaget:",
+            "howToAllow": "Slik gir du tilgang:",
+            "stillNotWorking": "Fungerer det fortsatt ikke?",
+            "close": "Lukk",
+            "needHelp": "Trenger du hjelp?",
+            "steps": {
+                "Chrome_Windows": [
+                    "Klikk på <0>Tune</0>-ikonet i adressefeltet.",
+                    "Klikk på 'Nettstedsinnstillinger'.",
+                    "Tillat kamera og mikrofon under 'Tillatelser'."
+                ],
+                "Chrome_macOS": [
+                    "Klikk på <0>Tune</0>-ikonet i adressefeltet.",
+                    "Klikk på 'Nettstedsinnstillinger'.",
+                    "Tillat kamera og mikrofon under 'Tillatelser'."
+                ],
+                "Chrome_Linux": [
+                    "Klikk på hengelås-ikonet ved siden av URL-en i adressefeltet.",
+                    "Klikk på 'Nettstedsinnstillinger'.",
+                    "Tillat kamera og mikrofon.",
+                    "Oppdater siden."
+                ],
+                "Chrome_Android": [
+                    "Trykk på <0>Tune</0>-ikonet i adressefeltet.",
+                    "Velg 'Tillatelser'.",
+                    "Sett 'Kamera' og 'Mikrofon' til 'Tillat'."
+                ],
+                "Chrome_iOS": [
+                    "Åpne iOS-innstillinger > Chrome.",
+                    "Trykk på 'Kamera' og 'Mikrofon'.",
+                    "Sett dem til 'Tillat'.",
+                    "Gå tilbake til Chrome og last inn siden på nytt."
+                ],
+                "Firefox_Windows": [
+                    "Klikk på <0>Tune</0>-ikonet ved siden av URL-en.",
+                    "Slå på mikrofon og kamera.",
+                    "Oppdater siden."
+                ],
+                "Firefox_macOS": [
+                    "Klikk på <0>Tune</0>-ikonet ved siden av URL-en.",
+                    "Klikk på pilen > 'Mer informasjon'.",
+                    "Gå til fanen 'Tillatelser'.",
+                    "Tillat kamera og mikrofon.",
+                    "Oppdater siden."
+                ],
+                "Firefox_Linux": [
+                    "Klikk på hengelås-ikonet ved siden av adressefeltet.",
+                    "Klikk på 'Mer informasjon'.",
+                    "Tillat kamera og mikrofon under tillatelser.",
+                    "Oppdater siden."
+                ],
+                "Firefox_Android": [
+                    "Trykk på hengelås-ikonet ved siden av URL-linjen.",
+                    "Trykk på 'Rediger sideinnstillinger'.",
+                    "Tillat kamera og mikrofon.",
+                    "Oppdater siden."
+                ],
+                "Firefox_iOS": [
+                    "Åpne iOS-innstillinger > Firefox.",
+                    "Slå på kamera og mikrofon.",
+                    "Gå tilbake til Firefox og last inn siden på nytt."
+                ],
+                "Safari_macOS": [
+                    "Klikk på 'Safari' i menylinjen > 'Innstillinger for dette nettstedet'.",
+                    "Sett kamera og mikrofon til 'Tillat'.",
+                    "Oppdater siden."
+                ],
+                "Safari_iOS": [
+                    "Gå til iOS-innstillinger > Safari.",
+                    "Trykk på 'Kamera' og 'Mikrofon'.",
+                    "Sett dem til 'Tillat'.",
+                    "Gå tilbake til Safari og last inn siden på nytt."
+                ],
+                "Edge_Windows": [
+                    "Klikk på hengelås-ikonet ved siden av URL-en.",
+                    "Tillat kamera og mikrofon.",
+                    "Oppdater siden."
+                ],
+                "Edge_macOS": ["Klikk på <0>Tune</0>-ikonet i adressefeltet.", "Sett kamera og mikrofon til 'Tillat'."],
+                "Brave_Windows": [
+                    "Klikk på <0>Tune</0>-ikonet i adressefeltet.",
+                    "Slå på mikrofon og kamera.",
+                    "Oppdater siden."
+                ],
+                "Brave_macOS": [
+                    "Klikk på <0>Tune</0>-ikonet i adressefeltet.",
+                    "Slå på kamera og mikrofon i tillatelsesinnstillingene.",
+                    "Oppdater siden."
+                ],
+                "Brave_Linux": [
+                    "Klikk på <0>Tune</0>-ikonet i adressefeltet.",
+                    "Tillat kamera og mikrofon i tillatelseslisten.",
+                    "Oppdater siden."
+                ],
+                "Brave_Android": [
+                    "Klikk på <0>Tune</0>-ikonet ved siden av URL-en.",
+                    "Trykk på 'Tillatelser'.",
+                    "Tillat kamera og mikrofon.",
+                    "Oppdater siden."
+                ],
+                "Brave_iOS": [
+                    "Åpne iOS-innstillinger > Brave.",
+                    "Trykk på 'Kamera' og 'Mikrofon'.",
+                    "Sett dem til 'Tillat'.",
+                    "Gå tilbake til Brave og last inn siden på nytt."
+                ],
+                "default": [
+                    "Åpne nettleserinnstillingene.",
+                    "Finn delen for 'Personvern' eller 'Tillatelser'.",
+                    "Slå på kamera og mikrofon for dette nettstedet.",
+                    "Oppdater siden."
+                ]
+            }
+        },
         "connectionDetails": {
             "audioClipping": "Vi forventer at lyden din vil bli avkuttet.",
             "audioHighQuality": "Vi forventer at lyden din vil ha utmerket kvalitet.",

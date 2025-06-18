@@ -895,6 +895,125 @@
             "nonOptimal": "Via interreta konekto ne estas optimuma",
             "poor": "Vi havas malbonan interretan konekton"
         },
+        "permissionsGuide": {
+            "title": "Ŝalti mikrofonon kaj kameron",
+            "detected": "Detektita:",
+            "howToAllow": "Kiel permesi aliron:",
+            "stillNotWorking": "Ĉu ĝi ankoraŭ ne funkcias?",
+            "close": "Fermi",
+            "needHelp": "Ĉu vi bezonas helpon?",
+            "steps": {
+                "Chrome_Windows": [
+                    "Alklaku la ikonon <0>Tune</0> en la adresa linio.",
+                    "Alklaku 'Retpaĝaj Agordoj'.",
+                    "Permesu kameron kaj mikrofonon sub 'Permesoj'."
+                ],
+                "Chrome_macOS": [
+                    "Alklaku la ikonon <0>Tune</0> en la adresa linio.",
+                    "Alklaku 'Retpaĝaj Agordoj'.",
+                    "Permesu kameron kaj mikrofonon sub 'Permesoj'."
+                ],
+                "Chrome_Linux": [
+                    "Alklaku la ŝlosilan ikonon apud la URL en la adresa linio.",
+                    "Alklaku 'Retpaĝaj Agordoj'.",
+                    "Permesu kameron kaj mikrofonon.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Chrome_Android": [
+                    "Alklaku la ikonon <0>Tune</0> en la adresa linio.",
+                    "Elektu 'Permesoj'.",
+                    "Agordu 'Kamerao' kaj 'Mikrofono' al 'Permesi'."
+                ],
+                "Chrome_iOS": [
+                    "Malfermu iOS-agordojn > Chrome.",
+                    "Premu 'Kamerao' kaj 'Mikrofono'.",
+                    "Agordu ilin al 'Permesi'.",
+                    "Revenu al Chrome kaj refreŝigu la paĝon."
+                ],
+                "Firefox_Windows": [
+                    "Alklaku la ikonon <0>Tune</0> apud la URL.",
+                    "Ŝaltu mikrofonon kaj kameron.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Firefox_macOS": [
+                    "Alklaku la ikonon <0>Tune</0> apud la URL.",
+                    "Alklaku la sageton > 'Pliaj informoj'.",
+                    "Iru al la langeto 'Permesoj'.",
+                    "Permesu kameron kaj mikrofonon.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Firefox_Linux": [
+                    "Alklaku la ŝlosilan ikonon apud la adresa linio.",
+                    "Alklaku 'Pliaj informoj'.",
+                    "Permesu kameron kaj mikrofonon sub permesoj.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Firefox_Android": [
+                    "Premu la ŝlosilan ikonon apud la URL-linio.",
+                    "Premu 'Redakti paĝajn agordojn'.",
+                    "Permesu kameron kaj mikrofonon.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Firefox_iOS": [
+                    "Malfermu iOS-agordojn > Firefox.",
+                    "Ŝaltu kameron kaj mikrofonon.",
+                    "Revenu al Firefox kaj refreŝigu la paĝon."
+                ],
+                "Safari_macOS": [
+                    "En la menuobreto alklaku 'Safari' > 'Agordoj por ĉi tiu retejo'.",
+                    "Agordu kameron kaj mikrofonon al 'Permesi'.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Safari_iOS": [
+                    "Iru al iOS-agordoj > Safari.",
+                    "Premu 'Kamerao' kaj 'Mikrofono'.",
+                    "Agordu ilin al 'Permesi'.",
+                    "Revenu al Safari kaj refreŝigu la paĝon."
+                ],
+                "Edge_Windows": [
+                    "Alklaku la ŝlosilan ikonon apud la URL.",
+                    "Permesu kameron kaj mikrofonon.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Edge_macOS": [
+                    "Alklaku la ikonon <0>Tune</0> en la adresa linio.",
+                    "Agordu kameron kaj mikrofonon al 'Permesi'."
+                ],
+                "Brave_Windows": [
+                    "Alklaku la ikonon <0>Tune</0> en la adresa linio.",
+                    "Ŝaltu mikrofonon kaj kameron.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Brave_macOS": [
+                    "Alklaku la ikonon <0>Tune</0> en la adresa linio.",
+                    "Ŝaltu kameron kaj mikrofonon en la permesaj agordoj.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Brave_Linux": [
+                    "Alklaku la ikonon <0>Tune</0> en la adresa linio.",
+                    "Permesu kameron kaj mikrofonon en la permeslista.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Brave_Android": [
+                    "Alklaku la ikonon <0>Tune</0> apud la URL.",
+                    "Premu 'Permesoj'.",
+                    "Permesu kameron kaj mikrofonon.",
+                    "Refreŝigu la paĝon."
+                ],
+                "Brave_iOS": [
+                    "Malfermu iOS-agordojn > Brave.",
+                    "Premu 'Kamerao' kaj 'Mikrofono'.",
+                    "Agordu ilin al 'Permesi'.",
+                    "Revenu al Brave kaj refreŝigu la paĝon."
+                ],
+                "default": [
+                    "Malfermu la agordojn de la retumilo.",
+                    "Serĉu la sekcion 'Privateco' aŭ 'Permesoj'.",
+                    "Ŝaltu kameron kaj mikrofonon por ĉi tiu retejo.",
+                    "Refreŝigu la paĝon."
+                ]
+            }
+        },
         "connectionDetails": {
             "audioClipping": "Verŝajne via sono estos tranĉita.",
             "audioHighQuality": "Verŝajne via sono estos bonega.",

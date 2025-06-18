@@ -806,6 +806,125 @@
             "nonOptimal": "Wašo zwězanje z internetom njejo optimalne.",
             "poor": "Wy maśo wjelgin ryjne zwězanje z internetom."
         },
+        "permissionsGuide": {
+            "title": "Wótwór mikrofon a kameru",
+            "detected": "Znakowane:",
+            "howToAllow": "Kako wótpórać pśistup:",
+            "stillNotWorking": "Njewótśěgujo to dalej?",
+            "close": "Zamknij",
+            "needHelp": "Trěbajo štym pomocy?",
+            "steps": {
+                "Chrome_Windows": [
+                    "Klikń na <0>Tune</0> symbol w adresnym pola.",
+                    "Klikń na 'Nastajenja strony'.",
+                    "Dopušćaj kameru a mikrofon pód 'Pśistupami'."
+                ],
+                "Chrome_macOS": [
+                    "Klikń na <0>Tune</0> symbol w adresnym pola.",
+                    "Klikń na 'Nastajenja strony'.",
+                    "Dopušćaj kameru a mikrofon pód 'Pśistupami'."
+                ],
+                "Chrome_Linux": [
+                    "Klikń na symbol pśedkłučki pśi adresnym polu URL.",
+                    "Klikń na 'Nastajenja strony'.",
+                    "Dopušćaj kameru a mikrofon.",
+                    "Aktualizěruj stronku."
+                ],
+                "Chrome_Android": [
+                    "Klikń na <0>Tune</0> symbol w adresnym pola.",
+                    "Wubrěraj 'Pśistupy'.",
+                    "Nastaj 'Kamera' a 'Mikrofon' na 'Dopušćony'."
+                ],
+                "Chrome_iOS": [
+                    "Wotwór iOS nastajenja > Chrome.",
+                    "Klikń na 'Kamera' a 'Mikrofon'.",
+                    "Nastaj jich na 'Dopušćony'.",
+                    "Wróć do Chrome a aktualizěruj stronku."
+                ],
+                "Firefox_Windows": [
+                    "Klikń na <0>Tune</0> symbol pśi URL.",
+                    "Aktiwěruj mikrofon a kameru.",
+                    "Aktualizěruj stronku."
+                ],
+                "Firefox_macOS": [
+                    "Klikń na <0>Tune</0> symbol pśi URL.",
+                    "Klikń na šipku > 'Dalsze informacije'.",
+                    "Pśeńdź do kartki 'Pśistupy'.",
+                    "Dopušćaj kameru a mikrofon.",
+                    "Aktualizěruj stronku."
+                ],
+                "Firefox_Linux": [
+                    "Klikń na symbol pśedkłučki pśi adresnym polu URL.",
+                    "Klikń na 'Dalsze informacije'.",
+                    "Dopušćaj kameru a mikrofon pód pśistupami.",
+                    "Aktualizěruj stronku."
+                ],
+                "Firefox_Android": [
+                    "Klikń na symbol pśedkłučki pśi adresnym polu URL.",
+                    "Klikń na 'Wubrani nastajenja strony'.",
+                    "Dopušćaj kameru a mikrofon.",
+                    "Aktualizěruj stronku."
+                ],
+                "Firefox_iOS": [
+                    "Wotwór iOS nastajenja > Firefox.",
+                    "Aktiwěruj kameru a mikrofon.",
+                    "Wróć do Firefox a aktualizěruj stronku."
+                ],
+                "Safari_macOS": [
+                    "Klikń na 'Safari' > 'Nastajenja za tuto stronku' w menu.",
+                    "Nastaj kameru a mikrofon na 'Dopušćony'.",
+                    "Aktualizěruj stronku."
+                ],
+                "Safari_iOS": [
+                    "Wótwór iOS nastajenja > Safari.",
+                    "Klikń na 'Kamera' a 'Mikrofon'.",
+                    "Nastaj jich na 'Dopušćony'.",
+                    "Wróć do Safari a aktualizěruj stronku."
+                ],
+                "Edge_Windows": [
+                    "Klikń na symbol pśedkłučki pśi adresnym polu URL.",
+                    "Dopušćaj kameru a mikrofon.",
+                    "Aktualizěruj stronku."
+                ],
+                "Edge_macOS": [
+                    "Klikń na <0>Tune</0> symbol w adresnym pola.",
+                    "Nastaj kameru a mikrofon na 'Dopušćony'."
+                ],
+                "Brave_Windows": [
+                    "Klikń na <0>Tune</0> symbol w adresnym pola.",
+                    "Aktiwěruj mikrofon a kameru.",
+                    "Aktualizěruj stronku."
+                ],
+                "Brave_macOS": [
+                    "Klikń na <0>Tune</0> symbol w adresnym pola.",
+                    "Aktiwěruj kameru a mikrofon w nastajenjach pśistupow.",
+                    "Aktualizěruj stronku."
+                ],
+                "Brave_Linux": [
+                    "Klikń na <0>Tune</0> symbol w adresnym pola.",
+                    "Dopušćaj kameru a mikrofon na lisćinje pśistupow.",
+                    "Aktualizěruj stronku."
+                ],
+                "Brave_Android": [
+                    "Klikń na <0>Tune</0> symbol pśi URL.",
+                    "Klikń na 'Pśistupy'.",
+                    "Dopušćaj kameru a mikrofon.",
+                    "Aktualizěruj stronku."
+                ],
+                "Brave_iOS": [
+                    "Wótwór iOS nastajenja > Brave.",
+                    "Klikń na 'Kamera' a 'Mikrofon'.",
+                    "Nastaj jich na 'Dopušćony'.",
+                    "Wróć do Brave a aktualizěruj stronku."
+                ],
+                "default": [
+                    "Wótwór nastajenja przeglědarki.",
+                    "Szukaj sekcije 'Pśiwatnosć' abo 'Pśistupy'.",
+                    "Aktiwěruj kameru a mikrofon za tuto stronku.",
+                    "Aktualizěruj stronku."
+                ]
+            }
+        },
         "connectionDetails": {
             "audioClipping": "Waš zuk buźo se nejskerjej pśetergowaś.",
             "audioHighQuality": "Waš zuk změjo nejskerjej wjelgin dobru kwalitu .",

@@ -65,7 +65,7 @@ const useStyles = makeStyles<{ deviceStatusType?: string; }>()((theme, { deviceS
  */
 function DeviceStatus() {
     const { t } = useTranslation();
-    const deviceStatusType = useSelector(getDeviceStatusType);
+    const deviceStatusType = useSelector(getDeviceStatusType) as string | undefined;
     const deviceStatusText = useSelector(getDeviceStatusText);
     const { classes, cx } = useStyles({ deviceStatusType });
     const hasError = deviceStatusType === 'warning';
@@ -90,12 +90,12 @@ function DeviceStatus() {
                 <span
                     aria-level = { 3 }
                     role = 'heading'>
-                    {hasError ? t('prejoin.errorNoPermissions') : t(deviceStatusText ?? '')}
+                    {hasError ? t('prejoin.errorNoPermissions') : t(typeof deviceStatusText === 'string' ? deviceStatusText : '')}
                     {hasError && (
                         <span
                             className = { classes.helpButton }
                             onClick = { handleOpenGuide }>
-                            {'Need help?'}
+                            {t('prejoin.permissionsGuide.needHelp')}
                         </span>
                     )}
                 </span>

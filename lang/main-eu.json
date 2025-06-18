@@ -609,6 +609,125 @@
             "nonOptimal": "Zure internet konexioa ez da onena",
             "poor": "Zure internet konexioa kaxkarra da"
         },
+        "permissionsGuide": {
+            "title": "Aktibatu mikrofonoa eta kamera",
+            "detected": "Detektatua:",
+            "howToAllow": "Nola onartu baimena:",
+            "stillNotWorking": "Oraindik ez badabil?",
+            "close": "Itxi",
+            "needHelp": "Laguntza behar duzu?",
+            "steps": {
+                "Chrome_Windows": [
+                    "Egin klik helbide-barreko <0>Tune</0> ikonoan.",
+                    "Egin klik 'Gunearen ezarpenetan'.",
+                    "Onartu kamera eta mikrofonoa 'Baimenen' azpian."
+                ],
+                "Chrome_macOS": [
+                    "Egin klik helbide-barreko <0>Tune</0> ikonoan.",
+                    "Egin klik 'Gunearen ezarpenetan'.",
+                    "Onartu kamera eta mikrofonoa 'Baimenen' azpian."
+                ],
+                "Chrome_Linux": [
+                    "Egin klik URLaren ondoan dagoen giltza-ikonoan helbide-barrean.",
+                    "Egin klik 'Gunearen ezarpenetan'.",
+                    "Onartu kamera eta mikrofonoa.",
+                    "Eguneratu orria."
+                ],
+                "Chrome_Android": [
+                    "Egin klik helbide-barreko <0>Tune</0> ikonoan.",
+                    "Hautatu 'Baimenak'.",
+                    "'Kamera' eta 'Mikrofonoa' 'Onartu' moduan jarri."
+                ],
+                "Chrome_iOS": [
+                    "Ireki iOSeko Ezarpenak > Chrome.",
+                    "Sakatu 'Kamera' eta 'Mikrofonoa'.",
+                    "Ezarri 'Onartu' moduan.",
+                    "Itzuli Chrome-ra eta eguneratu orria."
+                ],
+                "Firefox_Windows": [
+                    "Egin klik URLaren ondoan dagoen <0>Tune</0> ikonoan.",
+                    "Gaitu mikrofonoa eta kamera.",
+                    "Eguneratu orria."
+                ],
+                "Firefox_macOS": [
+                    "Egin klik URLaren ondoan dagoen <0>Tune</0> ikonoan.",
+                    "Egin klik gezian > 'Informazio gehiago'.",
+                    "Joan 'Baimenak' fitxara.",
+                    "Onartu kamera eta mikrofonoa.",
+                    "Eguneratu orria."
+                ],
+                "Firefox_Linux": [
+                    "Egin klik giltza-ikonoan helbide-barrean.",
+                    "Egin klik 'Informazio gehiago'.",
+                    "Onartu kamera eta mikrofonoa baimenetan.",
+                    "Eguneratu orria."
+                ],
+                "Firefox_Android": [
+                    "Sakatu URL-barrean dagoen giltza-ikonoan.",
+                    "Sakatu 'Gune ezarpenak editatu'.",
+                    "Onartu kamera eta mikrofonoa.",
+                    "Eguneratu orria."
+                ],
+                "Firefox_iOS": [
+                    "Ireki iOSeko Ezarpenak > Firefox.",
+                    "Gaitu kamera eta mikrofonoa.",
+                    "Itzuli Firefox-era eta eguneratu orria."
+                ],
+                "Safari_macOS": [
+                    "Menu-barran egin klik 'Safari' > 'Webgune honen ezarpenak'.",
+                    "Ezarri kamera eta mikrofonoa 'Onartu' moduan.",
+                    "Eguneratu orria."
+                ],
+                "Safari_iOS": [
+                    "Joan iOSeko Ezarpenak > Safari.",
+                    "Sakatu 'Kamera' eta 'Mikrofonoa'.",
+                    "Ezarri 'Onartu' moduan.",
+                    "Itzuli Safari-ra eta eguneratu orria."
+                ],
+                "Edge_Windows": [
+                    "Egin klik URLaren ondoan dagoen giltza-ikonoan.",
+                    "Onartu kamera eta mikrofonoa.",
+                    "Eguneratu orria."
+                ],
+                "Edge_macOS": [
+                    "Egin klik helbide-barreko <0>Tune</0> ikonoan.",
+                    "Ezarri kamera eta mikrofonoa 'Onartu' moduan."
+                ],
+                "Brave_Windows": [
+                    "Egin klik helbide-barreko <0>Tune</0> ikonoan.",
+                    "Gaitu mikrofonoa eta kamera.",
+                    "Eguneratu orria."
+                ],
+                "Brave_macOS": [
+                    "Egin klik helbide-barreko <0>Tune</0> ikonoan.",
+                    "Gaitu kamera eta mikrofonoa baimenetako ezarpenetan.",
+                    "Eguneratu orria."
+                ],
+                "Brave_Linux": [
+                    "Egin klik helbide-barreko <0>Tune</0> ikonoan.",
+                    "Onartu kamera eta mikrofonoa baimen zerrendan.",
+                    "Eguneratu orria."
+                ],
+                "Brave_Android": [
+                    "Egin klik URLaren ondoan dagoen <0>Tune</0> ikonoan.",
+                    "Sakatu 'Baimenak'.",
+                    "Onartu kamera eta mikrofonoa.",
+                    "Eguneratu orria."
+                ],
+                "Brave_iOS": [
+                    "Ireki iOSeko Ezarpenak > Brave.",
+                    "Sakatu 'Kamera' eta 'Mikrofonoa'.",
+                    "Ezarri 'Onartu' moduan.",
+                    "Itzuli Brave-ra eta eguneratu orria."
+                ],
+                "default": [
+                    "Ireki arakatzailearen ezarpenak.",
+                    "Bilatu 'Pribatutasuna' edo 'Baimenak' ataletan.",
+                    "Gaitu kamera eta mikrofonoa gune honetarako.",
+                    "Eguneratu orria."
+                ]
+            }
+        },
         "connectionDetails": {
             "audioClipping": "Zure audioa ez da guztiz ondo entzungo.",
             "audioHighQuality": "Zure audioak kalitate bikaina izango du.",
