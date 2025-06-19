@@ -1089,6 +1089,22 @@
                     "Enable Camera and Microphone for this site.",
                     "Reload the page."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Open your phone’s Settings.",
+                    "Tap \"Apps\" > your browser (e.g. Chrome, Brave).",
+                    "Tap \"Permissions\".",
+                    "Allow access to Camera and Microphone.",
+                    "Restart the browser and try again."
+                ],
+                "iOS": [
+                    "Open iOS Settings.",
+                    "Scroll down and select your browser (e.g. Safari, Chrome).",
+                    "Tap \"Camera\" and \"Microphone\".",
+                    "Set both to \"Allow\".",
+                    "Return to the browser and reload the page."
+                ]
             }
         },
         "connectionDetails": {

@@ -1071,6 +1071,22 @@
                     "Aktiviere Kamera und Mikrofon für diese Seite.",
                     "Lade die Seite neu."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Öffne die Einstellungen deines Telefons.",
+                    "Tippe auf \"Apps\" > deinen Browser (z. B. Chrome oder Brave).",
+                    "Tippe auf \"Berechtigungen\".",
+                    "Erlaube den Zugriff auf Kamera und Mikrofon.",
+                    "Starte den Browser neu und versuche es erneut."
+                ],
+                "iOS": [
+                    "Öffne die iOS-Einstellungen.",
+                    "Scrolle nach unten und wähle deinen Browser aus (z. B. Safari oder Chrome).",
+                    "Tippe auf \"Kamera\" und \"Mikrofon\".",
+                    "Setze beide auf \"Zulassen\".",
+                    "Wechsle zurück zum Browser und lade die Seite neu."
+                ]
             }
         },
         "connectionDetails": {

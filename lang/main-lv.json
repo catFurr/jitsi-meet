@@ -1073,6 +1073,22 @@
                     "Ieslēdziet kameru un mikrofonu šai vietnei.",
                     "Atsvaidziniet lapu."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Atveriet tālruņa iestatījumus.",
+                    "Pieskarieties “Lietotnes” > savam pārlūkam (piemēram, Chrome vai Brave).",
+                    "Pieskarieties “Atļaujas”.",
+                    "Atļaujiet piekļuvi kamerai un mikrofonam.",
+                    "Restartējiet pārlūku un mēģiniet vēlreiz."
+                ],
+                "iOS": [
+                    "Atveriet iOS iestatījumus.",
+                    "Ritiniet lejup un izvēlieties savu pārlūku (piemēram, Safari vai Chrome).",
+                    "Pieskarieties “Kamera” un “Mikrofons”.",
+                    "Iestatiet abus uz “Atļaut”.",
+                    "Atgriezieties pārlūkprogrammā un pārslādējiet lapu."
+                ]
             }
         },
         "connectionDetails": {

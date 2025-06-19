@@ -1045,6 +1045,22 @@
                     "Bu site için kamera ve mikrofonu etkinleştirin.",
                     "Sayfayı yenileyin."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Telefonunuzun Ayarlarını açın.",
+                    "\"Uygulamalar\" > tarayıcınız (örneğin Chrome veya Brave) seçeneğine dokunun.",
+                    "\"İzinler\"e dokunun.",
+                    "Kamera ve Mikrofon erişimine izin verin.",
+                    "Tarayıcıyı yeniden başlatın ve tekrar deneyin."
+                ],
+                "iOS": [
+                    "iOS Ayarlarını açın.",
+                    "Aşağı kaydırarak tarayıcınızı seçin (örneğin Safari veya Chrome).",
+                    "\"Kamera\" ve \"Mikrofon\"a dokunun.",
+                    "İkisini de \"İzin Ver\" olarak ayarlayın.",
+                    "Tarayıcıya geri dönün ve sayfayı yenileyin."
+                ]
             }
         },
         "connectionDetails": {

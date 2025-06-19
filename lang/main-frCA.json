@@ -1031,6 +1031,22 @@
                     "Activez la caméra et le microphone pour ce site.",
                     "Rechargez la page."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Ouvrez les paramètres de votre téléphone.",
+                    "Touchez « Applications » > votre navigateur (par exemple Chrome ou Brave).",
+                    "Touchez « Autorisations ».",
+                    "Permettez l'accès à la caméra et au microphone.",
+                    "Redémarrez le navigateur et essayez de nouveau."
+                ],
+                "iOS": [
+                    "Ouvrez les réglages iOS.",
+                    "Faites défiler vers le bas et sélectionnez votre navigateur (par exemple Safari ou Chrome).",
+                    "Touchez « Caméra » et « Microphone ».",
+                    "Activez les deux sur « Autoriser ».",
+                    "Retournez dans le navigateur et rechargez la page."
+                ]
             }
         },
         "connectionDetails": {

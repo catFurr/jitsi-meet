@@ -903,6 +903,22 @@
                     "Aktywěruj kameru a mikrofon za tutu stronu.",
                     "Znów naładowaś stronu."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Wotwórće nastajenja swojeho telefona.",
+                    "Klikńće na „Aplikacije“ > swój wobhladowak (na přikład Chrome abo Brave).",
+                    "Klikńće na „Pšawa“.",
+                    "Dowólće přistup k kamerje a mikrofonu.",
+                    "Restartujće wobhladowak a pokušajće hišće raz."
+                ],
+                "iOS": [
+                    "Wotwórće iOS-nastajenja.",
+                    "Zjězdźće dole a wobjerće swój wobhladowak (na přikład Safari abo Chrome).",
+                    "Klikńće na „Kamera“ a „Mikrofon“.",
+                    "Nastajće oba na „Dowólić“.",
+                    "Wróćće so do wobhladowaka a zacyńće stronku znowa."
+                ]
             }
         },
         "connectionDetails": {

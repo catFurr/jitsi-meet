@@ -948,6 +948,22 @@
                     "Włącz kamerę i mikrofon dla tej strony.",
                     "Odśwież stronę."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Otwórz ustawienia telefonu.",
+                    "Stuknij „Aplikacje” > swoją przeglądarkę (np. Chrome lub Brave).",
+                    "Stuknij „Uprawnienia”.",
+                    "Zezwól na dostęp do aparatu i mikrofonu.",
+                    "Uruchom ponownie przeglądarkę i spróbuj ponownie."
+                ],
+                "iOS": [
+                    "Otwórz ustawienia iOS.",
+                    "Przewiń w dół i wybierz swoją przeglądarkę (np. Safari lub Chrome).",
+                    "Stuknij „Aparat” i „Mikrofon”.",
+                    "Ustaw oba na „Zezwól”.",
+                    "Wróć do przeglądarki i odśwież stronę."
+                ]
             }
         },
         "connectionDetails": {

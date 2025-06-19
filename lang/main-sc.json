@@ -920,6 +920,22 @@
                     "Attiva càmera e microfono pro custu situ.",
                     "Aggiorna sa pàgina."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Aberti is impostatziones de su telefonu.",
+                    "Toca \"Aplicatziones\" > su navegador tui (per esempiu Chrome o Brave).",
+                    "Toca \"Permessus\".",
+                    "Permetti s'accèssu a sa càmera e su microfonu.",
+                    "Rigistra su navegador e torra a provare."
+                ],
+                "iOS": [
+                    "Aberti is impostatziones de iOS.",
+                    "Scorridi a bàsciu e seleziona su navegador tui (per esempiu Safari o Chrome).",
+                    "Toca \"Càmera\" e \"Microfonu\".",
+                    "Imposta ambos a \"Permettiri\".",
+                    "Torra a su navegador e rigarga sa pàgina."
+                ]
             }
         },
         "connectionDetails": {

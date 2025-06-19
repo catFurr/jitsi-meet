@@ -1051,6 +1051,22 @@
                     "Activatz camèra e micròfon per aquel siti.",
                     "Recarregatz la pagina."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Dobrir los paramètres del telefòn.",
+                    "Tocar sus «Aplicacions» > vòstre navegador (per exemple Chrome o Brave).",
+                    "Tocar sus «Permissiús».",
+                    "Permetre l'accès a la camèra e al microfòn.",
+                    "Reeniciar lo navegador e tornar ensajar."
+                ],
+                "iOS": [
+                    "Dobrir los paramètres iOS.",
+                    "Desplaçar a la basa e seleccionar vòstre navegador (per exemple Safari o Chrome).",
+                    "Tocar sus «Camèra» e «Microfòn».",
+                    "Ajustar los dos sus «Permetre».",
+                    "Tornar al navegador e recargar la pagina."
+                ]
             }
         },
         "connectionDetails": {

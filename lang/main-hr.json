@@ -918,6 +918,22 @@
                     "Omogućite kameru i mikrofon za ovu stranicu.",
                     "Osvježite stranicu."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Otvorite postavke telefona.",
+                    "Dodirnite \"Aplikacije\" > svoj preglednik (npr. Chrome ili Brave).",
+                    "Dodirnite \"Dozvole\".",
+                    "Omogućite pristup kameri i mikrofonu.",
+                    "Ponovno pokrenite preglednik i pokušajte ponovno."
+                ],
+                "iOS": [
+                    "Otvorite iOS postavke.",
+                    "Pomaknite se dolje i odaberite svoj preglednik (npr. Safari ili Chrome).",
+                    "Dodirnite \"Kamera\" i \"Mikrofon\".",
+                    "Postavite oba na \"Dopusti\".",
+                    "Vratite se u preglednik i osvježite stranicu."
+                ]
             }
         },
         "connectionDetails": {

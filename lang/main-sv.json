@@ -1051,6 +1051,22 @@
                     "Aktivera kamera och mikrofon för denna sida.",
                     "Ladda om sidan."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Öppna telefonens inställningar.",
+                    "Tryck på \"Appar\" > din webbläsare (t.ex. Chrome eller Brave).",
+                    "Tryck på \"Behörigheter\".",
+                    "Tillåt åtkomst till kamera och mikrofon.",
+                    "Starta om webbläsaren och försök igen."
+                ],
+                "iOS": [
+                    "Öppna iOS-inställningarna.",
+                    "Bläddra ner och välj din webbläsare (t.ex. Safari eller Chrome).",
+                    "Tryck på \"Kamera\" och \"Mikrofon\".",
+                    "Ställ in båda till \"Tillåt\".",
+                    "Gå tillbaka till webbläsaren och ladda om sidan."
+                ]
             }
         },
         "connectionDetails": {

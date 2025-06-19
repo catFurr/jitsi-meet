@@ -1012,6 +1012,22 @@
                     "Ative a câmera e o microfone para este site.",
                     "Atualize a página."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Abra as configurações do seu celular.",
+                    "Toque em \"Aplicativos\" > seu navegador (por exemplo, Chrome ou Brave).",
+                    "Toque em \"Permissões\".",
+                    "Permita o acesso à câmera e ao microfone.",
+                    "Reinicie o navegador e tente novamente."
+                ],
+                "iOS": [
+                    "Abra as configurações do iOS.",
+                    "Role para baixo e selecione seu navegador (por exemplo, Safari ou Chrome).",
+                    "Toque em \"Câmera\" e \"Microfone\".",
+                    "Configure ambos para \"Permitir\".",
+                    "Volte para o navegador e recarregue a página."
+                ]
             }
         },
         "connectionDetails": {

@@ -1050,6 +1050,22 @@
                     "Povolte kameru a mikrofon pro tento web.",
                     "Obnovte stránku."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Otevřete nastavení telefonu.",
+                    "Klepněte na \"Aplikace\" > váš prohlížeč (např. Chrome nebo Brave).",
+                    "Klepněte na \"Oprávnění\".",
+                    "Povolte přístup ke kameře a mikrofonu.",
+                    "Restartujte prohlížeč a zkuste to znovu."
+                ],
+                "iOS": [
+                    "Otevřete nastavení iOS.",
+                    "Sjeďte dolů a vyberte svůj prohlížeč (např. Safari nebo Chrome).",
+                    "Klepněte na \"Kamera\" a \"Mikrofon\".",
+                    "Nastavte obě na \"Povolit\".",
+                    "Vraťte se do prohlížeče a znovu načtěte stránku."
+                ]
             }
         },
         "connectionDetails": {

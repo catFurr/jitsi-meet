@@ -1087,6 +1087,22 @@
                     "Abilita videocamera e microfono per questo sito.",
                     "Aggiorna la pagina."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Apri le impostazioni del telefono.",
+                    "Tocca \"App\" > il tuo browser (ad esempio Chrome o Brave).",
+                    "Tocca \"Autorizzazioni\".",
+                    "Consenti l'accesso alla fotocamera e al microfono.",
+                    "Riavvia il browser e riprova."
+                ],
+                "iOS": [
+                    "Apri le impostazioni di iOS.",
+                    "Scorri verso il basso e seleziona il tuo browser (ad esempio Safari o Chrome).",
+                    "Tocca \"Fotocamera\" e \"Microfono\".",
+                    "Imposta entrambi su \"Consenti\".",
+                    "Torna al browser e ricarica la pagina."
+                ]
             }
         },
         "connectionDetails": {

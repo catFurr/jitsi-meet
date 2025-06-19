@@ -923,6 +923,22 @@
                     "Aktiwěruj kameru a mikrofon za tuto stronku.",
                     "Aktualizěruj stronku."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Wócyń telefonowe nastajenja.",
+                    "Tłoc na \"Aplikacije\" > swój wobglědowak (na pśikład Chrome abo Brave).",
+                    "Tłoc na \"Pšawa\".",
+                    "Dowól pśistup ku kamerje a mikrofonujo.",
+                    "Znowego startuj wobglědowak a wopytaj hyšći raz."
+                ],
+                "iOS": [
+                    "Wócyń iOS-nastajenja.",
+                    "Zjad dołojce a wubjeŕ swój wobglědowak (na pśikład Safari abo Chrome).",
+                    "Tłoc na \"Kamera\" a \"Mikrofon\".",
+                    "Staj wobej na \"Dowóliś\".",
+                    "Wróś se do wobglědowaka a zacyń bok znowego."
+                ]
             }
         },
         "connectionDetails": {

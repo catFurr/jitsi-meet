@@ -816,6 +816,22 @@
                     "Omogočite kamero in mikrofon za to stran.",
                     "Osvežite stran."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Odprite nastavitve telefona.",
+                    "Dotaknite se \"Aplikacije\" > vašega brskalnika (npr. Chrome ali Brave).",
+                    "Dotaknite se \"Dovoljenja\".",
+                    "Dovolite dostop do kamere in mikrofona.",
+                    "Znova zaženite brskalnik in poskusite znova."
+                ],
+                "iOS": [
+                    "Odprite nastavitve iOS.",
+                    "Pomaknite se navzdol in izberite svoj brskalnik (npr. Safari ali Chrome).",
+                    "Dotaknite se \"Kamera\" in \"Mikrofon\".",
+                    "Nastavite oba na \"Dovoli\".",
+                    "Vrnete se v brskalnik in osvežite stran."
+                ]
             }
         },
         "connectionDetails": {

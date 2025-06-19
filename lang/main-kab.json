@@ -812,6 +812,22 @@
                     "Rnu takkamart d mikrofon i yiwen n uselkim.",
                     "Zrezzeḍ asebter."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Sefṛeḍ d iselmed n umḍiq.",
+                    "Sɛeḍ \"Ttwasin\" > awiḍ n umezruy-inek (aṭas Chrome neɣ Brave).",
+                    "Sɛeḍ \"Ttreḥt\".",
+                    "Sellek ad teɛdil awal di tikkelt d umikrifun.",
+                    "Sekcem aṭas utezruy, ḥeṛṛeb seg wakken ad tefruḥ."
+                ],
+                "iOS": [
+                    "Sefṛeḍ iselmed n iOS.",
+                    "Sdeṛḥ adlis d asenfel akken teǧǧaḍ umezruy-inek (aṭas Safari neɣ Chrome).",
+                    "Sɛeḍ \"Tikkelt\" d \"Umikrifun\".",
+                    "Settaɣ-d s wumi \"Sekcem\".",
+                    "Æewwleɣ ɣef umezruy-inek u sniḍ afus."
+                ]
             }
         },
         "connectionDetails": {

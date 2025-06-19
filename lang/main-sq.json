@@ -1050,6 +1050,22 @@
                     "Aktivizo kamerën dhe mikrofonin për këtë faqe.",
                     "Rifresko faqen."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Hapni Cilësimet e telefonit tuaj.",
+                    "Trokitni mbi \"Aplikacionet\" > shfletuesin tuaj (p.sh., Chrome ose Brave).",
+                    "Trokitni mbi \"Lejet\".",
+                    "Lejoni aksesin në kamerë dhe mikrofon.",
+                    "Rinisni shfletuesin dhe provoni përsëri."
+                ],
+                "iOS": [
+                    "Hapni Cilësimet e iOS-it.",
+                    "Lëvizni poshtë dhe zgjidhni shfletuesin tuaj (p.sh., Safari ose Chrome).",
+                    "Trokitni mbi \"Kamera\" dhe \"Mikrofon\".",
+                    "Vendosni të dy në \"Lejo\".",
+                    "Kthehuni te shfletuesi dhe rifreskoni faqen."
+                ]
             }
         },
         "connectionDetails": {

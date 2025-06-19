@@ -816,6 +816,22 @@
                     "Schakel camera en microfoon in voor deze website.",
                     "Ververs de pagina."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Open de instellingen van je telefoon.",
+                    "Tik op \"Apps\" > je browser (bijv. Chrome of Brave).",
+                    "Tik op \"Machtigingen\".",
+                    "Sta toegang tot de camera en microfoon toe.",
+                    "Start de browser opnieuw en probeer het opnieuw."
+                ],
+                "iOS": [
+                    "Open de iOS-instellingen.",
+                    "Scroll naar beneden en selecteer je browser (bijv. Safari of Chrome).",
+                    "Tik op \"Camera\" en \"Microfoon\".",
+                    "Zet beide op \"Toestaan\".",
+                    "Ga terug naar de browser en laad de pagina opnieuw."
+                ]
             }
         },
         "copyAndShare": "Kopieer & deel link naar vergadering",

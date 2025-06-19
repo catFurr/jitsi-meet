@@ -920,6 +920,22 @@
                     "Activa la càmera i el micròfon per a aquest lloc.",
                     "Refresca la pàgina."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Obre la configuració del telèfon.",
+                    "Toca \"Aplicacions\" > el teu navegador (per exemple, Chrome o Brave).",
+                    "Toca \"Permisos\".",
+                    "Permet l'accés a la càmera i el micròfon.",
+                    "Reinicia el navegador i torna-ho a provar."
+                ],
+                "iOS": [
+                    "Obre la configuració d’iOS.",
+                    "Desplaça’t cap avall i selecciona el teu navegador (per exemple, Safari o Chrome).",
+                    "Toca \"Càmera\" i \"Micròfon\".",
+                    "Estableix ambdós a \"Permetre\".",
+                    "Torna al navegador i recarrega la pàgina."
+                ]
             }
         },
         "connectionDetails": {

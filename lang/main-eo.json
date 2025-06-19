@@ -1012,6 +1012,22 @@
                     "Ŝaltu kameron kaj mikrofonon por ĉi tiu retejo.",
                     "Refreŝigu la paĝon."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Malfermu la agordojn de la telefono.",
+                    "Frapetu \"Aplikoj\" > vian retumilon (ekz. Chrome aŭ Brave).",
+                    "Frapetu \"Permesoj\".",
+                    "Permesu aliron al la fotilo kaj mikrofono.",
+                    "Restartigu la retumilon kaj provu denove."
+                ],
+                "iOS": [
+                    "Malfermu la iOS-agordojn.",
+                    "Rulumu malsupren kaj elektu vian retumilon (ekz. Safari aŭ Chrome).",
+                    "Frapetu \"Fotilo\" kaj \"Mikrofono\".",
+                    "Agordu ambaŭ al \"Permesi\".",
+                    "Reiru al la retumilo kaj reŝarĝu la paĝon."
+                ]
             }
         },
         "connectionDetails": {

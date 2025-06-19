@@ -1028,6 +1028,22 @@
                     "Aktifkan kamera dan mikrofon untuk situs ini.",
                     "Muat ulang halaman."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Buka Pengaturan ponsel Anda.",
+                    "Ketuk \"Aplikasi\" > browser Anda (misalnya Chrome atau Brave).",
+                    "Ketuk \"Izin\".",
+                    "Izinkan akses ke Kamera dan Mikrofon.",
+                    "Mulai ulang browser dan coba lagi."
+                ],
+                "iOS": [
+                    "Buka Pengaturan iOS.",
+                    "Gulir ke bawah dan pilih browser Anda (misalnya Safari atau Chrome).",
+                    "Ketuk \"Kamera\" dan \"Mikrofon\".",
+                    "Atur keduanya ke \"Izinkan\".",
+                    "Kembali ke browser dan muat ulang halaman."
+                ]
             }
         },
         "connectionDetails": {

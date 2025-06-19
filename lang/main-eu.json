@@ -726,6 +726,22 @@
                     "Gaitu kamera eta mikrofonoa gune honetarako.",
                     "Eguneratu orria."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Ireki telefonoaren ezarpenak.",
+                    "Sakatu \"Aplikazioak\" > zure nabigatzailea (adibidez, Chrome edo Brave).",
+                    "Sakatu \"Baimenak\".",
+                    "Onartu Kamera eta Mikrofonoaren sarbidea.",
+                    "Berrabiarazi nabigatzailea eta saiatu berriro."
+                ],
+                "iOS": [
+                    "Ireki iOS ezarpenak.",
+                    "Jeitsi behera eta hautatu zure nabigatzailea (adibidez, Safari edo Chrome).",
+                    "Sakatu \"Kamera\" eta \"Mikrofono\".",
+                    "Ezarri biak \"Onartu\" moduan.",
+                    "Itzuli nabigatzailera eta berriro kargatu orria."
+                ]
             }
         },
         "connectionDetails": {

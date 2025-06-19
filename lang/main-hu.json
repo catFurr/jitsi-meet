@@ -772,6 +772,22 @@
                     "Engedélyezze a kamerát és a mikrofont erre az oldalra.",
                     "Frissítse az oldalt."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Nyisd meg a telefon Beállításait.",
+                    "Koppints az „Alkalmazások” menüpontra, majd válaszd ki a böngésződet (például Chrome vagy Brave).",
+                    "Koppints az „Engedélyek” menüpontra.",
+                    "Engedélyezd a hozzáférést a kamerához és a mikrofonhoz.",
+                    "Indítsd újra a böngészőt, majd próbáld újra."
+                ],
+                "iOS": [
+                    "Nyisd meg az iOS beállításait.",
+                    "Görgess le, és válaszd ki a böngésződet (például Safari vagy Chrome).",
+                    "Koppints a „Kamera” és a „Mikrofon” menüpontokra.",
+                    "Állítsd mindkettőt „Engedélyezés” állapotra.",
+                    "Térj vissza a böngészőhöz, és töltsd újra az oldalt."
+                ]
             }
         },
         "connectionDetails": {

@@ -1048,6 +1048,22 @@
                     "Slå på kamera og mikrofon for dette nettstedet.",
                     "Oppdater siden."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Åpne telefonens innstillinger.",
+                    "Trykk på «Apper» > nettleseren din (f.eks. Chrome eller Brave).",
+                    "Trykk på «Tillatelser».",
+                    "Gi tilgang til kamera og mikrofon.",
+                    "Start nettleseren på nytt og prøv igjen."
+                ],
+                "iOS": [
+                    "Åpne iOS-innstillinger.",
+                    "Scroll ned og velg nettleseren din (f.eks. Safari eller Chrome).",
+                    "Trykk på «Kamera» og «Mikrofon».",
+                    "Still begge til «Tillat».",
+                    "Gå tilbake til nettleseren og last inn siden på nytt."
+                ]
             }
         },
         "connectionDetails": {

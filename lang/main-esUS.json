@@ -839,6 +839,22 @@
                     "Activa cámara y micrófono para este sitio.",
                     "Actualiza la página."
                 ]
+            },
+            "deviceHelp": {
+                "Android": [
+                    "Abre la configuración del teléfono.",
+                    "Toca \"Aplicaciones\" > tu navegador (por ejemplo, Chrome o Brave).",
+                    "Toca \"Permisos\".",
+                    "Permite el acceso a la cámara y al micrófono.",
+                    "Reinicia el navegador e inténtalo de nuevo."
+                ],
+                "iOS": [
+                    "Abre la configuración de iOS.",
+                    "Desplázate hacia abajo y selecciona tu navegador (por ejemplo, Safari o Chrome).",
+                    "Toca \"Cámara\" y \"Micrófono\".",
+                    "Configura ambos en \"Permitir\".",
+                    "Vuelve al navegador y recarga la página."
+                ]
             }
         },
         "connectionDetails": {
