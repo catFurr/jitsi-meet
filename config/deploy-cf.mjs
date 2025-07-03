@@ -39,7 +39,7 @@ async function runCommand(command, cwd, captureOutput = false) {
             if (code === 0) {
                 process.stdout.write("\n");
                 console.log(`✅ Command finished: ${command}`);
-                resolve(captureOutput || undefined);
+                resolve(capturedOutput || undefined);
             } else {
                 process.stdout.write("\n");
                 console.error(`❌ Command failed with code ${code}: ${command}`);
@@ -56,37 +56,6 @@ async function runCommand(command, cwd, captureOutput = false) {
     });
 }
 
-// Function to add content to GitHub Step Summary
-function addToGitHubSummary(content) {
-    const summaryPath = process.env.GITHUB_STEP_SUMMARY;
-    if (summaryPath) {
-        try {
-            fs.appendFileSync(summaryPath, content + "\n");
-            console.log("📝 Added content to GitHub step summary");
-        } catch (error) {
-            console.warn("⚠️ Failed to write to GitHub step summary:", error.message);
-        }
-    }
-}
-
-// Function to add GitHub annotation
-function addGitHubAnnotation(type, title, message) {
-    // Only add annotations if running in GitHub Actions
-    if (process.env.GITHUB_ACTIONS) {
-        console.log(`::${type} title=${title}::${message}`);
-        console.log(`📢 Added GitHub ${type} annotation: ${title}`);
-    }
-}
-
-// Function to extract preview URL from wrangler output
-function extractPreviewUrl(output) {
-    if (!output || typeof output !== "string") {
-        return null;
-    }
-    const urlMatch = output.match(/Version Preview URL:\s*(https:\/\/[^\s]+)/);
-    return urlMatch ? urlMatch[1] : null;
-}
-
 // Check if a command exists in the PATH
 async function commandExists(command) {
     try {
@@ -97,24 +66,11 @@ async function commandExists(command) {
     }
 }
 
-async function getGitBranch() {
-    return new Promise((resolve, reject) => {
-        exec("git rev-parse --abbrev-ref HEAD", (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error getting git branch: ${stderr}`);
-                reject(new Error("Could not get git branch."));
-                return;
-            }
-            resolve(stdout.trim());
-        });
-    });
-}
-
 // Utility function to ensure a directory exists
 function ensureDirectoryExists(dirPath) {
     if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
-        console.log(`�� Created directory: ${dirPath}`);
+        console.log(`📁 Created directory: ${dirPath}`);
     }
 }
 
@@ -261,10 +217,9 @@ async function deploy() {
     const args = process.argv.slice(2);
     const skipDeps = args.includes("--skip-deps");
     const skipBuild = args.includes("--skip-build");
-    const skipDeploy = args.includes("--skip-deploy");
 
     try {
-        console.log("🚀 Starting Cloudflare deployment process...");
+        console.log("🚀 Starting build and preparation process...");
 
         // Step 1: Make sure we are running from the project root
         if (!fs.existsSync(path.join(projectRoot, "package.json"))) {
@@ -272,19 +227,6 @@ async function deploy() {
             process.exit(1);
         }
         console.log("✅ Running from project root.");
-
-        const hasWrangler = await commandExists("wrangler");
-        if (!hasWrangler) {
-            console.log("📦 Wrangler not found, attempting to install it globally via npm...");
-            await runCommand("npm install -g wrangler");
-            if (!(await commandExists("wrangler"))) {
-                console.error("❌ Wrangler installation failed. Please install it manually.");
-                process.exit(1);
-            }
-            console.log("✅ Wrangler installed successfully.");
-        } else {
-            console.log("✅ Wrangler is already installed.");
-        }
 
         console.log("\n🧹 Cleaning dist folder...");
         if (fs.existsSync(distDir)) {
@@ -352,7 +294,7 @@ async function deploy() {
             console.log(`  -> Copied ${cssFile}`);
         } else {
             console.error(`❌ Critical file not found after build: ${cssSrc}`);
-            console.error("Deployment cannot continue without the main stylesheet.");
+            console.error("Build cannot continue without the main stylesheet.");
             process.exit(1);
         }
 
@@ -381,76 +323,10 @@ async function deploy() {
         processDirectoryForSSI(distMeetDir, distMeetDir);
         console.log("✅ SSI processing complete.");
 
-        // Step 6: Deploy by running wrangler deploy
-        if (skipDeploy) {
-            console.log("\n⏭️ Skipping deployment (--skip-deploy).");
-        } else {
-            console.log("\n🚀 Step 6: Deploying to Cloudflare...");
-            const branch = await getGitBranch();
-            console.log(`Detected git branch: ${branch}`);
-
-            const wranglerConfigPath = "config/wrangler.jsonc";
-
-            let deployOutput;
-            if (branch === "sonacove") {
-                deployOutput = await runCommand(`npx wrangler deploy -c ${wranglerConfigPath}`, undefined, true);
-            } else {
-                deployOutput = await runCommand(
-                    `npx wrangler versions upload -c ${wranglerConfigPath}`,
-                    undefined,
-                    true
-                );
-            }
-
-            // Extract and add preview URL to GitHub summary if available
-            console.log(`📊 Deploy output type: ${typeof deployOutput}, length: ${deployOutput?.length || "N/A"}`);
-            if (deployOutput) {
-                const previewUrl = extractPreviewUrl(deployOutput);
-                if (previewUrl) {
-                    console.log(`🔗 Preview URL: ${previewUrl}`);
-
-                    // Add to GitHub Step Summary if running in GitHub Actions
-                    const summaryContent = [
-                        `**Preview URL:** [${previewUrl}](${previewUrl})`,
-                        `**Deployment Type:** ${branch === "sonacove" ? "Production Deploy" : "Version Upload"}`,
-                    ].join("\n");
-
-                    addToGitHubSummary(summaryContent);
-
-                    // Add GitHub annotation based on deployment type
-                    if (branch === "sonacove") {
-                        addGitHubAnnotation(
-                            "notice",
-                            "Production Deployment",
-                            `🚀 Deployed to production: ${previewUrl}`
-                        );
-                    } else {
-                        addGitHubAnnotation("notice", "Preview Deployment", `🚀 Preview deployed: ${previewUrl}`);
-                    }
-                } else {
-                    console.warn("⚠️ Could not extract preview URL from wrangler output");
-
-                    // Add annotation even if URL extraction failed
-                    if (branch === "sonacove") {
-                        addGitHubAnnotation(
-                            "notice",
-                            "Production Deployment",
-                            "🚀 Production deployment completed successfully"
-                        );
-                    } else {
-                        addGitHubAnnotation(
-                            "notice",
-                            "Preview Deployment",
-                            "🚀 Preview deployment created successfully"
-                        );
-                    }
-                }
-            }
-        }
-
-        console.log("\n🎉 Deployment completed successfully!");
+        console.log("\n🎉 Build and preparation completed successfully!");
+        console.log("📁 Built files are ready in the dist directory for deployment.");
     } catch (error) {
-        console.error("\n❌ Deployment failed:", error instanceof Error ? error.message : error);
+        console.error("\n❌ Build failed:", error instanceof Error ? error.message : error);
         process.exit(1);
     }
 }
