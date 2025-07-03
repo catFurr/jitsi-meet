@@ -55,11 +55,12 @@ jobs:
                       echo "**Status:** ✅ Deployed to production" >> $GITHUB_STEP_SUMMARY
                       echo "::notice title=Production Deployment::🚀 Deployed to production successfully"
                   elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
-                      # Extract preview URL from wrangler output if available
-                      PREVIEW_URL=$(echo "${{ steps.preview-deploy.outputs.deployment-url }}" | head -1)
+                      # Extract preview URL from wrangler output and add /meet subpath
+                      PREVIEW_URL="${{ steps.preview-deploy.outputs.deployment-url }}"
                       if [[ -n "$PREVIEW_URL" ]]; then
-                          echo "**Preview URL:** [$PREVIEW_URL]($PREVIEW_URL)" >> $GITHUB_STEP_SUMMARY
-                          echo "::notice title=Preview Deployment::🚀 Preview deployed: $PREVIEW_URL"
+                          PREVIEW_URL_WITH_MEET="${PREVIEW_URL}/meet"
+                          echo "**Preview URL:** [$PREVIEW_URL_WITH_MEET]($PREVIEW_URL_WITH_MEET)" >> $GITHUB_STEP_SUMMARY
+                          echo "::notice title=Preview Deployment::🚀 Preview deployed: $PREVIEW_URL_WITH_MEET"
                       else
                           echo "**Preview URL:** Preview deployment created" >> $GITHUB_STEP_SUMMARY
                           echo "::notice title=Preview Deployment::🚀 Preview deployment created successfully"
@@ -77,7 +78,7 @@ jobs:
 
                       **Status:** ✅ Successfully deployed
                       **Deployment Type:** Version Upload
-                      **Preview URL:** ${{ steps.preview-deploy.outputs.deployment-url && format('[{0}]({0})', steps.preview-deploy.outputs.deployment-url) || 'Preview deployment created successfully' }}
+                      **Preview URL:** ${{ steps.preview-deploy.outputs.deployment-url && format('[{0}/meet]({0}/meet)', steps.preview-deploy.outputs.deployment-url) || 'Preview deployment created successfully' }}
 
                       ---
                       *This comment will be automatically updated when new commits are pushed.*
