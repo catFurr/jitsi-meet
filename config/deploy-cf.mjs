@@ -80,6 +80,9 @@ function addGitHubAnnotation(type, title, message) {
 
 // Function to extract preview URL from wrangler output
 function extractPreviewUrl(output) {
+    if (!output || typeof output !== "string") {
+        return null;
+    }
     const urlMatch = output.match(/Version Preview URL:\s*(https:\/\/[^\s]+)/);
     return urlMatch ? urlMatch[1] : null;
 }
@@ -400,6 +403,7 @@ async function deploy() {
             }
 
             // Extract and add preview URL to GitHub summary if available
+            console.log(`📊 Deploy output type: ${typeof deployOutput}, length: ${deployOutput?.length || "N/A"}`);
             if (deployOutput) {
                 const previewUrl = extractPreviewUrl(deployOutput);
                 if (previewUrl) {
