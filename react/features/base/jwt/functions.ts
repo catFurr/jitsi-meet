@@ -21,7 +21,8 @@ import logger from './logger';
  */
 export function parseJWTFromURLParams(url: URL | typeof window.location) {
     // Need this on web to convert Location to URL
-    const urlObj = 'assign' in url ? url.href : url;
+    // @ts-ignore This throws an error on native
+    const urlObj = url instanceof URL ? url : url?.href && new URL(url.href);
     const jwt = parseURLParams(urlObj, false, 'hash').jwt;
 
     // TODO: eventually remove the search param and only pull from the hash
