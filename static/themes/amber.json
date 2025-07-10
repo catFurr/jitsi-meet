@@ -1,0 +1,91 @@
+{
+    "customTheme": {
+        "palette": {
+            "uiBackground": "#1c1917",
+            "ui01": "#292524",
+            "ui02": "#3f3a36",
+            "ui03": "#57534e",
+            "ui04": "#292524",
+            "ui05": "#1c1917",
+
+            "action01": "#f59e0b",
+            "action01Hover": "#d97706",
+            "action01Active": "#b45309",
+            "action02": "#78716c",
+            "action02Hover": "#57534e",
+            "action02Active": "#44403c",
+            "action03": "#292524",
+            "action03Hover": "#3f3a36",
+            "actionDanger": "#dc2626",
+            "actionDangerHover": "#b91c1c",
+            "actionDangerActive": "#991b1b",
+
+            "disabled01": "#6b7280",
+            "focus01": "#f59e0b",
+
+            "text01": "#fef3c7",
+            "text02": "#fde68a",
+            "text03": "#fcd34d",
+            "text04": "#292524",
+            "textError": "#f87171",
+
+            "icon01": "#fef3c7",
+            "icon02": "#fde68a",
+            "icon03": "#fcd34d",
+            "icon04": "#f59e0b",
+            "iconError": "#ef4444",
+            "iconSuccess": "#22c55e",
+            "iconWarning": "#f59e0b",
+
+            "field01": "#292524",
+
+            "link01": "#fbbf24",
+            "link01Hover": "#f59e0b",
+            "link01Active": "#d97706",
+
+            "success01": "#22c55e",
+            "success02": "#15803d",
+
+            "warning01": "#f59e0b",
+            "warning02": "#b45309",
+
+            "support01": "#f59e0b",
+            "support02": "#78716c",
+            "support03": "#22c55e",
+            "support04": "#ef4444",
+            "support05": "#eab308"
+        },
+        "typography": {
+            "labelRegular": {
+                "fontSize": 14,
+                "lineHeight": 18,
+                "fontWeight": 500
+            },
+            "labelBold": {
+                "fontSize": 14,
+                "lineHeight": 18,
+                "fontWeight": 600
+            },
+            "bodyShortRegular": {
+                "fontSize": 16,
+                "lineHeight": 22,
+                "fontWeight": 400
+            },
+            "bodyShortBold": {
+                "fontSize": 16,
+                "lineHeight": 22,
+                "fontWeight": 600
+            },
+            "heading1": {
+                "fontSize": 32,
+                "lineHeight": 40,
+                "fontWeight": 700
+            }
+        },
+        "shape": {
+            "borderRadius": 6
+        },
+        "avatarBackgrounds": ["#292524", "#3f3a36", "#f59e0b", "#b45309", "#78350f"],
+        "spacing": [0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128]
+    }
+}

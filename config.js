@@ -1963,6 +1963,8 @@ var config = {
     //     // Maximum file size limit (-1 value disables any file size limit check)
     //     maxFileSize: 50,
     // },
+
+    dynamicBrandingUrl: 'https://' + domain + '/meet/static/themes/amber.json',
 };
 
 // Set the default values for JaaS customers
