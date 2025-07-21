@@ -16,7 +16,7 @@ import { isCCTabEnabled } from '../../../subtitles/functions.any';
 import { sendMessage, setChatIsResizing, setFocusedTab, setUserChatWidth, toggleChat } from '../../actions.web';
 import { CHAT_SIZE, ChatTabs, SMALL_WIDTH_THRESHOLD } from '../../constants';
 import { getChatMaxSize } from '../../functions';
-import { IChatProps as AbstractProps } from '../../types';
+import { IChatProps as AbstractProps, IMessage } from '../../types';
 
 import ChatHeader from './ChatHeader';
 import ChatInput from './ChatInput';
@@ -384,6 +384,24 @@ const Chat = ({
      * @returns {ReactElement}
      */
     function renderChat() {
+        // Create a static system message
+        const systemMessage: IMessage = {
+            displayName: 'System',
+            error: undefined,
+            isReaction: false,
+            lobbyChat: false,
+            message: 'For whiteboard functionality, we recommend using https://excalidraw.com',
+            messageId: 'system-msg',
+            messageType: 'system',
+            participantId: '',
+            privateMessage: false,
+            reactions: new Map(),
+            recipient: '',
+            timestamp: Number(new Date())
+        };
+        // Prepend the system message to the messages array
+        const messagesWithSystem = [ systemMessage, ..._messages ];
+
         return (
             <>
                 {renderTabs()}
@@ -401,7 +419,7 @@ const Chat = ({
                     role = 'tabpanel'
                     tabIndex = { 0 }>
                     <MessageContainer
-                        messages = { _messages } />
+                        messages = { messagesWithSystem } />
                     <MessageRecipient />
                     <ChatInput
                         onSend = { onSendMessage } />
