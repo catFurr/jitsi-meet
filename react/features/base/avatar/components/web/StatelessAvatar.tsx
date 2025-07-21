@@ -134,12 +134,13 @@ const StatelessAvatar = ({
 }: IProps) => {
     const { classes, cx } = useStyles();
 
-    const _getAvatarStyle = (backgroundColor?: string) => {
+    const _getAvatarStyle = (backgroundColor?: string, avatarStatus?: string) => {
         return {
             background: backgroundColor || undefined,
             fontSize: size ? size * 0.4 : '180%',
             height: size || '100%',
-            width: size || '100%'
+            width: size || '100%',
+            padding: avatarStatus === 'system-msg' ? '12%' : undefined,
         };
     };
 
@@ -167,13 +168,13 @@ const StatelessAvatar = ({
                 id = { id }
                 style = { _getAvatarStyle(color) }>
                 <Icon
-                    size = '50%'
+                    size = '100%'
                     src = { url } />
             </div>
         );
     }
 
-    if (url) {
+    if (url && typeof url === 'string') {
         return (
             <div className = { _getBadgeClassName() }>
                 <img
@@ -184,7 +185,7 @@ const StatelessAvatar = ({
                     id = { id }
                     onError = { _onAvatarLoadError }
                     src = { url }
-                    style = { _getAvatarStyle() } />
+                    style = { _getAvatarStyle(color, status) } />
             </div>
         );
     }
@@ -209,9 +210,9 @@ const StatelessAvatar = ({
             className = { cx(_getAvatarClassName('defaultAvatar'), _getBadgeClassName()) }
             data-testid = { testId }
             id = { id }
-            style = { _getAvatarStyle() }>
+            style = { _getAvatarStyle(color) }>
             <Icon
-                size = { '50%' }
+                size = { '100%' }
                 src = { iconUser } />
         </div>
     );

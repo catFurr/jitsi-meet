@@ -96,8 +96,14 @@ const ChatMessageGroup = ({ className = '', messages, participants }: IProps) =>
         <div className = { clsx(classes.groupContainer, className) }>
             <Avatar
                 className = { clsx(classes.avatar, 'avatar') }
-                participantId = { messages[0].participantId }
-                size = { 32 } />
+                participantId = { messages[0].messageType === 'system' ? undefined : messages[0].participantId }
+                size = { messages[0].messageType === 'system' ? 24 : 32 }
+                status = 'system-msg'
+                url = {
+                    messages[0].messageType === 'system'
+                        ? 'https://raw.githubusercontent.com/catFurr/jitsi-meet/965a8692a243eae37460a896338dabd768cfc7b3/images/watermark.svg'
+                        : undefined
+                } />
             <div className = { `${classes.messageGroup} chat-message-group ${className}` }>
                 {messagesWithSender.map((message, i) => (
                     <ChatMessage

@@ -16,7 +16,7 @@ import { isCCTabEnabled } from '../../../subtitles/functions.any';
 import { sendMessage, setChatIsResizing, setFocusedTab, setUserChatWidth, toggleChat } from '../../actions.web';
 import { CHAT_SIZE, ChatTabs, SMALL_WIDTH_THRESHOLD } from '../../constants';
 import { getChatMaxSize } from '../../functions';
-import { IChatProps as AbstractProps } from '../../types';
+import { IChatProps as AbstractProps, IMessage } from '../../types';
 
 import ChatHeader from './ChatHeader';
 import ChatInput from './ChatInput';
@@ -216,6 +216,13 @@ const useStyles = makeStyles<{ _isResizing: boolean; width: number; }>()((theme,
             height: '100px',
             width: '3px',
             borderRadius: '1px'
+        },
+        link: {
+            color: theme.palette.link01,
+            display: 'inline !important',
+            fontWeight: 'normal',
+            textDecoration: 'underline',
+            cursor: 'pointer'
         }
     };
 });
@@ -384,6 +391,30 @@ const Chat = ({
      * @returns {ReactElement}
      */
     function renderChat() {
+        // Create a static system message
+        const systemMessage: IMessage = {
+            displayName: 'System',
+            error: undefined,
+            isReaction: false,
+            lobbyChat: false,
+            message: (
+                <>Need to sketch, diagram, or brainstorm visually during your meeting? We recommend using <a
+                    className = { classes.link }
+                    href = 'https://www.excalidraw.com'
+                    rel = 'noopener noreferrer'
+                    target = '_blank'>Excalidraw</a> - a free, collaborative whiteboard tool that works seamlessly alongside Sonacove Meets. Simply open it in a new tab and share your screen when needed.</>
+            ),
+            messageId: 'system-msg',
+            messageType: 'system',
+            participantId: '',
+            privateMessage: false,
+            reactions: new Map(),
+            recipient: '',
+            timestamp: Number(new Date()),
+        };
+        // Prepend the system message to the messages array
+        const messagesWithSystem = [ systemMessage, ..._messages ];
+
         return (
             <>
                 {renderTabs()}
@@ -401,7 +432,7 @@ const Chat = ({
                     role = 'tabpanel'
                     tabIndex = { 0 }>
                     <MessageContainer
-                        messages = { _messages } />
+                        messages = { messagesWithSystem } />
                     <MessageRecipient />
                     <ChatInput
                         onSend = { onSendMessage } />
