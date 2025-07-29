@@ -168,13 +168,13 @@ const StatelessAvatar = ({
                 id = { id }
                 style = { _getAvatarStyle(color) }>
                 <Icon
-                    size = '100%'
+                    size = '50%'
                     src = { url } />
             </div>
         );
     }
 
-    if (url && typeof url === 'string') {
+    if (url) {
         return (
             <div className = { _getBadgeClassName() }>
                 <img
@@ -185,7 +185,7 @@ const StatelessAvatar = ({
                     id = { id }
                     onError = { _onAvatarLoadError }
                     src = { url }
-                    style = { _getAvatarStyle(color, status) } />
+                    style = { _getAvatarStyle(status) } />
             </div>
         );
     }
@@ -212,7 +212,7 @@ const StatelessAvatar = ({
             id = { id }
             style = { _getAvatarStyle(color) }>
             <Icon
-                size = { '100%' }
+                size = { '50%' }
                 src = { iconUser } />
         </div>
     );

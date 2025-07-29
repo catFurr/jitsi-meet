@@ -391,7 +391,7 @@ const Chat = ({
      * @returns {ReactElement}
      */
     function renderChat() {
-        // Create a static system message
+        // static system message
         const systemMessage: IMessage = {
             displayName: 'System',
             error: undefined,
@@ -412,7 +412,6 @@ const Chat = ({
             recipient: '',
             timestamp: Number(new Date()),
         };
-        // Prepend the system message to the messages array
         const messagesWithSystem = [ systemMessage, ..._messages ];
 
         return (
