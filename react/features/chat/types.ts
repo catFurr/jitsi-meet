@@ -7,7 +7,7 @@ export interface IMessage {
     error?: Object;
     isReaction: boolean;
     lobbyChat: boolean;
-    message: string;
+    message: string | React.ReactNode;
     messageId: string;
     messageType: string;
     participantId: string;

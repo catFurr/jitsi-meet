@@ -349,7 +349,7 @@ const ChatMessage = ({
                     <div className = { classes.optionsButtonContainer }>
                         {isHovered && <MessageMenu
                             isLobbyMessage = { message.lobbyChat }
-                            message = { message.message }
+                            message = { typeof message.message === 'string' ? message.message : '' }
                             participantId = { message.participantId }
                             shouldDisplayChatMessageMenu = { shouldDisplayChatMessageMenu } />}
                     </div>
@@ -366,13 +366,15 @@ const ChatMessage = ({
                         <div className = { cx('messagecontent', classes.messageContent) }>
                             {showDisplayName && _renderDisplayName()}
                             <div className = { cx('usermessage', classes.userMessage) }>
-                                <Message
-                                    screenReaderHelpText = { message.displayName === message.recipient
-                                        ? t<string>('chat.messageAccessibleTitleMe')
-                                        : t<string>('chat.messageAccessibleTitle', {
-                                            user: message.displayName
-                                        }) }
-                                    text = { getMessageText(message) } />
+                                {typeof message.message === 'string'
+                                    ? <Message
+                                        screenReaderHelpText = { message.displayName === message.recipient
+                                            ? t<string>('chat.messageAccessibleTitleMe')
+                                            : t<string>('chat.messageAccessibleTitle', {
+                                                user: message.displayName
+                                            }) }
+                                        text = { String(getMessageText(message)) } />
+                                    : message.message}
                                 {(message.privateMessage || (message.lobbyChat && !knocking))
                                     && _renderPrivateNotice()}
                                 <div className = { classes.chatMessageFooter }>
@@ -402,7 +404,7 @@ const ChatMessage = ({
                             <div className = { classes.optionsButtonContainer }>
                                 {isHovered && <MessageMenu
                                     isLobbyMessage = { message.lobbyChat }
-                                    message = { message.message }
+                                    message = { typeof message.message === 'string' ? message.message : '' }
                                     participantId = { message.participantId }
                                     shouldDisplayChatMessageMenu = { shouldDisplayChatMessageMenu } />}
                             </div>
