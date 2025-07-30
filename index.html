@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/Product" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/html">
   <head>
     <!--#include virtual="head.html" -->
@@ -131,8 +132,12 @@
                     var showMoreText = "show more";
                     var showLessText = "show less";
 
-                    document.body.innerHTML
-                        = "<div style='"
+                    document.documentElement.innerHTML = "<!DOCTYPE html>\n"
+                        + "<html>\n<head>\n"
+                        + "<meta charset='utf-8'>\n"
+                        + "<meta http-equiv='content-type' content='text/html;charset=utf-8'>\n"
+                        + "</head>\n<body>\n"
+                        + "<div style='"
                         + "position: absolute;top: 50%;left: 50%;"
                         + "text-align: center;"
                         + "font-size: medium;"
@@ -155,6 +160,9 @@
                         + "font-size:small;"
                         + "'>reload now</a>"
                         + "</div>";
+
+                    // Replace the current document content while preserving DOCTYPE
+                    document.documentElement.replaceWith(doc.documentElement);
 
                     var reloadLink = document.getElementById('reloadLink');
                     reloadLink.setAttribute('href', href);
