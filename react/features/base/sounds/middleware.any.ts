@@ -18,11 +18,19 @@ import logger from './logger';
  */
 MiddlewareRegistry.register(store => next => action => {
 
+    const sounds = store.getState()["features/base/sounds"];
+    const sound = sounds.get(action.soundId);
+
     switch (action.type) {
     case PLAY_SOUND:
-        _playSound(store, action.soundId);
+        if (sound) {
+            _playSound(store, action.soundId);
+        }
         break;
     case STOP_SOUND:
+        if (sound) {
+            _stopSound(store, action.soundId);
+        }
         _stopSound(store, action.soundId);
         break;
     }

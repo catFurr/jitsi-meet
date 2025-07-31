@@ -623,19 +623,7 @@ export class VideoContainer extends LargeContainer {
             }, FADE_DURATION_MS);
         });
     }
-
-    /**
-     * Clean up resources when destroying the video container.
-     * @returns {void}
-     */
-    destroy() {
-        // Clean up the React root to prevent memory leaks
-        if (this._backgroundRoot) {
-            this._backgroundRoot.unmount();
-            this._backgroundRoot = null;
-        }
-    }
-
+    
     /**
      * @return {boolean} switch on dominant speaker event if on stage.
      */
