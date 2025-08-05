@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { IReduxState, IStore } from '../../../app/types';
 import { AudioElement } from '../../media/components/AbstractAudio';
 import { Audio } from '../../media/components/index';
+import { WebAudioSoundManager } from '../../media/components/web/WebAudioSoundManager';
+import logger from '../../media/logger';
 import { _addAudioElement, _removeAudioElement } from '../actions';
 import { Sound } from '../reducer';
 
@@ -41,6 +43,21 @@ interface IProps {
  * action.
  */
 class SoundCollection extends Component<IProps> {
+    /**
+     * Implements React's {@link Component#componentDidMount()}.
+     *
+     * @inheritdoc
+     * @returns {void}
+     */
+    override componentDidMount() {
+        // Initialize the WebAudioSoundManager when the component mounts
+        const manager = WebAudioSoundManager.getInstance();
+
+        manager.initialize().catch(error => {
+            logger.error('Failed to initialize WebAudioSoundManager:', error);
+        });
+    }
+
     /**
      * Implements React's {@link Component#render()}.
      *
