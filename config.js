@@ -880,6 +880,8 @@ var config = {
         'desktop',
 
         //    'download',
+        'downloaddata',
+
         //    'embedmeeting',
         //    'etherpad',
         //    'feedback',
