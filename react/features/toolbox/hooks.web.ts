@@ -32,6 +32,7 @@ import {
     isParticipantsPaneEnabled
 } from '../participants-pane/functions';
 import { useParticipantPaneButton } from '../participants-pane/hooks.web';
+import WebPictureInPictureButton from '../picture-in-picture-web/components/WebPictureInPictureButton';
 import { addReactionToBuffer } from '../reactions/actions.any';
 import { toggleReactionsMenuVisibility } from '../reactions/actions.web';
 import RaiseHandContainerButton from '../reactions/components/web/RaiseHandContainerButtons';
@@ -133,6 +134,12 @@ const videoQuality = {
 const fullscreen = {
     key: 'fullscreen',
     Content: FullscreenButton,
+    group: 2
+};
+
+const pip = {
+    key: 'pip',
+    Content: WebPictureInPictureButton,
     group: 2
 };
 
@@ -307,6 +314,7 @@ export function useToolboxButtons(
         'toggle-camera': toggleCameraButton,
         videoquality: videoQuality,
         fullscreen: _fullscreen,
+        pip,
         security,
         closedcaptions: cc,
         recording,
