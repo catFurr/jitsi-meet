@@ -149,6 +149,18 @@ interface IState {
 }
 
 /**
+/**
+ * The type of the React {@code Component} state of {@link LargeVideo}.
+ */
+interface IState {
+    pan: {
+        x: number;
+        y: number;
+    };
+    scale: number;
+}
+
+/**
  * Implements a React {@link Component} which represents the large video (a.k.a.
  * The conference participant who is on the local stage) on Web/React.
  *
@@ -176,6 +188,12 @@ class LargeVideo extends Component<IProps, IState> {
      */
     constructor(props: IProps) {
         super(props);
+
+        this.state = {
+            scale: 1,
+            pan: { x: 0,
+                y: 0 }
+        };
 
         this.state = {
             scale: 1,
@@ -236,6 +254,15 @@ class LargeVideo extends Component<IProps, IState> {
         if (_largeVideoParticipantId === _localParticipantId
             && prevProps._hideSelfView !== _hideSelfView) {
             VideoLayout.updateLargeVideo(_largeVideoParticipantId, true, false);
+        }
+
+        // Reset zoom and pan if the participant on large video changes.
+        if (prevProps._largeVideoParticipantId !== _largeVideoParticipantId) {
+            this.setState({
+                scale: 1,
+                pan: { x: 0,
+                    y: 0 }
+            });
         }
 
         // Reset zoom and pan if the participant on large video changes.
