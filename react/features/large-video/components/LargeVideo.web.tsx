@@ -106,6 +106,12 @@ interface IProps {
     _showSubtitles?: boolean;
 
     /**
+     * The entire redux state. Passed to the component to avoid re-calculating
+     * selectors in every method.
+     */
+    _state: IReduxState;
+
+    /**
      * The width of the vertical filmstrip (user resized).
      */
     _verticalFilmstripWidth?: number | null;
@@ -131,18 +137,35 @@ interface IProps {
     dispatch: IStore['dispatch'];
 }
 
-/** .
+/**
+ * The type of the React {@code Component} state of {@link LargeVideo}.
+ */
+interface IState {
+    pan: {
+        x: number;
+        y: number;
+    };
+    scale: number;
+}
+
+/**
  * Implements a React {@link Component} which represents the large video (a.k.a.
  * The conference participant who is on the local stage) on Web/React.
  *
  * @augments Component
  */
-class LargeVideo extends Component<IProps> {
+class LargeVideo extends Component<IProps, IState> {
     _tappedTimeout: number | undefined;
 
     _containerRef: React.RefObject<HTMLDivElement>;
 
     _wrapperRef: React.RefObject<HTMLDivElement>;
+
+    _panStart: { x: number; y: number; } = { x: 0, y: 0 };
+    _initialPinchDistance = 0;
+
+    _isPinching = false;
+
 
     /**
      * Constructor of the component.
@@ -152,12 +175,21 @@ class LargeVideo extends Component<IProps> {
     constructor(props: IProps) {
         super(props);
 
+        this.state = {
+            scale: 1,
+            pan: { x: 0,
+                y: 0 }
+        };
+
         this._containerRef = React.createRef<HTMLDivElement>();
         this._wrapperRef = React.createRef<HTMLDivElement>();
 
         this._clearTapTimeout = this._clearTapTimeout.bind(this);
-        this._onDoubleTap = this._onDoubleTap.bind(this);
         this._updateLayout = this._updateLayout.bind(this);
+
+        this._onTouchStart = this._onTouchStart.bind(this);
+        this._onTouchMove = this._onTouchMove.bind(this);
+        this._onTouchEnd = this._onTouchEnd.bind(this);
     }
 
     /**
@@ -190,6 +222,15 @@ class LargeVideo extends Component<IProps> {
             && prevProps._hideSelfView !== _hideSelfView) {
             VideoLayout.updateLargeVideo(_largeVideoParticipantId, true, false);
         }
+
+        // Reset zoom and pan if the participant on large video changes.
+        if (prevProps._largeVideoParticipantId !== _largeVideoParticipantId) {
+            this.setState({
+                scale: 1,
+                pan: { x: 0,
+                    y: 0 }
+            });
+        }
     }
 
     /**
@@ -200,14 +241,20 @@ class LargeVideo extends Component<IProps> {
      */
     override render() {
         const {
+            _state,
             _displayScreenSharingPlaceholder,
-            _isChatOpen,
-            _isDisplayNameVisible,
             _noAutoPlayVideo,
             _showDominantSpeakerBadge,
             _whiteboardEnabled,
-            _showSubtitles
+            _showSubtitles,
+            _isDisplayNameVisible
         } = this.props;
+
+        const { scale, pan } = this.state;
+        const largeVideoWrapperStyle = {
+            transform: `scale(${scale}) translate(${pan.x}px, ${pan.y}px)`
+        };
+
         const style = this._getCustomStyles();
         const className = 'videocontainer';
 
@@ -215,6 +262,9 @@ class LargeVideo extends Component<IProps> {
             <div
                 className = { className }
                 id = 'largeVideoContainer'
+                onTouchEnd = { this._onTouchEnd }
+                onTouchMove = { this._onTouchMove }
+                onTouchStart = { this._onTouchStart }
                 ref = { this._containerRef }
                 style = { style }>
                 <SharedVideo />
@@ -224,8 +274,7 @@ class LargeVideo extends Component<IProps> {
                 <Watermarks />
 
                 <div
-                    id = 'dominantSpeaker'
-                    onTouchEnd = { this._onDoubleTap }>
+                    id = 'dominantSpeaker'>
                     <div className = 'dynamic-shadow' />
                     <div id = 'dominantSpeakerAvatarContainer' />
                 </div>
@@ -244,9 +293,9 @@ class LargeVideo extends Component<IProps> {
                     { _displayScreenSharingPlaceholder ? <ScreenSharePlaceholder /> : <></>}
                     <div
                         id = 'largeVideoWrapper'
-                        onTouchEnd = { this._onDoubleTap }
                         ref = { this._wrapperRef }
-                        role = 'figure' >
+                        role = 'figure'
+                        style = { largeVideoWrapperStyle }>
                         <video
                             autoPlay = { !_noAutoPlayVideo }
                             id = 'largeVideo'
@@ -338,25 +387,175 @@ class LargeVideo extends Component<IProps> {
     }
 
     /**
-     * Sets view to tile view on double tap.
+     * Helper function to calculate distance between two touch points.
      *
-     * @param {Object} e - The event.
+     * @param {TouchList} touches - The touches list.
+     * @private
+     * @returns {number}
+     */
+    _getPinchDistance(touches: React.TouchEvent['touches']) {
+        return Math.sqrt(
+            ((touches[0].clientX - touches[1].clientX) ** 2)
+            + ((touches[0].clientY - touches[1].clientY) ** 2)
+        );
+    }
+
+    /**
+     * Helper function to calculate the midpoint between two touch points.
+     *
+     * @param {TouchList} touches - The touches list.
+     * @private
+     * @returns {{ x: number, y: number; }}
+     */
+    _getPinchMidpoint(touches: React.TouchEvent['touches']) {
+        return {
+            x: (touches[0].clientX + touches[1].clientX) / 2,
+            y: (touches[0].clientY + touches[1].clientY) / 2
+        };
+    }
+
+    /**
+     * Handles the start of a touch gesture.
+     *
+     * @param {React.TouchEvent} e - The touch event.
      * @private
      * @returns {void}
      */
-    _onDoubleTap(e: React.TouchEvent) {
-        e.stopPropagation();
+    _onTouchStart(e: React.TouchEvent) {
+        const { _state } = this.props;
+        const largeVideoParticipant = getLargeVideoParticipant(_state);
+        const videoTrack = getVideoTrackByParticipant(_state, largeVideoParticipant);
+        const isScreenShare = videoTrack?.videoType === VIDEO_TYPE.DESKTOP;
+
+        if (!isScreenShare) {
+            return;
+        }
+
+        // If two fingers are down, it's a pinch. Set the flag and record the start position.
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            this._isPinching = true; // Set the flag
+            this._initialPinchDistance = this._getPinchDistance(e.touches);
+            this._panStart = this._getPinchMidpoint(e.touches);
+        }
+    }
+
+    /**
+     * Handles movement during a touch gesture for zoom and pan.
+     *
+     * @param {React.TouchEvent} e - The touch event.
+     * @private
+     * @returns {void}
+     */
+    _onTouchMove(e: React.TouchEvent) {
+        const { _state } = this.props;
+        const largeVideoParticipant = getLargeVideoParticipant(_state);
+        const videoTrack = getVideoTrackByParticipant(_state, largeVideoParticipant);
+        const isScreenShare = videoTrack?.videoType === VIDEO_TYPE.DESKTOP;
+
+        if (!isScreenShare || e.touches.length !== 2) {
+            return;
+        }
+
         e.preventDefault();
 
-        if (this._tappedTimeout) {
-            this._clearTapTimeout();
-            this.props.dispatch(setTileView(true));
+        const newPinchDistance = this._getPinchDistance(e.touches);
+        let newScale = this.state.scale * (newPinchDistance / this._initialPinchDistance);
+
+        newScale = Math.max(1, Math.min(newScale, 5));
+        this._initialPinchDistance = newPinchDistance;
+        let newPan = this.state.pan;
+
+        if (newScale > 1) {
+            const newMidpoint = this._getPinchMidpoint(e.touches);
+
+            newPan = {
+                x: this.state.pan.x + (newMidpoint.x - this._panStart.x),
+                y: this.state.pan.y + (newMidpoint.y - this._panStart.y)
+            };
+            this._panStart = newMidpoint;
         } else {
-            this._tappedTimeout = window.setTimeout(this._clearTapTimeout, 300);
+            newPan = { x: 0, y: 0 };
+        }
+
+        this.setState({
+            scale: newScale,
+            pan: newPan
+        });
+    }
+
+    /**
+     * Handles the end of a touch gesture.
+     *
+     * @param {React.TouchEvent} e - The touch event.
+     * @private
+     * @returns {void}
+     */
+    _onTouchEnd(e: React.TouchEvent) {
+        // First, check if we were just pinching.
+        if (this._isPinching) {
+            this._isPinching = false; // Reset the flag
+
+            const wrapper = this._wrapperRef.current;
+            const container = this._containerRef.current;
+
+            if (!wrapper || !container) {
+                return;
+            }
+
+            // At the end of the gesture, we parse the current transform value
+            // from the style to get the final state.
+            const transform = wrapper.style.transform;
+            const scaleMatch = transform.match(/scale\(([^)]+)\)/);
+            const translateMatch = transform.match(/translate\(([^)]+)\)/);
+
+            if (!scaleMatch || !translateMatch) {
+                return;
+            }
+
+            const finalScale = parseFloat(scaleMatch[1]);
+            const [ finalPanX, finalPanY ] = translateMatch[1].split(', ').map(p => parseFloat(p));
+            let finalPan = { x: finalPanX, y: finalPanY };
+
+            // Reset pan if scale is 1
+            if (finalScale <= 1) {
+                finalPan = { x: 0, y: 0 };
+            } else {
+                // Otherwise, clamp the final pan value to stay within bounds
+                const { clientWidth, clientHeight } = container;
+                const maxPanX = (clientWidth * finalScale - clientWidth) / 2;
+                const maxPanY = (clientHeight * finalScale - clientHeight) / 2;
+
+                finalPan = {
+                    x: Math.max(-maxPanX, Math.min(finalPan.x, maxPanX)),
+                    y: Math.max(-maxPanY, Math.min(finalPan.y, maxPanY))
+                };
+            }
+
+            // Now we commit the final, clamped values to React's state.
+            this.setState({
+                scale: finalScale,
+                pan: finalPan
+            });
+
+            return;
+        }
+
+        // If we get here, it was NOT a pinch gesture. Now we can safely
+        // run the single-finger double-tap logic.
+        if (e.changedTouches.length === 1) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            if (this._tappedTimeout) {
+                this._clearTapTimeout();
+                this.props.dispatch(setTileView(true));
+            } else {
+                this._tappedTimeout = window.setTimeout(this._clearTapTimeout, 300);
+            }
         }
     }
 }
-
 
 /**
  * Maps (parts of) the Redux state to the associated LargeVideo props.
@@ -379,6 +578,7 @@ function _mapStateToProps(state: IReduxState) {
         && videoTrack?.videoType === VIDEO_TYPE.DESKTOP;
 
     return {
+        _state: state,
         _backgroundAlpha: state['features/base/config'].backgroundAlpha,
         _customBackgroundColor: backgroundColor,
         _customBackgroundImageUrl: backgroundImageUrl,
