@@ -342,7 +342,7 @@ export function downloadMeetingData(state: IReduxState): void {
 
     // Part 3: Trigger the file download
     const element = document.createElement('a');
-    const file = new Blob([ dataString ], { type: 'text/plain' });
+    const file = new Blob([ dataString ]);
 
     element.href = URL.createObjectURL(file);
     element.download = filename;
