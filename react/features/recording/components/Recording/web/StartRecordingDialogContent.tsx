@@ -9,7 +9,6 @@ import Image from '../../../../base/react/components/web/Image';
 import LoadingIndicator from '../../../../base/react/components/web/LoadingIndicator';
 import Text from '../../../../base/react/components/web/Text';
 import Button from '../../../../base/ui/components/web/Button';
-import Checkbox from '../../../../base/ui/components/web/Checkbox';
 import Switch from '../../../../base/ui/components/web/Switch';
 import { BUTTON_TYPES } from '../../../../base/ui/constants.web';
 import { RECORDING_TYPES } from '../../../constants';
@@ -493,13 +492,30 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
         const { t, _autoDownloadMeetingData } = this.props;
 
         return (
-            <div className = 'recording-header space-top'>
-                <Checkbox
-                    checked = { _autoDownloadMeetingData }
-                    className = 'recording-switch'
-                    label = { t('recording.autoDownloadDataLabel') }
-                    onChange = { this._onAutoDownloadSwitchChange } />
-            </div>
+            <>
+                <Container>
+                    <Container
+                        className = 'recording-header recording-header-line auto-download-switch'>
+                        <Container
+                            className = 'recording-icon-container'>
+                            <Image
+                                alt = ''
+                                className = 'recording-icon'
+                                src = { ICON_USERS } />
+                        </Container>
+                        <label
+                            className = 'recording-title'
+                            htmlFor = 'auto-download-data-switch'>
+                            { t('recording.autoDownloadDataLabel') }
+                        </label>
+                        <Switch
+                            checked = { _autoDownloadMeetingData || false }
+                            className = 'recording-switch'
+                            id = 'auto-download-data-switch'
+                            onChange = { this._onAutoDownloadSwitchChange } />
+                    </Container>
+                </Container>
+            </>
         );
     }
 }

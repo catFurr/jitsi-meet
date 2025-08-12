@@ -1436,7 +1436,7 @@
             "documentClose": "Close shared document",
             "documentOpen": "Open shared document",
             "download": "Download our apps",
-            "downloadData": "Download meeting data",
+            "downloadData": "Download meeting content",
             "downloadDataTooltip": "Download chat, polls and attendance",
             "embedMeeting": "Embed meeting",
             "endConference": "End meeting for all",
