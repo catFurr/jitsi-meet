@@ -9,6 +9,7 @@ import Image from '../../../../base/react/components/web/Image';
 import LoadingIndicator from '../../../../base/react/components/web/LoadingIndicator';
 import Text from '../../../../base/react/components/web/Text';
 import Button from '../../../../base/ui/components/web/Button';
+import Checkbox from '../../../../base/ui/components/web/Checkbox';
 import Switch from '../../../../base/ui/components/web/Switch';
 import { BUTTON_TYPES } from '../../../../base/ui/constants.web';
 import { RECORDING_TYPES } from '../../../constants';
@@ -467,6 +468,7 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
                                 </Container>
                             </Container>
                         )}
+                        { this._renderAutoDownloadSwitch() }
                         <Text className = 'local-recording-warning text'>
                             {t('recording.localRecordingWarning')}
                         </Text>
@@ -479,6 +481,25 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
                 )}
             </>
 
+        );
+    }
+
+    /**
+     * Renders the switch for enabling the auto-download of meeting data.
+     *
+     * @returns {React$Component|null}
+     */
+    _renderAutoDownloadSwitch() {
+        const { t, _autoDownloadMeetingData } = this.props;
+
+        return (
+            <div className = 'recording-header space-top'>
+                <Checkbox
+                    checked = { _autoDownloadMeetingData }
+                    className = 'recording-switch'
+                    label = { t('recording.autoDownloadDataLabel') }
+                    onChange = { this._onAutoDownloadSwitchChange } />
+            </div>
         );
     }
 }
