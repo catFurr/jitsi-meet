@@ -1,0 +1,30 @@
+{
+    "customTheme":{
+        "palette": {
+            "uiBackground": "#040404",
+            "ui01": "#141414",
+            "ui02": "#292929",
+            "ui03": "#3D3D3D",
+            "ui04": "#525252",
+            "text01": "#FFF",
+            "text02": "#C2C2C2",
+            "text03": "#858585",
+            "text04": "#AAAAAA",
+            "action01": "#0056E0",
+            "action01Hover": "#246FE5",
+            "actionDanger": "#CB2233",
+            "success01": "#1EC26A",
+            "warning01": "#F8AE1A"
+        },
+        "typography": {
+            "bodyShortRegular": {
+                "fontSize": 14,
+                "lineHeight": 18,
+                "fontWeight": "400"
+            }
+        },
+        "shape": {
+            "borderRadius": 6
+        }
+    }
+}
