@@ -143,6 +143,12 @@ const linkToSalesforce = {
     group: 2
 };
 
+const downloadData = {
+    key: 'downloaddata',
+    Content: DownloadDataButton,
+    group: 2    
+};
+
 const shareAudio = {
     key: 'shareaudio',
     Content: ShareAudioButton,
@@ -171,12 +177,6 @@ const help = {
     key: 'help',
     Content: HelpButton,
     group: 4
-};
-
-const downloadData = {
-    key: 'downloaddata',
-    Content: DownloadDataButton,
-    group: 2    
 };
 
 /**
@@ -308,10 +308,10 @@ export function useToolboxButtons(
         chat,
         raisehand,
         reactions,
-        "participants-pane": participants,
+        'participants-pane': participants,
         invite,
         tileview,
-        "toggle-camera": toggleCameraButton,
+        'toggle-camera': toggleCameraButton,
         videoquality: videoQuality,
         fullscreen: _fullscreen,
         security,
@@ -325,7 +325,7 @@ export function useToolboxButtons(
         noisesuppression: noiseSuppression,
         whiteboard,
         etherpad,
-        "select-background": virtualBackground,
+        'select-background': virtualBackground,
         stats: speakerStats,
         settings,
         shortcuts,
