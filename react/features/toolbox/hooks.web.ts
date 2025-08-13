@@ -146,7 +146,7 @@ const linkToSalesforce = {
 const downloadData = {
     key: 'downloaddata',
     Content: DownloadDataButton,
-    group: 2    
+    group: 2
 };
 
 const shareAudio = {
