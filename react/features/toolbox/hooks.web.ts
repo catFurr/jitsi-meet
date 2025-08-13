@@ -176,7 +176,7 @@ const help = {
 const downloadData = {
     key: 'downloaddata',
     Content: DownloadDataButton,
-    group: 4
+    group: 2    
 };
 
 /**
@@ -300,23 +300,23 @@ export function useToolboxButtons(
     const _download = useDownloadButton();
     const _help = useHelpButton();
 
-    const buttons: { [key in ToolbarButton]?: IToolboxButton; } = {
+    const buttons: { [key in ToolbarButton]?: IToolboxButton } = {
         microphone,
         camera,
         profile,
         desktop: desktopSharing,
-        downloaddata: downloadData,
         chat,
         raisehand,
         reactions,
-        'participants-pane': participants,
+        "participants-pane": participants,
         invite,
         tileview,
-        'toggle-camera': toggleCameraButton,
+        "toggle-camera": toggleCameraButton,
         videoquality: videoQuality,
         fullscreen: _fullscreen,
         security,
         closedcaptions: cc,
+        downloaddata: downloadData,
         recording,
         livestreaming: liveStreaming,
         linktosalesforce,
@@ -325,14 +325,14 @@ export function useToolboxButtons(
         noisesuppression: noiseSuppression,
         whiteboard,
         etherpad,
-        'select-background': virtualBackground,
+        "select-background": virtualBackground,
         stats: speakerStats,
         settings,
         shortcuts,
         embedmeeting: embed,
         feedback,
         download: _download,
-        help: _help
+        help: _help,
     };
     const buttonKeys = Object.keys(buttons) as ToolbarButton[];
 

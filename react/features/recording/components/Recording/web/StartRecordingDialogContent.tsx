@@ -9,7 +9,6 @@ import Image from '../../../../base/react/components/web/Image';
 import LoadingIndicator from '../../../../base/react/components/web/LoadingIndicator';
 import Text from '../../../../base/react/components/web/Text';
 import Button from '../../../../base/ui/components/web/Button';
-import Checkbox from '../../../../base/ui/components/web/Checkbox';
 import Switch from '../../../../base/ui/components/web/Switch';
 import { BUTTON_TYPES } from '../../../../base/ui/constants.web';
 import { RECORDING_TYPES } from '../../../constants';
@@ -494,10 +493,15 @@ class StartRecordingDialogContent extends AbstractStartRecordingDialogContent {
 
         return (
             <div className = 'recording-header space-top'>
-                <Checkbox
-                    checked = { _autoDownloadMeetingData }
+                <label
+                    className = 'recording-title'
+                    htmlFor = 'auto-download-data-switch'>
+                    { t('recording.autoDownloadDataLabel') }
+                </label>
+                <Switch
+                    checked = { _autoDownloadMeetingData || false }
                     className = 'recording-switch'
-                    label = { t('recording.autoDownloadDataLabel') }
+                    id = 'auto-download-data-switch'
                     onChange = { this._onAutoDownloadSwitchChange } />
             </div>
         );
