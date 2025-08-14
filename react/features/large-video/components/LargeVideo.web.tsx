@@ -192,6 +192,19 @@ class LargeVideo extends Component<IProps, IState> {
         this._onTouchStart = this._onTouchStart.bind(this);
         this._onTouchMove = this._onTouchMove.bind(this);
         this._onTouchEnd = this._onTouchEnd.bind(this);
+
+        this._onWheel = this._onWheel.bind(this);
+        this._onMouseDown = this._onMouseDown.bind(this);
+        this._onMouseMove = this._onMouseMove.bind(this);
+        this._onMouseUp = this._onMouseUp.bind(this);
+    }
+
+    override componentDidMount() {
+        this._containerRef.current?.addEventListener('wheel', this._onWheel, { passive: false });
+    }
+
+    override componentWillUnmount() {
+        this._containerRef.current?.removeEventListener('wheel', this._onWheel);
     }
 
     /**
@@ -264,6 +277,10 @@ class LargeVideo extends Component<IProps, IState> {
             <div
                 className = { className }
                 id = 'largeVideoContainer'
+                onMouseDown = { this._onMouseDown }
+                onMouseLeave = { this._onMouseUp }
+                onMouseMove = { this._onMouseMove }
+                onMouseUp = { this._onMouseUp }
                 onTouchEnd = { this._onTouchEnd }
                 onTouchMove = { this._onTouchMove }
                 onTouchStart = { this._onTouchStart }
@@ -559,6 +576,148 @@ class LargeVideo extends Component<IProps, IState> {
                 this._tappedTimeout = window.setTimeout(this._clearTapTimeout, 300);
             }
         }
+    }
+
+    /**
+ * Handles the mouse wheel event for zooming on desktop.
+ *
+ * @param {WheelEvent} e - The native wheel event.  <-- CHANGE THIS TYPE.
+ * @private
+ * @returns {void}
+ */
+    _onWheel(e: WheelEvent) { // <-- Note the change from React.WheelEvent to WheelEvent
+        const { _state } = this.props;
+        const largeVideoParticipant = getLargeVideoParticipant(_state);
+        const videoTrack = getVideoTrackByParticipant(_state, largeVideoParticipant);
+        const isScreenShare = videoTrack?.videoType === VIDEO_TYPE.DESKTOP;
+
+        if (!isScreenShare) {
+            return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const scaleChange = e.deltaY * -0.01;
+        let newScale = this.state.scale + scaleChange;
+
+        newScale = Math.max(1, Math.min(newScale, 5));
+
+        let newPan = this.state.pan;
+
+        if (newScale <= 1) {
+            newPan = { x: 0, y: 0 };
+        }
+
+        this.setState({
+            scale: newScale,
+            pan: newPan
+        });
+    }
+
+    /**
+ * Handles the mouse down event to initiate panning when zoomed in.
+ *
+ * @param {React.MouseEvent} e - The mouse event.
+ * @private
+ * @returns {void}
+ */
+    _onMouseDown(e: React.MouseEvent) {
+    // Only pan with the primary mouse button (left-click) and only when zoomed in
+        if (e.button !== 0 || this.state.scale <= 1) {
+            return;
+        }
+
+        const { _state } = this.props;
+        const largeVideoParticipant = getLargeVideoParticipant(_state);
+        const videoTrack = getVideoTrackByParticipant(_state, largeVideoParticipant);
+        const isScreenShare = videoTrack?.videoType === VIDEO_TYPE.DESKTOP;
+
+        if (!isScreenShare) {
+            return;
+        }
+
+        e.preventDefault();
+        this._isPanning = true;
+        this._panStart = { x: e.clientX, y: e.clientY };
+        this._gestureStartPan = { ...this.state.pan }; // Store pan state at drag start
+    }
+
+    /**
+ * Handles the mouse move event to pan the video.
+ *
+ * @param {React.MouseEvent} e - The mouse event.
+ * @private
+ * @returns {void}
+ */
+    _onMouseMove(e: React.MouseEvent) {
+        if (!this._isPanning) {
+            return;
+        }
+
+        e.preventDefault();
+        const panX = this._gestureStartPan.x + (e.clientX - this._panStart.x);
+        const panY = this._gestureStartPan.y + (e.clientY - this._panStart.y);
+
+        // Directly update the style for smooth, lag-free panning
+        if (this._wrapperRef.current) {
+            this._wrapperRef.current.style.transform = `scale(${this.state.scale}) translate(${panX}px, ${panY}px)`;
+        }
+    }
+
+    /**
+ * Handles the mouse up or leave event to end panning.
+ *
+ * @param {React.MouseEvent} e - The mouse event.
+ * @private
+ * @returns {void}
+ */
+    _onMouseUp() {
+        if (!this._isPanning) {
+            return;
+        }
+
+        this._isPanning = false;
+
+        // This logic is identical to _onTouchEnd for committing the final state
+        const wrapper = this._wrapperRef.current;
+        const container = this._containerRef.current;
+
+        if (!wrapper || !container) {
+            return;
+        }
+
+        const transform = wrapper.style.transform;
+        const scaleMatch = transform.match(/scale\(([^)]+)\)/);
+        const translateMatch = transform.match(/translate\(([^)]+)\)/);
+
+        if (!scaleMatch || !translateMatch) {
+            return; // Exit if transform isn't set, as no change occurred
+        }
+
+        const finalScale = parseFloat(scaleMatch[1]);
+        const [ finalPanX, finalPanY ] = translateMatch[1].replace(/px/g, '').split(', ').map(p => parseFloat(p));
+        let finalPan = { x: finalPanX, y: finalPanY };
+
+        if (finalScale <= 1) {
+            finalPan = { x: 0, y: 0 };
+        } else {
+        // Clamp the final pan value to stay within the viewport bounds
+            const { clientWidth, clientHeight } = container;
+            const maxPanX = (clientWidth * finalScale - clientWidth) / 2;
+            const maxPanY = (clientHeight * finalScale - clientHeight) / 2;
+
+            finalPan = {
+                x: Math.max(-maxPanX, Math.min(finalPan.x, maxPanX)),
+                y: Math.max(-maxPanY, Math.min(finalPan.y, maxPanY))
+            };
+        }
+
+        // Commit the final, clamped values to React's state in a single call
+        this.setState({
+            scale: finalScale,
+            pan: finalPan
+        });
     }
 }
 

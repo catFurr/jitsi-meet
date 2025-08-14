@@ -286,6 +286,7 @@ function getDevServerConfig() {
                 warnings: false
             }
         },
+        allowedHosts: 'all',
         host: '::',
         hot: true,
         setupMiddlewares: (middlewares, devServer) => {
