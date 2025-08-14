@@ -12,7 +12,6 @@ import Avatar from '../../../base/avatar/components/Avatar';
 import AbstractDialogTab, {
     IProps as AbstractDialogTabProps } from '../../../base/dialog/components/web/AbstractDialogTab';
 import { translate } from '../../../base/i18n/functions';
-import ThemeSwitcher from '../../../base/settings/components/web/ThemeSwitcher';
 import { withPixelLineHeight } from '../../../base/styles/functions.web';
 import Button from '../../../base/ui/components/web/Button';
 import Input from '../../../base/ui/components/web/Input';
@@ -194,8 +193,6 @@ class ProfileTab extends AbstractDialogTab<IProps, any> {
                         type = 'text'
                         value = { email } />
                 </div>}
-
-                <ThemeSwitcher />
 
                 { authEnabled && this._renderAuth() }
             </div>
