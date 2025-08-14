@@ -165,6 +165,8 @@ class LargeVideo extends Component<IProps, IState> {
     _initialPinchDistance = 0;
 
     _isPinching = false;
+    _isPanning = false;
+    _gestureStartPan = { x: 0, y: 0 };
 
 
     /**
@@ -423,6 +425,7 @@ class LargeVideo extends Component<IProps, IState> {
      */
     _onTouchStart(e: React.TouchEvent) {
         const { _state } = this.props;
+        const { scale } = this.state;
         const largeVideoParticipant = getLargeVideoParticipant(_state);
         const videoTrack = getVideoTrackByParticipant(_state, largeVideoParticipant);
         const isScreenShare = videoTrack?.videoType === VIDEO_TYPE.DESKTOP;
@@ -434,9 +437,18 @@ class LargeVideo extends Component<IProps, IState> {
         // If two fingers are down, it's a pinch. Set the flag and record the start position.
         if (e.touches.length === 2) {
             e.preventDefault();
-            this._isPinching = true; // Set the flag
+            this._isPinching = true;
+            this._isPanning = false;
             this._initialPinchDistance = this._getPinchDistance(e.touches);
             this._panStart = this._getPinchMidpoint(e.touches);
+            this._gestureStartPan = { ...this.state.pan };
+        } else if (e.touches.length === 1 && scale > 1) {
+        // If one finger is down and we're already zoomed in, it's a pan.
+            e.preventDefault();
+            this._isPanning = true;
+            this._isPinching = false;
+            this._panStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            this._gestureStartPan = { ...this.state.pan };
         }
     }
 
@@ -448,54 +460,51 @@ class LargeVideo extends Component<IProps, IState> {
      * @returns {void}
      */
     _onTouchMove(e: React.TouchEvent) {
-        const { _state } = this.props;
-        const largeVideoParticipant = getLargeVideoParticipant(_state);
-        const videoTrack = getVideoTrackByParticipant(_state, largeVideoParticipant);
-        const isScreenShare = videoTrack?.videoType === VIDEO_TYPE.DESKTOP;
 
-        if (!isScreenShare || e.touches.length !== 2) {
-            return;
-        }
+        if (this._isPinching && e.touches.length === 2) {
+            e.preventDefault();
 
-        e.preventDefault();
+            const newPinchDistance = this._getPinchDistance(e.touches);
+            let newScale = this.state.scale * (newPinchDistance / this._initialPinchDistance);
 
-        const newPinchDistance = this._getPinchDistance(e.touches);
-        let newScale = this.state.scale * (newPinchDistance / this._initialPinchDistance);
+            newScale = Math.max(1, Math.min(newScale, 5)); // Clamp scale
 
-        newScale = Math.max(1, Math.min(newScale, 5));
-        this._initialPinchDistance = newPinchDistance;
-        let newPan = this.state.pan;
-
-        if (newScale > 1) {
             const newMidpoint = this._getPinchMidpoint(e.touches);
+            const panX = this._gestureStartPan.x + (newMidpoint.x - this._panStart.x);
+            const panY = this._gestureStartPan.y + (newMidpoint.y - this._panStart.y);
 
-            newPan = {
-                x: this.state.pan.x + (newMidpoint.x - this._panStart.x),
-                y: this.state.pan.y + (newMidpoint.y - this._panStart.y)
-            };
-            this._panStart = newMidpoint;
-        } else {
-            newPan = { x: 0, y: 0 };
+            if (this._wrapperRef.current) {
+                this._wrapperRef.current.style.transform = `scale(${newScale}) translate(${panX}px, ${panY}px)`;
+            }
+
+        } else if (this._isPanning && e.touches.length === 1) {
+            e.preventDefault();
+
+            const currentPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            const panX = this._gestureStartPan.x + (currentPos.x - this._panStart.x);
+            const panY = this._gestureStartPan.y + (currentPos.y - this._panStart.y);
+
+            if (this._wrapperRef.current) {
+                this._wrapperRef.current.style.transform = `scale(${this.state.scale}) translate(${panX}px, ${panY}px)`;
+            }
         }
-
-        this.setState({
-            scale: newScale,
-            pan: newPan
-        });
     }
 
     /**
-     * Handles the end of a touch gesture.
-     *
-     * @param {React.TouchEvent} e - The touch event.
-     * @private
-     * @returns {void}
-     */
+ * Handles the end of a touch gesture.
+ *
+ * @param {React.TouchEvent} e - The touch event.
+ * @private
+ * @returns {void}
+ */
     _onTouchEnd(e: React.TouchEvent) {
-        // First, check if we were just pinching.
-        if (this._isPinching) {
-            this._isPinching = false; // Reset the flag
+        const wasGesture = this._isPinching || this._isPanning;
 
+        // Reset gesture flags
+        this._isPinching = false;
+        this._isPanning = false;
+
+        if (wasGesture) {
             const wrapper = this._wrapperRef.current;
             const container = this._containerRef.current;
 
@@ -503,8 +512,6 @@ class LargeVideo extends Component<IProps, IState> {
                 return;
             }
 
-            // At the end of the gesture, we parse the current transform value
-            // from the style to get the final state.
             const transform = wrapper.style.transform;
             const scaleMatch = transform.match(/scale\(([^)]+)\)/);
             const translateMatch = transform.match(/translate\(([^)]+)\)/);
@@ -513,15 +520,16 @@ class LargeVideo extends Component<IProps, IState> {
                 return;
             }
 
-            const finalScale = parseFloat(scaleMatch[1]);
-            const [ finalPanX, finalPanY ] = translateMatch[1].split(', ').map(p => parseFloat(p));
+            let finalScale = parseFloat(scaleMatch[1]);
+            const [ finalPanX, finalPanY ] = translateMatch[1].replace(/px/g, '').split(', ').map(p => parseFloat(p));
             let finalPan = { x: finalPanX, y: finalPanY };
 
-            // Reset pan if scale is 1
+            finalScale = Math.max(1, Math.min(finalScale, 5));
+
             if (finalScale <= 1) {
                 finalPan = { x: 0, y: 0 };
             } else {
-                // Otherwise, clamp the final pan value to stay within bounds
+            // Clamp the final pan value to stay within the viewport bounds
                 const { clientWidth, clientHeight } = container;
                 const maxPanX = (clientWidth * finalScale - clientWidth) / 2;
                 const maxPanY = (clientHeight * finalScale - clientHeight) / 2;
@@ -532,7 +540,6 @@ class LargeVideo extends Component<IProps, IState> {
                 };
             }
 
-            // Now we commit the final, clamped values to React's state.
             this.setState({
                 scale: finalScale,
                 pan: finalPan
@@ -541,8 +548,6 @@ class LargeVideo extends Component<IProps, IState> {
             return;
         }
 
-        // If we get here, it was NOT a pinch gesture. Now we can safely
-        // run the single-finger double-tap logic.
         if (e.changedTouches.length === 1) {
             e.stopPropagation();
             e.preventDefault();
