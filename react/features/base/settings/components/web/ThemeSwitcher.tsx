@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { makeStyles } from 'tss-react/mui';
 
 import { IStore } from '../../../../app/types';
 import { loadAndApplyTheme } from '../../../components/themes/ThemeManager';
@@ -7,6 +8,14 @@ import Select from '../../../ui/components/web/Select';
 
 const APP_ORIGIN = window.location.origin;
 const THEMES_PATH = '/meet/static/themes';
+
+const useStyles = makeStyles()(theme => {
+    return {
+        container: {
+            marginTop: theme.spacing(2)
+        }
+    };
+});
 
 interface ITheme {
     file: string | null;
@@ -18,8 +27,9 @@ interface ITheme {
 const ThemeSwitcher = () => {
     const dispatch = useDispatch<IStore['dispatch']>();
 
-    const [ availableThemes, setAvailableThemes ] = useState<ITheme[]>([]);
+    const { classes, cx } = useStyles();
 
+    const [ availableThemes, setAvailableThemes ] = useState<ITheme[]>([]);
     const [ selectedThemeKey, setSelectedThemeKey ] = useState('default');
 
     useEffect(() => {
@@ -40,9 +50,9 @@ const ThemeSwitcher = () => {
                         return {
                             ...theme,
                             key,
-                            url: `${APP_ORIGIN}${THEMES_PATH}/${theme.file}`,
+                            url: `${APP_ORIGIN}${THEMES_PATH}/${theme.file}`
                         };
-                    }),
+                    })
                 ];
 
                 setAvailableThemes(allThemes);
@@ -86,12 +96,12 @@ const ThemeSwitcher = () => {
     const themeOptions = availableThemes.map(theme => {
         return {
             label: theme.name,
-            value: theme.key,
+            value: theme.key
         };
     });
 
     return (
-        <div className = 'settings-sub-pane-element'>
+        <div className = { cx('settings-sub-pane-element', classes.container) }>
             <Select
                 id = 'theme-switcher'
                 label = 'Theme'
