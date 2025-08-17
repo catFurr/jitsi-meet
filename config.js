@@ -91,7 +91,7 @@ var config = {
 
     testing: {
         // Allows the setting of a custom bandwidth value from the UI.
-        // assumeBandwidth: true,
+        assumeBandwidth: true,
 
         // Enables use of getDisplayMedia in electron
         // electronUseGetDisplayMedia: false,
@@ -107,11 +107,11 @@ var config = {
         // p2pTestMode: false,
 
         // Enables the test specific features consumed by jitsi-meet-torture
-        // testMode: false,
+        testMode: true,
 
         // Disables the auto-play behavior of *all* newly created video element.
         // This is useful when the client runs on a host with limited resources.
-        // noAutoPlayVideo: false,
+        noAutoPlayVideo: true,
 
         // Experiment: Whether to skip interim transcriptions.
         // skipInterimTranscriptions: false,
@@ -120,7 +120,7 @@ var config = {
         // dumpTranscript: false,
 
         // Log the audio levels.
-        // debugAudioLevels: true,
+        debugAudioLevels: true,
 
         // Will replace ice candidates IPs with invalid ones in order to fail ice.
         // failICE: true,
@@ -375,8 +375,8 @@ var config = {
 
     // Optional desktop sharing frame rate options. Default value: min:5, max:5.
     desktopSharingFrameRate: {
-        min: 15,
-        max: 30,
+        min: 5,
+        max: 5
     },
 
     // Optional screenshare settings that give more control over screen capture in the browser.
@@ -793,7 +793,7 @@ var config = {
 
     // Message to show the users. Example: 'The service will be down for
     // maintenance at 01:00 AM GMT,
-    noticeMessage: 'Whiteboard integration is coming soon, in the meantime please use www.excalidraw.com to draw.',
+    noticeMessage: null,
 
     // Enables calendar integration, depends on googleApiApplicationClientID
     // and microsoftApiApplicationClientID
