@@ -1,0 +1,202 @@
+{
+    "backgroundColor":"#FFF",
+    "backgroundImageUrl":"https://mycompany.com/images/background.png",
+    "didPageUrl":"https://mycompany.com/dids",
+    "inviteDomain":"https://mycompany.com/invite",
+    "logoClickUrl":"https://mycompany.com",
+    "logoImageUrl":"https://mycompany.com/images/logo.png",
+    "avatarBackgrounds": ["#12A378", "linear-gradient(125.83deg, #000 0%, #FFF 99.09%)"],
+    "premeetingBackground": "url(https://mycompany.com/images/premeetingBackground.png)",
+    "virtualBackgrounds": ["https://my.img01.jpg", "https://my.img02.jpg"],
+    "labels": {
+        "en": "https://myenglishlabels.json",
+        "fr": "https://myfrenchlabels.json",
+        "ptBR": "https://mybrazilianlabels.json"
+    },
+    "customIcons": {
+        "IconArrowUp": "https://example.com/arrow-up.svg",
+        "IconDownload": "https://example.com/download.svg",
+        "IconRemoteControlStart": "https://example.com/remote-start.svg"
+    },
+    "customTheme": {
+        "palette": {
+            "uiBackground": "#040404",
+
+            "ui01": "#141414",
+            "ui02": "#292929",
+            "ui03": "#3D3D3D",
+            "ui04": "#525252",
+            "ui05": "#666",
+            "ui06": "#171719",
+            "ui07": "#F1F1F1",
+            "ui08": "#E0E0E0",
+            "ui09": "#CCDDF9",
+            "ui10": "#666666",
+
+            "action01": "#4687ED",
+            "action01Hover": "#246FE5",
+            "action01Active": "#0045B3",
+
+            "action02": "#E0E0E0",
+            "action02Hover": "#525252",
+            "action02Active": "#292929",
+
+            "actionDanger": "#CB2233",
+            "actionDangerHover": "#E04757",
+            "actionDangerActive": "#A21B29",
+
+            "action03": "transparent",
+            "action03Hover": "#525252",
+            "action03Active": "#292929",
+
+            "disabled01": "#C2C2C2",
+
+            "focus01": "#D7E3F9",
+
+            "link01": "#669AEC",
+            "link01Hover": "#99BBF3",
+            "link01Active": "#246FE5",
+
+            "text01": "#FFF",
+            "text02": "#C2C2C2",
+            "text03": "#858585",
+            "text04": "#AAAAAA",
+
+            "textError": "#F24D5F",
+
+            "icon01": "#FFFFFF",
+            "icon02": "#FFFFFF",
+            "icon03": "#666666",
+            "icon04": "#0056E0",
+            "icon05": "#292929",
+            "icon06": "#666666",
+            "icon07": "#858585",
+
+            "iconError": "#E04757",
+            "iconNormal": "##246FE5",
+            "iconSuccess": "#189B55",
+            "iconWarning": "#F8AE1A",
+
+            "field01": "#292929",
+
+            "success01": "#1EC26A",
+            "success02": "#189B55",
+
+            "warning01": "#F8AE1A",
+            "warning02": "#ED9E1B",
+
+            "support01": "#FF9B42",
+            "support02": "#F96E57",
+            "support03": "#DF486F",
+            "support04": "#B23683",
+            "support05": "#73348C",
+            "support06": "#6A50D3",
+            "support07": "#4380E2",
+            "support08": "#00A8B3",
+            "support09": "#2AA076"
+        },
+        "typography": {
+            "font": {
+                "weightRegular": "400",
+                "weightSemiBold": "600"
+            },
+            "labelRegular": {
+                "fontSize": 12,
+                "lineHeight": 16,
+                "fontWeight": "400",
+                "letterSpacing": 0.16
+            },
+            "labelBold": {
+                "fontSize": 12,
+                "lineHeight": 16,
+                "fontWeight": "600",
+                "letterSpacing": 0.16
+            },
+            "bodyShortRegular": {
+                "fontSize": 14,
+                "lineHeight": 18,
+                "fontWeight": "400",
+                "letterSpacing": 0
+            },
+            "bodyShortBold": {
+                "fontSize": 14,
+                "lineHeight": 18,
+                "fontWeight": "600",
+                "letterSpacing": 0
+            },
+            "bodyShortRegularLarge": {
+                "fontSize": 16,
+                "lineHeight": 24,
+                "fontWeight": "400",
+                "letterSpacing": 0
+            },
+            "bodyShortBoldLarge": {
+                "fontSize": 16,
+                "lineHeight": 24,
+                "fontWeight": "600",
+                "letterSpacing": 0
+            },
+            "bodyLongRegular": {
+                "fontSize": 14,
+                "lineHeight": 24,
+                "fontWeight": "400",
+                "letterSpacing": 0
+            },
+            "bodyLongBold": {
+                "fontSize": 14,
+                "lineHeight": 24,
+                "fontWeight": "600",
+                "letterSpacing": 0
+            },
+            "heading1": {
+                "fontSize": 54,
+                "lineHeight": 64,
+                "fontWeight": "600",
+                "letterSpacing": 0
+            },
+            "heading2": {
+                "fontSize": 42,
+                "lineHeight": 50,
+                "fontWeight": "600",
+                "letterSpacing": 0
+            },
+            "heading3": {
+                "fontSize": 32,
+                "lineHeight": 40,
+                "fontWeight": "600",
+                "letterSpacing": 0
+            },
+            "heading4": {
+                "fontSize": 28,
+                "lineHeight": 36,
+                "fontWeight": "600",
+                "letterSpacing": 0
+            },
+            "heading5": {
+                "fontSize": 20,
+                "lineHeight": 28,
+                "fontWeight": "600",
+                "letterSpacing": 0
+            },
+            "heading6": {
+                "fontSize": 16,
+                "lineHeight": 26,
+                "fontWeight": "600",
+                "letterSpacing": 0
+            }
+        },
+        "shape": {
+            "borderRadius": 6,
+            "boxShadow": "inset 0px -1px 0px rgba(255, 255, 255, 0.15)"
+        },
+        "spacing": [0, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128],
+        "breakpoints": {
+            "values": {
+                "0": 0,
+                "320": 320,
+                "400": 400,
+                "480": 480
+            }
+        }
+    }
+}
