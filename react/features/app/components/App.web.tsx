@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { loadAndApplyTheme } from '../../base/components/themes/ThemeManager';
 import GlobalStyles from '../../base/ui/components/GlobalStyles.web';
 import JitsiThemeProvider from '../../base/ui/components/JitsiThemeProvider.web';
 import DialogContainer from '../../base/ui/components/web/DialogContainer';
@@ -20,24 +19,6 @@ import '../reducers';
  * @augments AbstractApp
  */
 export class App extends AbstractApp {
-
-    /**
-     * This method is called when the component mounts. We use it to apply a
-     * user's saved theme from their last session.
-     *
-     * @inheritdoc
-     */
-    override async componentDidMount() {
-        await super.componentDidMount();
-
-        const savedThemeUrl = localStorage.getItem('user-selected-theme-url');
-
-        // If a saved URL is found, dispatch our thunk to load the theme.
-        if (savedThemeUrl) {
-            // @ts-ignore - This is acceptable here as dispatch can handle thunks.
-            APP.store.dispatch(loadAndApplyTheme(savedThemeUrl));
-        }
-    }
 
     /**
      * Creates an extra {@link ReactElement}s to be added (unconditionally)
@@ -66,7 +47,7 @@ export class App extends AbstractApp {
             <JitsiThemeProvider>
                 <GlobalStyles />
                 <ChromeExtensionBanner />
-                { super._createMainElement(component, props) }
+                {super._createMainElement(component, props)}
             </JitsiThemeProvider>
         );
     }
