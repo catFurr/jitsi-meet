@@ -196,10 +196,7 @@ export interface IConfig {
     };
     autoCaptionOnRecord?: boolean;
     autoKnockLobby?: boolean;
-    availableThemes: {
-        file: string;
-        name: string;
-    };
+    availableThemes?: Array<{ name: string; file: string; }>
     backgroundAlpha?: number;
     bosh?: string;
     brandingDataUrl?: string;
