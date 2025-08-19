@@ -6,7 +6,6 @@ import { IStore } from '../../../../app/types';
 import { loadAndApplyTheme } from '../../../components/themes/ThemeManager';
 import Select from '../../../ui/components/web/Select';
 
-const APP_ORIGIN = window.location.origin;
 const THEMES_PATH = '/meet/static/themes';
 
 const useStyles = makeStyles()(theme => {
@@ -35,7 +34,7 @@ const ThemeSwitcher = () => {
     useEffect(() => {
         const fetchThemes = async () => {
             try {
-                const response = await fetch(`${APP_ORIGIN}${THEMES_PATH}/themes.json`);
+                const response = await fetch(`${THEMES_PATH}/themes.json`);
 
                 if (!response.ok) {
                     throw new Error('Themes manifest not found');
@@ -50,7 +49,7 @@ const ThemeSwitcher = () => {
                         return {
                             ...theme,
                             key,
-                            url: `${APP_ORIGIN}${THEMES_PATH}/${theme.file}`
+                            url: `${THEMES_PATH}/${theme.file}`
                         };
                     })
                 ];
