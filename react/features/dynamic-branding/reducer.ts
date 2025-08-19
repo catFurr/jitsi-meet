@@ -5,6 +5,7 @@ import {
     SET_DYNAMIC_BRANDING_DATA,
     SET_DYNAMIC_BRANDING_FAILED,
     SET_DYNAMIC_BRANDING_READY,
+    SET_SELECTED_THEME_URL,
     UNSET_DYNAMIC_BRANDING
 } from './actionTypes';
 
@@ -156,7 +157,16 @@ const DEFAULT_STATE = {
      * @public
      * @type {Array<Object>}
      */
-    virtualBackgrounds: []
+    virtualBackgrounds: [],
+
+    /**
+     * The selected theme URL from local storage, if any.
+     *
+     * @public
+     * @type {string|null}
+     */
+
+    selectedThemeUrl: localStorage.getItem('user-selected-theme-url') || null
 };
 
 export interface IDynamicBrandingState {
@@ -178,6 +188,7 @@ export interface IDynamicBrandingState {
     pollCreationRequiresPermission: boolean;
     premeetingBackground: string;
     requireRecordingConsent?: boolean;
+    selectedThemeUrl: string | null;
     sharedVideoAllowedURLDomains?: Array<string>;
     showGiphyIntegration?: boolean;
     skipRecordingConsentInMeeting?: boolean;
@@ -238,7 +249,8 @@ ReducerRegistry.register<IDynamicBrandingState>(STORE_NAME, (state = DEFAULT_STA
             customizationFailed: false,
             customizationReady: true,
             useDynamicBrandingData: true,
-            virtualBackgrounds: formatImages(virtualBackgrounds || [])
+            virtualBackgrounds: formatImages(virtualBackgrounds || []),
+            selectedThemeUrl: action.selectedThemeUrl ?? state.selectedThemeUrl
         };
     }
     case SET_DYNAMIC_BRANDING_FAILED: {
@@ -257,6 +269,12 @@ ReducerRegistry.register<IDynamicBrandingState>(STORE_NAME, (state = DEFAULT_STA
 
     case UNSET_DYNAMIC_BRANDING:
         return DEFAULT_STATE;
+
+    case SET_SELECTED_THEME_URL:
+        return {
+            ...state,
+            selectedThemeUrl: action.url
+        };
     }
 
     return state;

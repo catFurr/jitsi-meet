@@ -4,7 +4,8 @@ import { doGetJSON } from '../base/util/httpUtils';
 import {
     SET_DYNAMIC_BRANDING_DATA,
     SET_DYNAMIC_BRANDING_FAILED,
-    SET_DYNAMIC_BRANDING_READY
+    SET_DYNAMIC_BRANDING_READY,
+    SET_SELECTED_THEME_URL
 } from './actionTypes';
 import { getDynamicBrandingUrl } from './functions.any';
 import logger from './logger';
@@ -74,5 +75,18 @@ export function setDynamicBrandingReady() {
 export function setDynamicBrandingFailed() {
     return {
         type: SET_DYNAMIC_BRANDING_FAILED
+    };
+}
+
+/**
+ * Creates a Redux action to set the selected theme URL in the store.
+ *
+ * @param {?string} url - The URL of the theme.
+ * @returns {{ type: string, url: (string|null) }}
+ */
+export function setSelectedThemeUrl(url: string | null) {
+    return {
+        type: SET_SELECTED_THEME_URL,
+        url
     };
 }

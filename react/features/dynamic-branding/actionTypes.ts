@@ -17,3 +17,8 @@ export const SET_DYNAMIC_BRANDING_READY = 'SET_DYNAMIC_BRANDING_READY';
  * Action used to unset branding elements
  */
 export const UNSET_DYNAMIC_BRANDING = 'UNSET_DYNAMIC_BRANDING';
+
+/**
+ * Action used to set the selected theme URL.
+ */
+export const SET_SELECTED_THEME_URL = 'SET_SELECTED_THEME_URL';
