@@ -1852,7 +1852,7 @@ var config = {
         minParticipantCountForTopPanel: 50,
 
         // The width of the filmstrip on joining meeting. Can be resized afterwards.
-        initialWidth: 275,
+        initialWidth: 180,
 
         // Whether the draggable resize bar of the filmstrip is always visible. Setting this to true will make
         // the filmstrip always visible in case `disableResizable` is false.
