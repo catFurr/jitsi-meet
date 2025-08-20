@@ -48,14 +48,16 @@ import {
 
 import ConferenceInfo from './ConferenceInfo';
 import { default as Notice } from './Notice';
+import { isInBreakoutRoom } from '../../../breakout-rooms/functions';
 
 MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case CONFERENCE_JOINED: {
         const state = store.getState();
         const participants = state['features/base/participants'];
+        const inBreakoutRoom = isInBreakoutRoom(state)
 
-        if (!Boolean(participants.remote.size)) {
+        if (!Boolean(participants.remote.size) && !inBreakoutRoom) {
             store.dispatch(beginAddPeople());
         }
 
