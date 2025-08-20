@@ -4,6 +4,7 @@ import { Container } from '../../react/components/index';
 import { StyleType, styleTypeToObject } from '../../styles/functions';
 
 import { IIconProps } from './types';
+import { makeStyles } from 'tss-react/mui';
 
 interface IProps extends IIconProps {
 
@@ -153,12 +154,15 @@ export default function Icon(props: IProps) {
         ...rest
     }: IProps = props;
 
+    const { theme } = makeStyles()(({}))();
+
     const {
         color: styleColor,
         fontSize: styleSize,
         ...restStyle
     } = styleTypeToObject(style ?? {});
-    const calculatedColor = color ?? styleColor ?? DEFAULT_COLOR;
+
+    const calculatedColor = theme.palette.icon01 || 'white';
     const calculatedSize = size ?? styleSize ?? DEFAULT_SIZE;
 
     const onKeyPressHandler = useCallback(e => {
