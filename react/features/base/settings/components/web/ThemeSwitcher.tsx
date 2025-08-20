@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
-import { makeStyles } from 'tss-react/mui';
 import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from 'tss-react/mui';
 
 import { IReduxState, IStore } from '../../../../app/types';
-
 import { changeTheme } from '../../../components/themes/ThemeManager';
 import Select from '../../../ui/components/web/Select';
 
