@@ -1492,15 +1492,6 @@ var config = {
     */
     // dynamicBrandingUrl: '',
     availableThemes: [
-
-        // {
-        //     name: 'Dark',
-        //     file: 'dark-theme.json'
-        // },
-        // {
-        //     name: 'Light',
-        //     file: 'light-theme.json'
-        // },
         {
             name: 'Midnight Blue',
             file: 'midnight-blue-theme.json'
@@ -1509,20 +1500,10 @@ var config = {
             name: 'Solarized Light',
             file: 'solarized-light-theme.json'
         },
-
-        // {
-        //     name: 'Forest Canopy',
-        //     file: 'forest-canopy-theme.json'
-        // },
         {
             name: 'Charcoal & Lime',
             file: 'charcoal-lime-theme.json'
         },
-
-        // {
-        //     name: 'Nebula',
-        //     file: 'nebula-theme.json'
-        // }
     ],
 
     // A list of allowed URL domains for shared video.
