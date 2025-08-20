@@ -3,6 +3,7 @@ Validates the meeting creation authentication flow.
 */
 
 import { ensureOneParticipant, ensureTwoParticipants, joinFirstParticipant } from '../../helpers/participants';
+import WaitingForModeratorDialog from '../../pageobjects/WaitingForModeratorDialog';
 
 describe('Auth Check', () => {
 
@@ -26,7 +27,9 @@ describe('Auth Check', () => {
         await joinButton.waitForDisplayed();
         await joinButton.click();
 
-        // TODO: wait for the Wait for host dialog to show up.
+        const WaitForModDialog = new WaitingForModeratorDialog(ctx.p1);
+
+        await WaitForModDialog.waitForOpen();
 
         await ctx.p1.hangup();
     });
@@ -51,11 +54,13 @@ describe('Auth Check', () => {
         await joinButton.waitForDisplayed();
         await joinButton.click();
         // TODO: define the error message that should appear.
-        const TRIAL_EXPIRED = '';
-        const error = ctx.p1.driver.$(`[data-testid="${TRIAL_EXPIRED}"]`);
+        // const TRIAL_EXPIRED = '';
+        // const error = ctx.p1.driver.$(`[data-testid="${TRIAL_EXPIRED}"]`);
+        // await error.waitForDisplayed();
 
-        await error.waitForDisplayed();
-        // TODO: wait for the Wait for host dialog to show up.
+        const WaitForModDialog = new WaitingForModeratorDialog(ctx.p1);
+
+        await WaitForModDialog.waitForOpen();
 
         await ctx.p1.hangup();
     });
