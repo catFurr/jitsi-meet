@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
+import { makeStyles } from 'tss-react/mui';
 
 import { Container } from '../../react/components/index';
 import { StyleType, styleTypeToObject } from '../../styles/functions';
 
 import { IIconProps } from './types';
-import { makeStyles } from 'tss-react/mui';
 
 interface IProps extends IIconProps {
 

@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { IReduxState, IStore } from '../../../../app/types';
+
 import { changeTheme } from '../../../components/themes/ThemeManager';
 import Select from '../../../ui/components/web/Select';
 
@@ -27,7 +28,7 @@ const ThemeSwitcher = () => {
     const selectedThemeUrl = useSelector((state: IReduxState) => state['features/dynamic-branding'].selectedThemeUrl);
 
     const availableThemes = useMemo(() => [
-        { name: 'Jitsi Default', key: 'default', url: null },
+        { name: 'Default', key: 'default', url: null },
         ...themesFromConfig.map((theme: { file: string; name: string; }) => {
             const key = theme.file.replace('-theme.json', '');
 
