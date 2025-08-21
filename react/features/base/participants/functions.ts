@@ -662,6 +662,39 @@ export function isParticipantModerator(participant?: IParticipant) {
 }
 
 /**
+ * Returns true if the participant is a host.
+ *
+ * @param {IParticipant|undefined} participant - Participant object from redux.
+ * @returns {boolean}
+ */
+export function isParticipantHost(participant?: IParticipant) {
+    if (!participant?.conference) {
+        return false;
+    }
+
+    // Ignore fake participants.
+    if (isScreenShareParticipant(participant) || isSharedVideoParticipant(participant) || isWhiteboardParticipant(participant)) {
+        return false;
+    }
+
+    const conference = participant.conference;
+    // Host is defined at the XMPP layer as affiliation 'owner'. For remote participants we
+    // consult the lib-jitsi-meet participant via conference.getParticipantById(...). For the
+    // local participant, lib-jitsi-meet does not create a participant object, so we fall back
+    // to the chat room helper (conference.room.isHost()).
+
+    // Local participant: use Chat Room helper.
+    if (participant.local) {
+        return Boolean(conference.room?.isHost());
+    }
+
+    // Remote participant: use lib participant helper.
+    const libParticipant: IJitsiParticipant | undefined = conference.getParticipantById(participant.id);
+
+    return libParticipant?.isHost();
+}
+
+/**
  * Returns the dominant speaker participant.
  *
  * @param {(Function|Object)} stateful - The (whole) redux state or redux's
@@ -720,6 +753,26 @@ export function isLocalParticipantModerator(stateful: IStateful) {
     }
 
     return isParticipantModerator(local);
+}
+
+/**
+ * Returns true if the current local participant is a host in the
+ * conference.
+ *
+ * @param {Object|Function} stateful - Object or function that can be resolved
+ * to the Redux state.
+ * @returns {boolean}
+ */
+export function isLocalParticipantHost(stateful: IStateful) {
+    const state = toState(stateful)['features/base/participants'];
+
+    const { local } = state;
+
+    if (!local) {
+        return false;
+    }
+
+    return isParticipantHost(local);
 }
 
 /**

@@ -9,6 +9,7 @@ import {
     getParticipantByIdOrUndefined,
     getParticipantDisplayName,
     hasRaisedHand,
+    isParticipantHost,
     isParticipantModerator
 } from '../../../base/participants/functions';
 import { IParticipant } from '../../../base/participants/types';
@@ -239,6 +240,7 @@ function MeetingParticipantItem({
             disableModeratorIndicator = { _disableModeratorIndicator }
             displayName = { _displayName }
             isHighlighted = { isHighlighted }
+            isHost = { isParticipantHost(_participant) }
             isModerator = { isParticipantModerator(_participant) }
             local = { _local }
             onLeave = { onLeave }
