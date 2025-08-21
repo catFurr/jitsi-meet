@@ -13,6 +13,7 @@ import { isMobileBrowser } from '../../../base/environment/utils';
 import { translate } from '../../../base/i18n/functions';
 import MiddlewareRegistry from '../../../base/redux/MiddlewareRegistry';
 import { setColorAlpha } from '../../../base/util/helpers';
+import { isInBreakoutRoom } from '../../../breakout-rooms/functions';
 import { openChat, setFocusedTab } from '../../../chat/actions.web';
 import Chat from '../../../chat/components/web/Chat';
 import { ChatTabs } from '../../../chat/constants';
@@ -48,14 +49,13 @@ import {
 
 import ConferenceInfo from './ConferenceInfo';
 import { default as Notice } from './Notice';
-import { isInBreakoutRoom } from '../../../breakout-rooms/functions';
 
 MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case CONFERENCE_JOINED: {
         const state = store.getState();
         const participants = state['features/base/participants'];
-        const inBreakoutRoom = isInBreakoutRoom(state)
+        const inBreakoutRoom = isInBreakoutRoom(state);
 
         if (!Boolean(participants.remote.size) && !inBreakoutRoom) {
             store.dispatch(beginAddPeople());
