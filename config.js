@@ -1493,10 +1493,6 @@ var config = {
     // dynamicBrandingUrl: '',
     availableThemes: [
         {
-            name: 'Midnight Blue',
-            file: 'midnight-blue-theme.json'
-        },
-        {
             name: 'Solarized Light',
             file: 'solarized-light-theme.json'
         },
