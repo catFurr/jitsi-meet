@@ -668,7 +668,12 @@ export function isParticipantModerator(participant?: IParticipant) {
  * @returns {boolean}
  */
 export function isParticipantHost(participant?: IParticipant) {
-    if (!participant?.conference) {
+    // Host is defined at the XMPP layer as affiliation 'owner'. For remote participants we
+    // consult the lib-jitsi-meet participant via conference.getParticipantById(...). For the
+    // local participant, participant.conference is undefined.
+
+    if (!participant || participant.local || !participant.conference) {
+        // WARN! we can't check local participant state here. Use isLocalParticipantHost instead.
         return false;
     }
 
@@ -677,19 +682,8 @@ export function isParticipantHost(participant?: IParticipant) {
         return false;
     }
 
-    const conference = participant.conference;
-    // Host is defined at the XMPP layer as affiliation 'owner'. For remote participants we
-    // consult the lib-jitsi-meet participant via conference.getParticipantById(...). For the
-    // local participant, lib-jitsi-meet does not create a participant object, so we fall back
-    // to the chat room helper (conference.room.isHost()).
-
-    // Local participant: use Chat Room helper.
-    if (participant.local) {
-        return Boolean(conference.room?.isHost());
-    }
-
     // Remote participant: use lib participant helper.
-    const libParticipant: IJitsiParticipant | undefined = conference.getParticipantById(participant.id);
+    const libParticipant: IJitsiParticipant | undefined = participant.conference.getParticipantById(participant.id);
 
     return libParticipant?.isHost();
 }
@@ -764,15 +758,9 @@ export function isLocalParticipantModerator(stateful: IStateful) {
  * @returns {boolean}
  */
 export function isLocalParticipantHost(stateful: IStateful) {
-    const state = toState(stateful)['features/base/participants'];
+    const { conference } = toState(stateful)['features/base/conference'];
 
-    const { local } = state;
-
-    if (!local) {
-        return false;
-    }
-
-    return isParticipantHost(local);
+    return Boolean(conference?.room.isHost());
 }
 
 /**
