@@ -281,18 +281,9 @@ async function deploy() {
         // Step 2: Install dependencies
         if (skipDeps) {
             console.log("\n⏭️ Skipping dependency installation (--skip-deps).");
-
-            // Even when skipping deps, we need to ensure submodule is built if we're building
-            if (!skipBuild) {
-                console.log("\n🔗 Step 2.5: Ensuring submodule is built...");
-                await runCommand("make build-lib-jitsi-meet");
-            }
         } else {
             console.log("\n📦 Step 2: Installing dependencies...");
             await runCommand("npm ci");
-
-            // Note: The postinstall script already runs 'make build-lib-jitsi-meet'
-            // so we don't need to build it again here
         }
 
         // Step 3: Build the project

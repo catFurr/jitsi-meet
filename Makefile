@@ -24,7 +24,7 @@ else
 	WEBPACK_DEV_SERVER = ./node_modules/.bin/webpack serve --mode development --progress
 endif
 
-all: compile deploy
+all: build-lib-jitsi-meet compile deploy
 
 compile: clean
 	NODE_OPTIONS=--max-old-space-size=8192 \
@@ -34,7 +34,7 @@ clean:
 	rm -fr $(BUILD_DIR)
 
 .NOTPARALLEL:
-deploy: deploy-init deploy-appbundle deploy-rnnoise-binary deploy-excalidraw deploy-tflite deploy-meet-models build-lib-jitsi-meet deploy-lib-jitsi-meet deploy-olm deploy-tf-wasm deploy-css deploy-local deploy-face-landmarks
+deploy: deploy-init deploy-appbundle deploy-rnnoise-binary deploy-excalidraw deploy-tflite deploy-meet-models deploy-lib-jitsi-meet deploy-olm deploy-tf-wasm deploy-css deploy-local deploy-face-landmarks
 
 deploy-init:
 	rm -fr $(DEPLOY_DIR)
@@ -61,7 +61,7 @@ deploy-appbundle:
 		$(DEPLOY_DIR) || true
 
 build-lib-jitsi-meet:
-	cd $(LIBJITSIMEET_DIR) && npm install && npm run build
+	cd $(LIBJITSIMEET_DIR) && npm ci && npm run build
 
 deploy-lib-jitsi-meet:
 	cp \
