@@ -194,7 +194,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
                 if (autoDownloadMeetingData) {
                     downloadMeetingData(getState());
                 }
-            }, 0);
+            }, 100);
             dispatch(updateLocalRecordingStatus(false));
             if (localRecording?.notifyAllParticipants && !LocalRecordingManager.selfRecording) {
                 dispatch(playSound(RECORDING_OFF_SOUND_ID));
