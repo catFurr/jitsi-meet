@@ -332,7 +332,7 @@ export function useToolboxButtons(
         embedmeeting: embed,
         feedback,
         download: _download,
-        help: _help,
+        help: _help
     };
     const buttonKeys = Object.keys(buttons) as ToolbarButton[];
 

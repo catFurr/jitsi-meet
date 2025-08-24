@@ -209,7 +209,7 @@ class AbstractStartRecordingDialogContent extends Component<IProps, IState> {
         this._onAutoDownloadSwitchChange = this._onAutoDownloadSwitchChange.bind(this);
 
         this.state = {
-            showAdvancedOptions: true,
+            showAdvancedOptions: true
         };
 
         if (typeof props._autoDownloadMeetingData === 'undefined') {
