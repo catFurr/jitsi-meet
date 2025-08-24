@@ -177,7 +177,7 @@ function ParticipantItem({
             {!disableModeratorIndicator && (
                 <>
                     {isHost && <div className = { classes.moderatorLabel }>
-                        {t('videothumbnail.host')}
+                        {t('host')}
                     </div>}
                     {!isHost && isModerator && <div className = { classes.moderatorLabel }>
                         {t('videothumbnail.moderator')}
