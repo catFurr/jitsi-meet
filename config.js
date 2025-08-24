@@ -461,7 +461,7 @@ var config = {
         notifyAllParticipants: true,
 
         // Whether to disable the self recording feature (only local participant streams).
-        disableSelfRecording: true,
+        disableSelfRecording: false,
 
         // Whether to automatically download the recorded meeting data when the recording ends.
         autoDownloadMeetingData: false
