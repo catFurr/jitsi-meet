@@ -662,12 +662,12 @@ export function isParticipantModerator(participant?: IParticipant) {
 }
 
 /**
- * Returns true if the participant is a host.
+ * Returns true if the remote participant is a host.
  *
  * @param {IParticipant|undefined} participant - Participant object from redux.
  * @returns {boolean}
  */
-export function isParticipantHost(participant?: IParticipant) {
+export function isRemoteParticipantHost(participant?: IParticipant) {
     // Host is defined at the XMPP layer as affiliation 'owner'. For remote participants we
     // consult the lib-jitsi-meet participant via conference.getParticipantById(...). For the
     // local participant, participant.conference is undefined.
@@ -685,7 +685,7 @@ export function isParticipantHost(participant?: IParticipant) {
     // Remote participant: use lib participant helper.
     const libParticipant: IJitsiParticipant | undefined = participant.conference.getParticipantById(participant.id);
 
-    return libParticipant?.isHost();
+    return libParticipant ? libParticipant.isHost() : false;
 }
 
 /**
