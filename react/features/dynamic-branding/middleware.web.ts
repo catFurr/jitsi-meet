@@ -1,10 +1,9 @@
 import { IStore } from '../app/types';
 import { APP_WILL_MOUNT } from '../base/app/actionTypes';
-import { loadAndApplyTheme } from '../base/components/themes/ThemeManager';
 import MiddlewareRegistry from '../base/redux/MiddlewareRegistry';
 
-import { SET_DYNAMIC_BRANDING_DATA, SET_SELECTED_THEME_URL } from './actionTypes';
-import { fetchCustomBrandingData } from './actions.any';
+import { SET_DYNAMIC_BRANDING_DATA, SET_SELECTED_THEME } from './actionTypes';
+import { fetchCustomBrandingData, setDynamicBrandingData } from './actions.any';
 import { createMuiBrandingTheme } from './functions.web';
 
 import './middleware.any';
@@ -14,13 +13,7 @@ MiddlewareRegistry.register((store: IStore) => next => action => {
         const { customTheme } = action.value;
 
         if (customTheme) {
-            const muiBrandedTheme = createMuiBrandingTheme(customTheme);
-
-            action.value = {
-                ...action.value,
-                ...customTheme,
-                muiBrandedTheme
-            };
+            action.value.muiBrandedTheme = createMuiBrandingTheme(customTheme);
         }
     }
 
@@ -28,26 +21,29 @@ MiddlewareRegistry.register((store: IStore) => next => action => {
 
     switch (action.type) {
     case APP_WILL_MOUNT: {
-        const { selectedThemeUrl } = store.getState()['features/dynamic-branding'];
+        const { selectedThemeContent } = store.getState()['features/dynamic-branding'];
 
-        if (selectedThemeUrl) {
-            store.dispatch(loadAndApplyTheme(selectedThemeUrl));
+        if (selectedThemeContent) {
+            // Apply the theme directly from the state.
+            store.dispatch(setDynamicBrandingData(selectedThemeContent));
         } else {
+            // No saved theme, run Jitsi's default branding logic.
             store.dispatch(fetchCustomBrandingData());
         }
         break;
     }
 
-    case SET_SELECTED_THEME_URL: {
-        const { url } = action;
+    case SET_SELECTED_THEME: {
+        const { url, content } = action.payload;
 
-        if (url) {
-            localStorage.setItem('user-selected-theme-url', url);
+        if (url && content) {
+            localStorage.setItem('user-selected-theme', JSON.stringify({ url, content }));
         } else {
-            localStorage.removeItem('user-selected-theme-url');
+            localStorage.removeItem('user-selected-theme');
         }
 
-        store.dispatch(loadAndApplyTheme(url));
+        // Apply the new theme to the UI for the current session.
+        store.dispatch(setDynamicBrandingData(content || {}));
         break;
     }
     }
