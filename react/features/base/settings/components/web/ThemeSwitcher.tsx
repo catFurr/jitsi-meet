@@ -6,8 +6,6 @@ import { IReduxState, IStore } from '../../../../app/types';
 import { changeTheme } from '../../../components/themes/ThemeManager';
 import Select from '../../../ui/components/web/Select';
 
-const THEMES_PATH = '/meet/static/themes';
-
 const useStyles = makeStyles()(theme => ({
     container: {
         marginTop: theme.spacing(2)
@@ -34,7 +32,7 @@ const ThemeSwitcher = () => {
             return {
                 ...theme,
                 key,
-                url: `${THEMES_PATH}/${theme.file}`
+                url: theme.file
             };
         })
     ], [ themesFromConfig ]);

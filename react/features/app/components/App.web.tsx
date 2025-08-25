@@ -19,7 +19,7 @@ import '../reducers';
  * @augments AbstractApp
  */
 export class App extends AbstractApp {
-    
+
     /**
      * Creates an extra {@link ReactElement}s to be added (unconditionally)
      * alongside the main element.

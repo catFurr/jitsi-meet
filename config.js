@@ -1494,11 +1494,11 @@ var config = {
     availableThemes: [
         {
             name: 'Solarized Light',
-            file: 'solarized-light-theme.json'
+            file: '/meet/static/themes/solarized-light-theme.json'
         },
         {
             name: 'Charcoal & Lime',
-            file: 'charcoal-lime-theme.json'
+            file: '/meet/static/themes/charcoal-lime-theme.json'
         },
     ],
 
