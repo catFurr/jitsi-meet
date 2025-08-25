@@ -69,7 +69,7 @@ const AbstractPollAnswer = (Component: ComponentType<AbstractProps>) => (props: 
 
     const reduxState = useSelector((state: IReduxState) => state);
     const participant = getParticipantById(reduxState, senderId ?? '');
-    let isParticipantHost;
+    let isParticipantHost = false;
 
     if (participant?.local) {
         isParticipantHost = isLocalParticipantHost(reduxState);

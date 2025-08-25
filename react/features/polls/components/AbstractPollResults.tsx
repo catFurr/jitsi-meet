@@ -60,7 +60,7 @@ const AbstractPollResults = (Component: ComponentType<AbstractProps>) => (props:
     const participant = useBoundSelector(getParticipantById, poll.senderId);
     const reduxState = useSelector((state: IReduxState) => state);
 
-    let isParticipantHost;
+    let isParticipantHost = false;
 
     if (participant?.local) {
         isParticipantHost = isLocalParticipantHost(reduxState);
