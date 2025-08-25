@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 import { IReduxState } from '../app/types';
 import { MEET_FEATURES } from '../base/jwt/constants';
 import { isJwtFeatureEnabled } from '../base/jwt/functions';
+import { isLocalParticipantModerator } from '../base/participants/functions';
 import { isInBreakoutRoom } from '../breakout-rooms/functions';
 
 import { getLiveStreaming } from './components/LiveStream/functions';
 import LiveStreamButton from './components/LiveStream/web/LiveStreamButton';
 import RecordButton from './components/Recording/web/RecordButton';
 import { getRecordButtonProps, isLiveStreamingButtonVisible } from './functions';
-import { isLocalParticipantModerator } from '../base/participants/functions';
 
 
 const recording = {
