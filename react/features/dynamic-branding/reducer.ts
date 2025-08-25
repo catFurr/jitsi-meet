@@ -181,6 +181,12 @@ const DEFAULT_STATE = {
      */
     virtualBackgrounds: [],
 
+    /**
+     * The user's selected theme properties.
+     *
+     * @public
+     * @type {{selectedThemeUrl: string | null, selectedThemeContent: Object | null}}
+     */
     ...getInitialThemeState(),
 };
 

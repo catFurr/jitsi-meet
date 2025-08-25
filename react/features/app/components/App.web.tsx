@@ -19,7 +19,6 @@ import '../reducers';
  * @augments AbstractApp
  */
 export class App extends AbstractApp {
-
     /**
      * Creates an extra {@link ReactElement}s to be added (unconditionally)
      * alongside the main element.
@@ -37,7 +36,7 @@ export class App extends AbstractApp {
     }
 
     /**
-     * Overrides the parent method to inject {@link JitsiThemeProvider} as
+     * Overrides the parent method to inject {@link AtlasKitThemeProvider} as
      * the top most component.
      *
      * @override
@@ -47,7 +46,7 @@ export class App extends AbstractApp {
             <JitsiThemeProvider>
                 <GlobalStyles />
                 <ChromeExtensionBanner />
-                {super._createMainElement(component, props)}
+                { super._createMainElement(component, props) }
             </JitsiThemeProvider>
         );
     }
