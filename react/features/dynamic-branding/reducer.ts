@@ -21,29 +21,6 @@ PersistenceRegistry.register(STORE_NAME, {
     selectedThemeContent: true,
 });
 
-function getInitialThemeState() {
-    try {
-        const savedTheme = localStorage.getItem('user-selected-theme');
-
-        if (savedTheme) {
-            const { url, content } = JSON.parse(savedTheme);
-
-            return {
-                selectedThemeUrl: url,
-                selectedThemeContent: content,
-            };
-        }
-    } catch (error) {
-        console.warn('Could not parse saved theme from localStorage', error);
-    }
-
-    // If anything fails or nothing is found, return a clean default state.
-    return {
-        selectedThemeUrl: null,
-        selectedThemeContent: null,
-    };
-}
-
 const DEFAULT_STATE = {
 
     /**
