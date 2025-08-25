@@ -34,13 +34,7 @@ MiddlewareRegistry.register((store: IStore) => next => action => {
     }
 
     case SET_SELECTED_THEME: {
-        const { url, content } = action.payload;
-
-        if (url && content) {
-            localStorage.setItem('user-selected-theme', JSON.stringify({ url, content }));
-        } else {
-            localStorage.removeItem('user-selected-theme');
-        }
+        const { content } = action.payload;
 
         // Apply the new theme to the UI for the current session.
         store.dispatch(setDynamicBrandingData(content || {}));

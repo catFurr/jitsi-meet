@@ -1,3 +1,4 @@
+import PersistenceRegistry from '../base/redux/PersistenceRegistry';
 import ReducerRegistry from '../base/redux/ReducerRegistry';
 import { type Image } from '../virtual-background/constants';
 
@@ -14,6 +15,11 @@ import {
  * state of the feature {@code dynamic-branding}.
  */
 const STORE_NAME = 'features/dynamic-branding';
+
+PersistenceRegistry.register(STORE_NAME, {
+    selectedThemeUrl: true,
+    selectedThemeContent: true,
+});
 
 function getInitialThemeState() {
     try {
@@ -182,12 +188,20 @@ const DEFAULT_STATE = {
     virtualBackgrounds: [],
 
     /**
-     * The user's selected theme properties.
+     * The URL of the user's currently selected custom theme.
      *
      * @public
-     * @type {{selectedThemeUrl: string | null, selectedThemeContent: Object | null}}
+     * @type {string|null}
      */
-    ...getInitialThemeState(),
+    selectedThemeUrl: null,
+
+    /**
+     * The complete JSON object content of the user's selected theme.
+     *
+     * @public
+     * @type {Object|null}
+     */
+    selectedThemeContent: null
 };
 
 export interface IDynamicBrandingState {
