@@ -603,7 +603,7 @@ class LargeVideo extends Component<IProps, IState> {
         e.preventDefault();
         this._isPanning = true;
         this._panStart = { x: e.clientX, y: e.clientY };
-        this._gestureStartPan = { ...this.state.pan }; 
+        this._gestureStartPan = { ...this.state.pan };
     }
 
     /**
@@ -653,7 +653,7 @@ class LargeVideo extends Component<IProps, IState> {
         const translateMatch = transform.match(/translate\(([^)]+)\)/);
 
         if (!scaleMatch || !translateMatch) {
-            return; 
+            return;
         }
 
         const finalScale = parseFloat(scaleMatch[1]);
