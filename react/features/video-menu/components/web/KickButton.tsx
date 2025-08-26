@@ -26,13 +26,6 @@ const KickButton = ({
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    const participant = useSelector((state: IReduxState) => getParticipantById(state, participantID));
-    const isParticipantHost = isRemoteParticipantHost(participant);
-
-    if (!participant || isParticipantHost) {
-        return null;
-    }
-
     const handleClick = useCallback(() => {
         notifyClick?.();
         if (notifyMode === NOTIFY_CLICK_MODE.PREVENT_AND_NOTIFY) {
@@ -40,6 +33,13 @@ const KickButton = ({
         }
         dispatch(openDialog(KickRemoteParticipantDialog, { participantID }));
     }, [ dispatch, notifyClick, notifyMode, participantID ]);
+
+    const participant = useSelector((state: IReduxState) => getParticipantById(state, participantID));
+    const isParticipantHost = isRemoteParticipantHost(participant);
+
+    if (!participant || isParticipantHost) {
+        return null;
+    }
 
     return (
         <ContextMenuItem
