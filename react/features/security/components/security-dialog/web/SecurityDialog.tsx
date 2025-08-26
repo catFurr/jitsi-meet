@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { IReduxState } from '../../../../app/types';
 import { getSecurityUiConfig } from '../../../../base/config/functions.any';
-import { isLocalParticipantHost } from '../../../../base/participants/functions';
+import { isLocalParticipantModerator } from '../../../../base/participants/functions';
 import Dialog from '../../../../base/ui/components/web/Dialog';
 import { isInBreakoutRoom } from '../../../../breakout-rooms/functions';
 import E2EESection from '../../../../e2ee/components/E2EESection';
@@ -29,11 +29,11 @@ export default function SecurityDialog() {
     const isInBreakout = useSelector(isInBreakoutRoom);
     const disableLobbyPassword = useSelector((state: IReduxState) => getSecurityUiConfig(state)?.disableLobbyPassword)
         || isInBreakout;
-    const isHost = useSelector(isLocalParticipantHost);
+    const isModerator = useSelector(isLocalParticipantModerator);
     const { hideLobbyButton } = useSelector(getSecurityUiConfig);
     const _isLobbyVisible = useSelector(isEnablingLobbyAllowed)
-        && lobbySupported && isHost && !isInBreakout && !hideLobbyButton;
-    const showE2ee = Boolean(e2eeSupported) && isHost;
+        && lobbySupported && isModerator && !isInBreakout && !hideLobbyButton;
+    const showE2ee = Boolean(e2eeSupported) && isModerator;
 
     return (
         <Dialog
