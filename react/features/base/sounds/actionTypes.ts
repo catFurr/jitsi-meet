@@ -62,3 +62,5 @@ export const STOP_SOUND = 'STOP_SOUND';
  * }
  */
 export const UNREGISTER_SOUND = 'UNREGISTER_SOUND';
+
+export const SET_SOUNDS_MUTED = 'SET_SOUNDS_MUTED';

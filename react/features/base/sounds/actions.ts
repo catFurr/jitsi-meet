@@ -6,6 +6,7 @@ import { AudioElement } from '../media/components/AbstractAudio';
 import {
     PLAY_SOUND,
     REGISTER_SOUND,
+    SET_SOUNDS_MUTED,
     STOP_SOUND,
     UNREGISTER_SOUND,
     _ADD_AUDIO_ELEMENT,
@@ -151,5 +152,18 @@ export function unregisterSound(soundId: string) {
     return {
         type: UNREGISTER_SOUND,
         soundId
+    };
+}
+
+/**
+Creates a Redux action to globally mute or unmute all sounds managed by Howler.
+
+@param {boolean} muted - Whether to mute or unmute the sounds.
+@returns {{type: string, muted: boolean}}
+*/
+export function setSoundsMuted(muted: boolean) {
+    return {
+        type: SET_SOUNDS_MUTED,
+        muted
     };
 }
