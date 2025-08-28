@@ -313,7 +313,7 @@ function getDevServerConfig() {
                 const pathName = urlPath === '/' ? '/' : urlPath.replace(/\/$/, ''); // Normalize path
 
                 // Skip assets, existing files, and special paths
-                if (urlPath.match(/\.(js|css|map|json|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|wasm)$/)) {
+                if (urlPath.match(/\.(js|css|map|json|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|wasm|sound)$/)) {
                     return next();
                 }
 
