@@ -13,7 +13,7 @@ import {
 } from '../base/participants/functions';
 import MiddlewareRegistry from '../base/redux/MiddlewareRegistry';
 import StateListenerRegistry from '../base/redux/StateListenerRegistry';
-import { playSound } from '../base/sounds/actions';
+import SoundService from '../base/sounds/components/SoundService';
 
 import { PARTICIPANT_VERIFIED, SET_MEDIA_ENCRYPTION_KEY, START_VERIFICATION, TOGGLE_E2EE } from './actionTypes';
 import { setE2EEMaxMode, toggleE2EE } from './actions';
@@ -38,11 +38,11 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 
     switch (action.type) {
     case APP_WILL_MOUNT:
-        registerE2eeAudioFiles(dispatch);
+        registerE2eeAudioFiles();
         break;
 
     case APP_WILL_UNMOUNT:
-        unregisterE2eeAudioFiles(dispatch);
+        unregisterE2eeAudioFiles();
         break;
 
     case CONFERENCE_JOINED:
@@ -87,7 +87,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 
             const soundID = action.enabled ? E2EE_ON_SOUND_ID : E2EE_OFF_SOUND_ID;
 
-            dispatch(playSound(soundID));
+            SoundService.play(soundID);
         }
 
         break;

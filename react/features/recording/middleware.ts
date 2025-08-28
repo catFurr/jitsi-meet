@@ -24,10 +24,7 @@ import { PARTICIPANT_ROLE } from '../base/participants/constants';
 import { getLocalParticipant, getParticipantDisplayName } from '../base/participants/functions';
 import MiddlewareRegistry from '../base/redux/MiddlewareRegistry';
 import StateListenerRegistry from '../base/redux/StateListenerRegistry';
-import {
-    playSound,
-    stopSound
-} from '../base/sounds/actions';
+import SoundService from '../base/sounds/components/SoundService';
 import { TRACK_ADDED } from '../base/tracks/actionTypes';
 import { hideNotification, showErrorNotification, showNotification } from '../notifications/actions';
 import { NOTIFICATION_TIMEOUT_TYPE } from '../notifications/constants';
@@ -65,6 +62,7 @@ import {
     unregisterRecordingAudioFiles
 } from './functions';
 import logger from './logger';
+
 
 /**
  * StateListenerRegistry provides a reliable way to detect the leaving of a
@@ -142,7 +140,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             };
 
             if (localRecording?.notifyAllParticipants && !onlySelf) {
-                dispatch(playSound(RECORDING_ON_SOUND_ID));
+                SoundService.play(RECORDING_ON_SOUND_ID);
             }
             dispatch(showNotification(props, NOTIFICATION_TIMEOUT_TYPE.MEDIUM));
             dispatch(showNotification({
@@ -197,7 +195,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             }, 100);
             dispatch(updateLocalRecordingStatus(false));
             if (localRecording?.notifyAllParticipants && !LocalRecordingManager.selfRecording) {
-                dispatch(playSound(RECORDING_OFF_SOUND_ID));
+                SoundService.play(RECORDING_OFF_SOUND_ID);
             }
             if (typeof APP !== 'undefined') {
                 APP.API.notifyRecordingStatusChanged(
@@ -268,7 +266,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
                 }
 
                 if (soundID) {
-                    dispatch(playSound(soundID));
+                    SoundService.play(soundID);
                 }
 
                 if (typeof APP !== 'undefined') {
@@ -300,8 +298,8 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             }
 
             if (soundOff && soundOn) {
-                dispatch(stopSound(soundOn));
-                dispatch(playSound(soundOff));
+                SoundService.stop(soundOn);
+                SoundService.play(soundOff);
             }
 
             if (typeof APP !== 'undefined') {

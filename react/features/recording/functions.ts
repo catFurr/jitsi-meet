@@ -6,7 +6,7 @@ import { isJwtFeatureEnabled } from '../base/jwt/functions';
 import { JitsiRecordingConstants } from '../base/lib-jitsi-meet';
 import { getSoundFileSrc } from '../base/media/functions';
 import { getLocalParticipant, getRemoteParticipants } from '../base/participants/functions';
-import { registerSound, unregisterSound } from '../base/sounds/actions';
+import SoundService from '../base/sounds/components/SoundService';
 import { isSpotTV } from '../base/util/spot';
 import { isInBreakoutRoom as isInBreakoutRoomF } from '../breakout-rooms/functions';
 import { isEnabled as isDropboxEnabled } from '../dropbox/functions';
@@ -369,14 +369,13 @@ export function isRemoteParticipantRecordingLocally(state: IReduxState) {
 /**
  * Unregisters the audio files based on locale.
  *
- * @param {Dispatch<any>} dispatch - The redux dispatch function.
  * @returns {void}
  */
-export function unregisterRecordingAudioFiles(dispatch: IStore['dispatch']) {
-    dispatch(unregisterSound(LIVE_STREAMING_OFF_SOUND_FILE));
-    dispatch(unregisterSound(LIVE_STREAMING_ON_SOUND_FILE));
-    dispatch(unregisterSound(RECORDING_OFF_SOUND_FILE));
-    dispatch(unregisterSound(RECORDING_ON_SOUND_FILE));
+export function unregisterRecordingAudioFiles() {
+    SoundService.unregister(LIVE_STREAMING_OFF_SOUND_FILE);
+    SoundService.unregister(LIVE_STREAMING_ON_SOUND_FILE);
+    SoundService.unregister(RECORDING_OFF_SOUND_FILE);
+    SoundService.unregister(RECORDING_ON_SOUND_FILE);
 }
 
 /**
@@ -390,24 +389,24 @@ export function registerRecordingAudioFiles(dispatch: IStore['dispatch'], should
     const language = i18next.language;
 
     if (shouldUnregister) {
-        unregisterRecordingAudioFiles(dispatch);
+        unregisterRecordingAudioFiles();
     }
 
-    dispatch(registerSound(
+    SoundService.register(
         LIVE_STREAMING_OFF_SOUND_ID,
-        getSoundFileSrc(LIVE_STREAMING_OFF_SOUND_FILE, language)));
+        getSoundFileSrc(LIVE_STREAMING_OFF_SOUND_FILE, language));
 
-    dispatch(registerSound(
+    SoundService.register(
         LIVE_STREAMING_ON_SOUND_ID,
-        getSoundFileSrc(LIVE_STREAMING_ON_SOUND_FILE, language)));
+        getSoundFileSrc(LIVE_STREAMING_ON_SOUND_FILE, language));
 
-    dispatch(registerSound(
+    SoundService.register(
         RECORDING_OFF_SOUND_ID,
-        getSoundFileSrc(RECORDING_OFF_SOUND_FILE, language)));
+        getSoundFileSrc(RECORDING_OFF_SOUND_FILE, language));
 
-    dispatch(registerSound(
+    SoundService.register(
         RECORDING_ON_SOUND_ID,
-        getSoundFileSrc(RECORDING_ON_SOUND_FILE, language)));
+        getSoundFileSrc(RECORDING_ON_SOUND_FILE, language));
 }
 
 /**

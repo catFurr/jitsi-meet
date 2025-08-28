@@ -18,9 +18,9 @@ MiddlewareRegistry.register(store => next => action => {
         // const isSoundEnabled = !moderatableSoundsEnabled || moderatableSoundsEnabled[action.soundId] !== false;
 
         // if (isSoundEnabled) {
-            SoundService.play(action.soundId);
+        SoundService.play(action.soundId);
         // } else {
-            // logger.info(`Sound [${action.soundId}] is disabled by moderation, not playing.`);
+        // logger.info(`Sound [${action.soundId}] is disabled by moderation, not playing.`);
         // }
 
         // We return here to prevent the old, broken action from continuing.

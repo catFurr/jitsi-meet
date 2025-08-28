@@ -1,6 +1,6 @@
-import { Howl, Howler } from "howler";
+import { Howl, Howler } from 'howler';
 
-import logger from "../logger";
+import logger from '../logger';
 
 class SoundService {
     /**
@@ -19,7 +19,7 @@ class SoundService {
      */
     public init(): void {
         Howler.autoUnlock = true;
-        logger.info("SoundService initialized.");
+        logger.info('SoundService initialized.');
     }
 
     /**

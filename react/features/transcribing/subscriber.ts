@@ -3,7 +3,7 @@ import { batch } from 'react-redux';
 import { IStore } from '../app/types';
 import { JitsiRecordingConstants } from '../base/lib-jitsi-meet';
 import StateListenerRegistry from '../base/redux/StateListenerRegistry';
-import { playSound } from '../base/sounds/actions';
+import SoundService from '../base/sounds/components/SoundService';
 import { showNotification } from '../notifications/actions';
 import { NOTIFICATION_TIMEOUT_TYPE } from '../notifications/constants';
 import { INotificationProps } from '../notifications/types';
@@ -63,7 +63,7 @@ function maybeEmitRecordingNotification(dispatch: IStore['dispatch'], getState: 
 
     batch(() => {
         dispatch(showNotification(notifyProps, NOTIFICATION_TIMEOUT_TYPE.SHORT));
-        dispatch(playSound(on ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID));
+        SoundService.play(on ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID);
     });
 }
 

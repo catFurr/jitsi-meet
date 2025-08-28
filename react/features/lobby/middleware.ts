@@ -20,11 +20,7 @@ import {
 } from '../base/participants/functions';
 import MiddlewareRegistry from '../base/redux/MiddlewareRegistry';
 import StateListenerRegistry from '../base/redux/StateListenerRegistry';
-import {
-    playSound,
-    registerSound,
-    unregisterSound
-} from '../base/sounds/actions';
+import SoundService from '../base/sounds/components/SoundService';
 import { isTestModeEnabled } from '../base/testing/functions';
 import { BUTTON_TYPES } from '../base/ui/constants.any';
 import { openChat } from '../chat/actions';
@@ -76,10 +72,10 @@ import { IKnockingParticipant } from './types';
 MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case APP_WILL_MOUNT:
-        store.dispatch(registerSound(KNOCKING_PARTICIPANT_SOUND_ID, KNOCKING_PARTICIPANT_FILE));
+        SoundService.register(KNOCKING_PARTICIPANT_SOUND_ID, KNOCKING_PARTICIPANT_FILE);
         break;
     case APP_WILL_UNMOUNT:
-        store.dispatch(unregisterSound(KNOCKING_PARTICIPANT_SOUND_ID));
+        SoundService.unregister(KNOCKING_PARTICIPANT_SOUND_ID);
         break;
     case CONFERENCE_FAILED:
         return _conferenceFailed(store, next, action);
@@ -148,7 +144,7 @@ StateListenerRegistry.register(
                         })
                     );
                     if (soundsParticipantKnocking) {
-                        dispatch(playSound(KNOCKING_PARTICIPANT_SOUND_ID));
+                        SoundService.play(KNOCKING_PARTICIPANT_SOUND_ID);
                     }
 
                     const isParticipantsPaneVisible = getParticipantsPaneOpen(getState());

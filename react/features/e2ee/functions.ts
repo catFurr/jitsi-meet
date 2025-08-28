@@ -1,11 +1,11 @@
 import i18next from 'i18next';
 
-import { IReduxState, IStore } from '../app/types';
+import { IReduxState } from '../app/types';
 import { IStateful } from '../base/app/types';
 import { getSoundFileSrc } from '../base/media/functions';
 import { getParticipantById, getParticipantCount, getParticipantCountWithFake } from '../base/participants/functions';
 import { toState } from '../base/redux/functions';
-import { registerSound, unregisterSound } from '../base/sounds/actions';
+import SoundService from '../base/sounds/components/SoundService';
 
 import {
     E2EE_OFF_SOUND_ID,
@@ -90,31 +90,29 @@ export function displayVerification(state: IReduxState, pId: string) {
 /**
  * Unregisters the audio files based on locale.
  *
- * @param {Dispatch<any>} dispatch - The redux dispatch function.
  * @returns {void}
  */
-export function unregisterE2eeAudioFiles(dispatch: IStore['dispatch']) {
-    dispatch(unregisterSound(E2EE_OFF_SOUND_ID));
-    dispatch(unregisterSound(E2EE_ON_SOUND_ID));
+export function unregisterE2eeAudioFiles() {
+    SoundService.unregister(E2EE_OFF_SOUND_ID);
+    SoundService.unregister(E2EE_ON_SOUND_ID);
 }
 
 /**
  * Registers the audio files based on locale.
  *
- * @param {Dispatch<any>} dispatch - The redux dispatch function.
  * @param {boolean|undefined} shouldUnregister - Whether the sounds should be unregistered.
  * @returns {void}
  */
-export function registerE2eeAudioFiles(dispatch: IStore['dispatch'], shouldUnregister?: boolean) {
+export function registerE2eeAudioFiles(shouldUnregister?: boolean) {
     const language = i18next.language;
 
-    shouldUnregister && unregisterE2eeAudioFiles(dispatch);
+    shouldUnregister && unregisterE2eeAudioFiles();
 
-    dispatch(registerSound(
+    SoundService.register(
         E2EE_OFF_SOUND_ID,
-        getSoundFileSrc(E2EE_OFF_SOUND_FILE, language)));
+        getSoundFileSrc(E2EE_OFF_SOUND_FILE, language));
 
-    dispatch(registerSound(
+    SoundService.register(
         E2EE_ON_SOUND_ID,
-        getSoundFileSrc(E2EE_ON_SOUND_FILE, language)));
+        getSoundFileSrc(E2EE_ON_SOUND_FILE, language));
 }

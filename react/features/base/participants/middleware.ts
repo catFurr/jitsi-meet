@@ -40,7 +40,6 @@ import { JitsiConferenceEvents } from '../lib-jitsi-meet';
 import { VIDEO_TYPE } from '../media/constants';
 import MiddlewareRegistry from '../redux/MiddlewareRegistry';
 import StateListenerRegistry from '../redux/StateListenerRegistry';
-import { playSound, registerSound, unregisterSound } from '../sounds/actions';
 import { isImageDataURL } from '../util/uri';
 
 import {
@@ -95,6 +94,7 @@ import { PARTICIPANT_JOINED_FILE, PARTICIPANT_LEFT_FILE } from './sounds';
 import { IJitsiParticipant } from './types';
 
 import './subscriber';
+import SoundService from '../sounds/components/SoundService';
 
 /**
  * Middleware that captures CONFERENCE_JOINED and CONFERENCE_LEFT actions and
@@ -106,12 +106,12 @@ import './subscriber';
 MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case APP_WILL_MOUNT:
-        _registerSounds(store);
+        _registerSounds();
 
         return _localParticipantJoined(store, next, action);
 
     case APP_WILL_UNMOUNT:
-        _unregisterSounds(store);
+        _unregisterSounds();
 
         return _localParticipantLeft(store, next, action);
 
@@ -629,7 +629,7 @@ function _localParticipantLeft({ dispatch }: IStore, next: Function, action: Any
  * @private
  * @returns {void}
  */
-function _maybePlaySounds({ getState, dispatch }: IStore, action: AnyAction) {
+function _maybePlaySounds({ getState }: IStore, action: AnyAction) {
     const state = getState();
     const { startAudioMuted } = state['features/base/config'];
     const { soundsParticipantJoined: joinSound, soundsParticipantLeft: leftSound } = state['features/base/settings'];
@@ -651,10 +651,10 @@ function _maybePlaySounds({ getState, dispatch }: IStore, action: AnyAction) {
 
             // The sounds for the poltergeist are handled by features/invite.
             if (presence !== INVITED && presence !== CALLING && !isReplacing) {
-                dispatch(playSound(PARTICIPANT_JOINED_SOUND_ID));
+                SoundService.play(PARTICIPANT_JOINED_SOUND_ID);
             }
         } else if (action.type === PARTICIPANT_LEFT && !isReplaced && leftSound) {
-            dispatch(playSound(PARTICIPANT_LEFT_SOUND_ID));
+            SoundService.play(PARTICIPANT_LEFT_SOUND_ID);
         }
     }
 }
@@ -778,7 +778,7 @@ function _localRecordingUpdated({ dispatch, getState }: IStore, conference: IJit
         descriptionKey: newValue ? 'notify.localRecordingStarted' : 'notify.localRecordingStopped',
         uid: LOCAL_RECORDING_NOTIFICATION_ID
     }, NOTIFICATION_TIMEOUT_TYPE.MEDIUM));
-    dispatch(playSound(newValue ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID));
+    SoundService.play(newValue ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID);
 }
 
 
@@ -939,31 +939,28 @@ function _raiseHandUpdated({ dispatch, getState }: IStore, conference: IJitsiCon
         }, NOTIFICATION_TIMEOUT_TYPE.LONG));
     }
 
-    dispatch(playSound(RAISE_HAND_SOUND_ID));
+    SoundService.play(RAISE_HAND_SOUND_ID);
 
 }
 
 /**
  * Registers sounds related with the participants feature.
  *
- * @param {Store} store - The redux store.
  * @private
  * @returns {void}
  */
-function _registerSounds({ dispatch }: IStore) {
-    dispatch(
-        registerSound(PARTICIPANT_JOINED_SOUND_ID, PARTICIPANT_JOINED_FILE));
-    dispatch(registerSound(PARTICIPANT_LEFT_SOUND_ID, PARTICIPANT_LEFT_FILE));
+function _registerSounds() {
+    SoundService.register(PARTICIPANT_JOINED_SOUND_ID, PARTICIPANT_JOINED_FILE);
+    SoundService.register(PARTICIPANT_LEFT_SOUND_ID, PARTICIPANT_LEFT_FILE);
 }
 
 /**
  * Unregisters sounds related with the participants feature.
  *
- * @param {Store} store - The redux store.
  * @private
  * @returns {void}
  */
-function _unregisterSounds({ dispatch }: IStore) {
-    dispatch(unregisterSound(PARTICIPANT_JOINED_SOUND_ID));
-    dispatch(unregisterSound(PARTICIPANT_LEFT_SOUND_ID));
+function _unregisterSounds() {
+    SoundService.unregister(PARTICIPANT_JOINED_SOUND_ID);
+    SoundService.unregister(PARTICIPANT_LEFT_SOUND_ID);
 }
