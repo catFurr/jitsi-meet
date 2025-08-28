@@ -22,8 +22,7 @@ import {
 } from '../base/participants/functions';
 import MiddlewareRegistry from '../base/redux/MiddlewareRegistry';
 import StateListenerRegistry from '../base/redux/StateListenerRegistry';
-import { unregisterSound } from '../base/sounds/actions';
-import SoundService from '../base/sounds/components/SoundService';
+import { playSound, registerSound, unregisterSound } from '../base/sounds/actions';
 import { addGif } from '../gifs/actions';
 import { extractGifURL, getGifDisplayMode, isGifEnabled, isGifMessage } from '../gifs/function.any';
 import { showMessageNotification } from '../notifications/actions';
@@ -94,11 +93,11 @@ MiddlewareRegistry.register(store => next => action => {
         break;
 
     case APP_WILL_MOUNT:
-        SoundService.register(INCOMING_MSG_SOUND_ID, INCOMING_MSG_SOUND_FILE);
+        dispatch(registerSound(INCOMING_MSG_SOUND_ID, INCOMING_MSG_SOUND_FILE));
         break;
 
     case APP_WILL_UNMOUNT:
-        dispatch(unregisterSound(INCOMING_MSG_SOUND_ID));
+        dispatch(unregisterSound(INCOMING_MSG_SOUND_ID))
         break;
 
     case CONFERENCE_JOINED:
@@ -517,7 +516,7 @@ function _handleReceivedMessage({ dispatch, getState }: IStore,
     const { soundsIncomingMessage: soundEnabled, userSelectedNotifications } = state['features/base/settings'];
 
     if (soundEnabled && shouldPlaySound && !isChatOpen) {
-        SoundService.play(INCOMING_MSG_SOUND_ID);
+        dispatch(playSound(INCOMING_MSG_SOUND_ID));
     }
 
     // Provide a default for the case when a message is being

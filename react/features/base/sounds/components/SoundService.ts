@@ -1,4 +1,3 @@
-// @ts-expect-error
 import { Howl, Howler } from "howler";
 
 import logger from "../logger";
@@ -33,31 +32,58 @@ class SoundService {
      * @returns {void}
      */
     public register(soundId: string, filePath: string, options: any = {}): void {
-        console.log("registering sound");
         if (this.howlSounds.has(soundId)) {
             logger.warn(`Sound '${soundId}' is already registered.`);
 
             return;
         }
 
+        const correctedSrc = `/meet/sounds/${filePath}`;
+
         const newHowl = new Howl({
-            src: filePath,
+            src: correctedSrc,
             loop: options.loop || false,
             onload: () => {
                 logger.info(`Sound '${soundId}' loaded successfully.`);
             },
-            onloaderror: (howlId: string, error: any) => {
+            onloaderror: (howlId: number, error: any) => {
                 logger.error(`Error loading sound '${soundId}' from '${filePath}':`, error);
             },
             onplay: () => {
                 logger.info(`Sound '${soundId}' played successfully.`);
             },
-            onplayerror: (howlId: string, error: any) => {
+            onplayerror: (howlId: number, error: any) => {
                 logger.error(`Error playing sound '${soundId}' from '${filePath}':`, error);
             },
         });
 
         this.howlSounds.set(soundId, newHowl);
+    }
+
+    /**
+     * Unregisters a sound from the service. This stops any ongoing playback
+     * and unloads the audio file from memory.
+     *
+     * @param {string} soundId - The identifier of the sound to unregister.
+     * @returns {void}
+     */
+    public unregister(soundId: string): void {
+        const soundToUnregister = this.howlSounds.get(soundId);
+
+        if (soundToUnregister) {
+            // Stop the sound to prevent it from continuing to play after being unregistered.
+            soundToUnregister.stop();
+
+            // Unload the audio file from memory. This is crucial for memory management.
+            soundToUnregister.unload();
+
+            // Remove the sound from our internal map.
+            this.howlSounds.delete(soundId);
+
+            logger.info(`Sound '${soundId}' has been unregistered.`);
+        } else {
+            logger.warn(`SoundService.unregister: No sound found for id: ${soundId}`);
+        }
     }
 
     /**
@@ -72,7 +98,6 @@ class SoundService {
         console.log(`playing '${soundId}'`);
 
         if (soundToPlay) {
-            // Trust Howler to queue the play command if it's still loading.
             soundToPlay.play();
         } else {
             logger.warn(`SoundService.play: No sound found for id: ${soundId}`);

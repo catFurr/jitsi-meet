@@ -34,8 +34,7 @@ MiddlewareRegistry.register(store => next => action => {
         const sounds = state['features/base/sounds'];
 
         for (const [ soundId, soundData ] of sounds.entries()) {
-            console.log(soundData);
-            const correctedSrc = soundData.src;
+            const correctedSrc = `${soundData.src}`;
 
             if (typeof correctedSrc === 'string') {
                 SoundService.register(soundId, correctedSrc);

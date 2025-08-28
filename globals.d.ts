@@ -3,6 +3,8 @@ import { IConfig } from "./react/features/base/config/configType";
 
 export {};
 
+declare module 'howler'
+
 declare global {
     const APP: {
         store: IStore;
