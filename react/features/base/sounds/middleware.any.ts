@@ -1,105 +1,62 @@
-import { Howl, Howler } from 'howler';
 import i18next from 'i18next';
 
-import { IStore } from '../../app/types';
+import { registerE2eeAudioFiles } from '../../../features/e2ee/functions';
+import { registerRecordingAudioFiles } from '../../../features/recording/functions';
 import { APP_WILL_MOUNT } from '../app/actionTypes';
 import { AudioSupportedLanguage } from '../media/constants';
 import MiddlewareRegistry from '../redux/MiddlewareRegistry';
 import StateListenerRegistry from '../redux/StateListenerRegistry';
 
 import { PLAY_SOUND, SET_SOUNDS_MUTED, STOP_SOUND } from './actionTypes';
+import SoundService from './components/SoundService';
 import logger from './logger';
 
-const howlSounds: Map<string, Howl> = new Map();
+MiddlewareRegistry.register(store => next => action => {
+    if (action.type === PLAY_SOUND) {
+        const state = store.getState();
+        const { enabled: moderatableSoundsEnabled } = state['features/sound-moderation'] || {};
+        const isSoundEnabled = !moderatableSoundsEnabled || moderatableSoundsEnabled[action.soundId] !== false;
 
-/**
- * Initializes all registered sounds as Howl objects on application startup.
- *
- * @param {Store} store - The Redux store instance.
- * @private
- * @returns {void}
- */
-function _initializeHowlerSounds({ getState }: IStore) {
-    Howler.autoUnlock = true;
-
-    const state = getState();
-    const sounds = state['features/base/sounds'];
-
-    for (const [ soundId, soundData ] of sounds.entries()) {
-        if (howlSounds.has(soundId)) {
-            continue; // Don't re-initialize if it already exists.
+        if (isSoundEnabled) {
+            SoundService.play(action.soundId);
+        } else {
+            logger.info(`Sound [${action.soundId}] is disabled by moderation, not playing.`);
         }
 
-        const { src } = soundData;
-        const correctedSrc = `/meet/${src}`;
-
-        const howlSound = new Howl({
-            src: [ correctedSrc ],
-            onload: () => {
-                logger.info(`Sound '${soundId}' loaded successfully via Howler.`);
-            },
-            onloaderror: (howlId, error) => {
-                logger.error(`Howler error loading sound '${soundId}' from '${correctedSrc}':`, error);
-            },
-            onplay: () => {
-                logger.info(`Sound '${soundId}' played successfully via Howler.`);
-            },
-            onplayerror: (howlId, error) => {
-                logger.error(`Howler error playing sound '${soundId}' from '${correctedSrc}':`, error);
-            }
-        });
-
-        howlSounds.set(soundId, howlSound);
+        // We return here to prevent the old, broken action from continuing.
+        return;
     }
-}
-
-MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case APP_WILL_MOUNT:
-        _initializeHowlerSounds(store);
+        SoundService.init();
+
+        const state = store.getState();
+        const sounds = state['features/base/sounds'];
+
+        for (const [ soundId, soundData ] of sounds.entries()) {
+            console.log(soundData);
+            const correctedSrc = soundData.src;
+
+            if (typeof correctedSrc === 'string') {
+                SoundService.register(soundId, correctedSrc);
+            } else {
+                logger.warn(`Sound with ID '${soundId}' was registered without a valid string source.`);
+            }
+        }
         break;
     case PLAY_SOUND:
-        _playSound(action.soundId);
+        SoundService.play(action.soundId);
         break;
     case STOP_SOUND:
-        _stopSound(action.soundId);
+        SoundService.stop(action.soundId);
         break;
     case SET_SOUNDS_MUTED:
-        Howler.mute(action.muted);
+        SoundService.mute(action.muted);
         break;
     }
 
     return next(action);
 });
-
-function _playSound(soundId: string) {
-    const soundToPlay = howlSounds.get(soundId);
-
-    if (soundToPlay) {
-        logger.info(`Attempting to play sound '${soundId}' with Howler.`);
-        soundToPlay.play();
-    } else {
-        logger.warn(`PLAY_SOUND: No Howl instance found for id: ${soundId}`);
-    }
-}
-
-
-/**
- * Stops a sound from our Howl instance map.
- *
- * @param {string} soundId - The identifier of the sound to be stopped.
- * @private
- * @returns {void}
- */
-function _stopSound(soundId: string) {
-    const soundToStop = howlSounds.get(soundId);
-
-    if (soundToStop) {
-        soundToStop.stop();
-    } else {
-        logger.warn(`STOP_SOUND: No Howl instance found for id: ${soundId}`);
-    }
-}
 
 /**
  * Returns whether the language is supported for audio messages.

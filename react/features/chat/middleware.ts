@@ -22,7 +22,8 @@ import {
 } from '../base/participants/functions';
 import MiddlewareRegistry from '../base/redux/MiddlewareRegistry';
 import StateListenerRegistry from '../base/redux/StateListenerRegistry';
-import { playSound, registerSound, unregisterSound } from '../base/sounds/actions';
+import { unregisterSound } from '../base/sounds/actions';
+import SoundService from '../base/sounds/components/SoundService';
 import { addGif } from '../gifs/actions';
 import { extractGifURL, getGifDisplayMode, isGifEnabled, isGifMessage } from '../gifs/function.any';
 import { showMessageNotification } from '../notifications/actions';
@@ -93,8 +94,7 @@ MiddlewareRegistry.register(store => next => action => {
         break;
 
     case APP_WILL_MOUNT:
-        dispatch(
-                registerSound(INCOMING_MSG_SOUND_ID, INCOMING_MSG_SOUND_FILE));
+        SoundService.register(INCOMING_MSG_SOUND_ID, INCOMING_MSG_SOUND_FILE);
         break;
 
     case APP_WILL_UNMOUNT:
@@ -517,7 +517,7 @@ function _handleReceivedMessage({ dispatch, getState }: IStore,
     const { soundsIncomingMessage: soundEnabled, userSelectedNotifications } = state['features/base/settings'];
 
     if (soundEnabled && shouldPlaySound && !isChatOpen) {
-        dispatch(playSound(INCOMING_MSG_SOUND_ID));
+        SoundService.play(INCOMING_MSG_SOUND_ID);
     }
 
     // Provide a default for the case when a message is being
