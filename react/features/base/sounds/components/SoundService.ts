@@ -121,6 +121,24 @@ class SoundService {
     }
 
     /**
+     * Mutes or unmutes a specific sound.
+     *
+     * @param {string} soundId - The identifier of the sound to mute/unmute.
+     * @param {boolean} muted - Whether to mute (true) or unmute (false) the sound.
+     * @returns {void}
+     */
+    public muteSound(soundId: string, muted: boolean): void {
+        const soundToMute = this.howlSounds.get(soundId);
+
+        if (soundToMute) {
+            soundToMute.mute(muted);
+            logger.info(`Sound '${soundId}' has been ${muted ? 'muted' : 'unmuted'}.`);
+        } else {
+            logger.warn(`SoundService.muteSound: No sound found for id: ${soundId}`);
+        }
+    }
+
+    /**
      * Globally mutes or unmutes all sounds managed by the service.
      *
      * @param {boolean} muted - Whether to mute or unmute the sounds.

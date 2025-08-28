@@ -40,6 +40,7 @@ import { JitsiConferenceEvents } from '../lib-jitsi-meet';
 import { VIDEO_TYPE } from '../media/constants';
 import MiddlewareRegistry from '../redux/MiddlewareRegistry';
 import StateListenerRegistry from '../redux/StateListenerRegistry';
+import SoundService from "../sounds/components/SoundService";
 import { isImageDataURL } from '../util/uri';
 
 import {
@@ -94,7 +95,6 @@ import { PARTICIPANT_JOINED_FILE, PARTICIPANT_LEFT_FILE } from './sounds';
 import { IJitsiParticipant } from './types';
 
 import './subscriber';
-import SoundService from '../sounds/components/SoundService';
 
 /**
  * Middleware that captures CONFERENCE_JOINED and CONFERENCE_LEFT actions and
