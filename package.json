@@ -141,6 +141,7 @@
     "@types/amplitude-js": "8.16.5",
     "@types/audioworklet": "0.0.29",
     "@types/dom-screen-wake-lock": "1.0.1",
+    "@types/howler": "^2.2.12",
     "@types/js-md5": "0.4.3",
     "@types/jsonwebtoken": "9.0.7",
     "@types/lodash-es": "4.17.12",

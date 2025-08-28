@@ -13,15 +13,15 @@ import logger from './logger';
 
 MiddlewareRegistry.register(store => next => action => {
     if (action.type === PLAY_SOUND) {
-        const state = store.getState();
-        const { enabled: moderatableSoundsEnabled } = state['features/sound-moderation'] || {};
-        const isSoundEnabled = !moderatableSoundsEnabled || moderatableSoundsEnabled[action.soundId] !== false;
+        // const state = store.getState();
+        // const { enabled: moderatableSoundsEnabled } = state['features/sound-moderation'] || {};
+        // const isSoundEnabled = !moderatableSoundsEnabled || moderatableSoundsEnabled[action.soundId] !== false;
 
-        if (isSoundEnabled) {
+        // if (isSoundEnabled) {
             SoundService.play(action.soundId);
-        } else {
-            logger.info(`Sound [${action.soundId}] is disabled by moderation, not playing.`);
-        }
+        // } else {
+            // logger.info(`Sound [${action.soundId}] is disabled by moderation, not playing.`);
+        // }
 
         // We return here to prevent the old, broken action from continuing.
         return;

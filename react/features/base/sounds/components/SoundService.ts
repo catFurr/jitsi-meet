@@ -1,6 +1,7 @@
-import { Howl, Howler } from 'howler';
+// @ts-expect-error
+import { Howl, Howler } from "howler";
 
-import logger from '../logger';
+import logger from "../logger";
 
 class SoundService {
     /**
@@ -14,12 +15,12 @@ class SoundService {
     /**
      * Initializes the sound service. This should be called once on app startup.
      * It ensures the audio context is unlocked and ready.
-     * 
+     *
      * @returns {void}
      */
     public init(): void {
         Howler.autoUnlock = true;
-        logger.info('SoundService initialized.');
+        logger.info("SoundService initialized.");
     }
 
     /**
@@ -32,7 +33,7 @@ class SoundService {
      * @returns {void}
      */
     public register(soundId: string, filePath: string, options: any = {}): void {
-        console.log('registering sound');
+        console.log("registering sound");
         if (this.howlSounds.has(soundId)) {
             logger.warn(`Sound '${soundId}' is already registered.`);
 
@@ -45,15 +46,15 @@ class SoundService {
             onload: () => {
                 logger.info(`Sound '${soundId}' loaded successfully.`);
             },
-            onloaderror: (howlId, error) => {
+            onloaderror: (howlId: string, error: any) => {
                 logger.error(`Error loading sound '${soundId}' from '${filePath}':`, error);
             },
             onplay: () => {
                 logger.info(`Sound '${soundId}' played successfully.`);
             },
-            onplayerror: (howlId, error) => {
+            onplayerror: (howlId: string, error: any) => {
                 logger.error(`Error playing sound '${soundId}' from '${filePath}':`, error);
-            }
+            },
         });
 
         this.howlSounds.set(soundId, newHowl);
