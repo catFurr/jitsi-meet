@@ -1,5 +1,10 @@
 import { Howl, Howler } from 'howler';
+import { useSelector } from 'react-redux';
 
+import { IReduxState } from '../../../app/types';
+import { getConferenceState } from '../../conference/functions';
+import { Sounds } from '../../config/configType';
+import { getDisabledSounds } from '../functions.any';
 import logger from '../logger';
 
 class SoundService {
@@ -94,13 +99,22 @@ class SoundService {
      */
     public play(soundId: string): void {
         const soundToPlay = this.howlSounds.get(soundId);
+        const reduxState = useSelector((state: IReduxState) => state);
 
-        console.log(`playing '${soundId}'`);
+        const disabledSounds = getDisabledSounds(reduxState);
+        const { leaving } = getConferenceState(reduxState);
 
-        if (soundToPlay) {
-            soundToPlay.play();
-        } else {
-            logger.warn(`SoundService.play: No sound found for id: ${soundId}`);
+        // Skip playing sounds when leaving, to avoid hearing that recording has stopped and so on.
+        if (leaving) {
+            return;
+        }
+
+        if (!disabledSounds.includes(soundId as Sounds) && !disabledSounds.find(id => soundId.startsWith(id))) {
+            if (soundToPlay) {
+                soundToPlay.play();
+            } else {
+                logger.warn(`SoundService.play: No sound found for id: ${soundId}`);
+            }
         }
     }
 

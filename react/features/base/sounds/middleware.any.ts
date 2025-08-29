@@ -7,25 +7,10 @@ import { AudioSupportedLanguage } from '../media/constants';
 import MiddlewareRegistry from '../redux/MiddlewareRegistry';
 import StateListenerRegistry from '../redux/StateListenerRegistry';
 
-import { PLAY_SOUND, SET_SOUNDS_MUTED, STOP_SOUND } from './actionTypes';
 import SoundService from './components/SoundService';
 import logger from './logger';
 
 MiddlewareRegistry.register(store => next => action => {
-    if (action.type === PLAY_SOUND) {
-        // const state = store.getState();
-        // const { enabled: moderatableSoundsEnabled } = state['features/sound-moderation'] || {};
-        // const isSoundEnabled = !moderatableSoundsEnabled || moderatableSoundsEnabled[action.soundId] !== false;
-
-        // if (isSoundEnabled) {
-        SoundService.play(action.soundId);
-        // } else {
-        // logger.info(`Sound [${action.soundId}] is disabled by moderation, not playing.`);
-        // }
-
-        // We return here to prevent the old, broken action from continuing.
-        return;
-    }
     switch (action.type) {
     case APP_WILL_MOUNT:
         SoundService.init();
@@ -42,15 +27,6 @@ MiddlewareRegistry.register(store => next => action => {
                 logger.warn(`Sound with ID '${soundId}' was registered without a valid string source.`);
             }
         }
-        break;
-    case PLAY_SOUND:
-        SoundService.play(action.soundId);
-        break;
-    case STOP_SOUND:
-        SoundService.stop(action.soundId);
-        break;
-    case SET_SOUNDS_MUTED:
-        SoundService.mute(action.muted);
         break;
     }
 
