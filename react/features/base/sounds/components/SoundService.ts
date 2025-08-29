@@ -51,13 +51,13 @@ class SoundService {
             onload: () => {
                 logger.info(`Sound '${soundId}' loaded successfully.`);
             },
-            onloaderror: (howlId: number, error: any) => {
+            onloaderror: (howlId: number, error: unknown) => {
                 logger.error(`Error loading sound '${soundId}' from '${filePath}':`, error);
             },
             onplay: () => {
                 logger.info(`Sound '${soundId}' played successfully.`);
             },
-            onplayerror: (howlId: number, error: any) => {
+            onplayerror: (howlId: number, error: unknown) => {
                 logger.error(`Error playing sound '${soundId}' from '${filePath}':`, error);
             },
         });
