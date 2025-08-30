@@ -95,12 +95,12 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 
     switch (action.type) {
     case APP_WILL_MOUNT:
-        registerRecordingAudioFiles(dispatch);
+        registerRecordingAudioFiles();
 
         break;
 
     case APP_WILL_UNMOUNT:
-        unregisterRecordingAudioFiles(dispatch);
+        unregisterRecordingAudioFiles();
 
         break;
 

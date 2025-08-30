@@ -28,15 +28,6 @@ MiddlewareRegistry.register(store => next => action => {
             }
         }
         break;
-    case PLAY_SOUND:
-        SoundService.play(action.soundId, store.getState());
-        break;
-    case STOP_SOUND:
-        SoundService.stop(action.soundId);
-        break;
-    case SET_SOUNDS_MUTED:
-        SoundService.mute(action.muted);
-        break;
     }
 
     return next(action);

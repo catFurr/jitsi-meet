@@ -778,7 +778,7 @@ function _localRecordingUpdated({ dispatch, getState }: IStore, conference: IJit
         descriptionKey: newValue ? 'notify.localRecordingStarted' : 'notify.localRecordingStopped',
         uid: LOCAL_RECORDING_NOTIFICATION_ID
     }, NOTIFICATION_TIMEOUT_TYPE.MEDIUM));
-    SoundService.play(newValue ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID, getState);
+    SoundService.play(newValue ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID, state);
 }
 
 
