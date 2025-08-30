@@ -63,7 +63,7 @@ function maybeEmitRecordingNotification(dispatch: IStore['dispatch'], getState: 
 
     batch(() => {
         dispatch(showNotification(notifyProps, NOTIFICATION_TIMEOUT_TYPE.SHORT));
-        SoundService.play(on ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID);
+        SoundService.play(on ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID, state);
     });
 }
 

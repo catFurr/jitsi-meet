@@ -516,7 +516,7 @@ function _handleReceivedMessage({ dispatch, getState }: IStore,
     const { soundsIncomingMessage: soundEnabled, userSelectedNotifications } = state['features/base/settings'];
 
     if (soundEnabled && shouldPlaySound && !isChatOpen) {
-        SoundService.play(INCOMING_MSG_SOUND_ID);
+        SoundService.play(INCOMING_MSG_SOUND_ID, getState());
     }
 
     // Provide a default for the case when a message is being

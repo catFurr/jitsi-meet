@@ -1,6 +1,6 @@
 import i18next from 'i18next';
 
-import { IReduxState, IStore } from '../app/types';
+import { IReduxState } from '../app/types';
 import { MEET_FEATURES } from '../base/jwt/constants';
 import { isJwtFeatureEnabled } from '../base/jwt/functions';
 import { JitsiRecordingConstants } from '../base/lib-jitsi-meet';
@@ -381,11 +381,10 @@ export function unregisterRecordingAudioFiles() {
 /**
  * Registers the audio files based on locale.
  *
- * @param {Dispatch<any>} dispatch - The redux dispatch function.
  * @param {boolean|undefined} shouldUnregister - Whether the sounds should be unregistered.
  * @returns {void}
  */
-export function registerRecordingAudioFiles(dispatch: IStore['dispatch'], shouldUnregister?: boolean) {
+export function registerRecordingAudioFiles(shouldUnregister?: boolean) {
     const language = i18next.language;
 
     if (shouldUnregister) {

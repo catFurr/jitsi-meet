@@ -40,7 +40,7 @@ import { JitsiConferenceEvents } from '../lib-jitsi-meet';
 import { VIDEO_TYPE } from '../media/constants';
 import MiddlewareRegistry from '../redux/MiddlewareRegistry';
 import StateListenerRegistry from '../redux/StateListenerRegistry';
-import SoundService from "../sounds/components/SoundService";
+import SoundService from '../sounds/components/SoundService';
 import { isImageDataURL } from '../util/uri';
 
 import {
@@ -651,10 +651,10 @@ function _maybePlaySounds({ getState }: IStore, action: AnyAction) {
 
             // The sounds for the poltergeist are handled by features/invite.
             if (presence !== INVITED && presence !== CALLING && !isReplacing) {
-                SoundService.play(PARTICIPANT_JOINED_SOUND_ID);
+                SoundService.play(PARTICIPANT_JOINED_SOUND_ID, getState());
             }
         } else if (action.type === PARTICIPANT_LEFT && !isReplaced && leftSound) {
-            SoundService.play(PARTICIPANT_LEFT_SOUND_ID);
+            SoundService.play(PARTICIPANT_LEFT_SOUND_ID, getState());
         }
     }
 }
@@ -778,7 +778,7 @@ function _localRecordingUpdated({ dispatch, getState }: IStore, conference: IJit
         descriptionKey: newValue ? 'notify.localRecordingStarted' : 'notify.localRecordingStopped',
         uid: LOCAL_RECORDING_NOTIFICATION_ID
     }, NOTIFICATION_TIMEOUT_TYPE.MEDIUM));
-    SoundService.play(newValue ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID);
+    SoundService.play(newValue ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID, getState);
 }
 
 
@@ -939,7 +939,7 @@ function _raiseHandUpdated({ dispatch, getState }: IStore, conference: IJitsiCon
         }, NOTIFICATION_TIMEOUT_TYPE.LONG));
     }
 
-    SoundService.play(RAISE_HAND_SOUND_ID);
+    SoundService.play(RAISE_HAND_SOUND_ID, getState());
 
 }
 

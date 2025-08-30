@@ -42,7 +42,7 @@ MiddlewareRegistry.register(store => next => action => {
                     descriptionKey: 'toolbar.noisyAudioInputDesc'
                 }, NOTIFICATION_TIMEOUT_TYPE.MEDIUM));
 
-                SoundService.play(NOISY_AUDIO_INPUT_SOUND_ID);
+                SoundService.play(NOISY_AUDIO_INPUT_SOUND_ID, getState());
 
                 if (notification) {
                     // we store the last notification id so we can hide it if the mic is muted

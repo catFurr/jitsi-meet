@@ -277,7 +277,7 @@ StateListenerRegistry.register(
                     uid: ASKED_TO_UNMUTE_NOTIFICATION_ID
                 }, NOTIFICATION_TIMEOUT_TYPE.STICKY));
 
-                SoundService.play(ASKED_TO_UNMUTE_SOUND_ID);
+                SoundService.play(ASKED_TO_UNMUTE_SOUND_ID, getState());
             });
 
             conference.on(JitsiConferenceEvents.AV_MODERATION_REJECTED, ({ mediaType }: { mediaType: MediaType; }) => {

@@ -1,5 +1,9 @@
 import { Howl, Howler } from 'howler';
 
+import { IReduxState } from '../../../app/types';
+import { getConferenceState } from '../../conference/functions';
+import { Sounds } from '../../config/configType';
+import { getDisabledSounds } from '../functions.any';
 import logger from '../logger';
 
 class SoundService {
@@ -46,13 +50,13 @@ class SoundService {
             onload: () => {
                 logger.info(`Sound '${soundId}' loaded successfully.`);
             },
-            onloaderror: (howlId: number, error: any) => {
+            onloaderror: (howlId: number, error: unknown) => {
                 logger.error(`Error loading sound '${soundId}' from '${filePath}':`, error);
             },
             onplay: () => {
                 logger.info(`Sound '${soundId}' played successfully.`);
             },
-            onplayerror: (howlId: number, error: any) => {
+            onplayerror: (howlId: number, error: unknown) => {
                 logger.error(`Error playing sound '${soundId}' from '${filePath}':`, error);
             },
         });
@@ -90,17 +94,26 @@ class SoundService {
      * Plays a registered sound.
      *
      * @param {string} soundId - The identifier of the sound to play.
+     * @param {IReduxState} state - The Redux state.
      * @returns {void}
      */
-    public play(soundId: string): void {
+    public play(soundId: string, state: IReduxState): void {
         const soundToPlay = this.howlSounds.get(soundId);
 
-        console.log(`playing '${soundId}'`);
+        const disabledSounds = getDisabledSounds(state);
+        const { leaving } = getConferenceState(state);
 
-        if (soundToPlay) {
-            soundToPlay.play();
-        } else {
-            logger.warn(`SoundService.play: No sound found for id: ${soundId}`);
+        // Skip playing sounds when leaving, to avoid hearing that recording has stopped and so on.
+        if (leaving) {
+            return;
+        }
+
+        if (!disabledSounds.includes(soundId as Sounds) && !disabledSounds.find(id => soundId.startsWith(id))) {
+            if (soundToPlay) {
+                soundToPlay.play();
+            } else {
+                logger.warn(`SoundService.play: No sound found for id: ${soundId}`);
+            }
         }
     }
 

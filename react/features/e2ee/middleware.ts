@@ -87,7 +87,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 
             const soundID = action.enabled ? E2EE_ON_SOUND_ID : E2EE_OFF_SOUND_ID;
 
-            SoundService.play(soundID);
+            SoundService.play(soundID, getState());
         }
 
         break;

@@ -114,7 +114,7 @@ async function _handleNoAudioSignalNotification({ dispatch, getState }: IStore, 
             customActionHandler
         }, NOTIFICATION_TIMEOUT_TYPE.LONG));
 
-        SoundService.play(NO_AUDIO_SIGNAL_SOUND_ID);
+        SoundService.play(NO_AUDIO_SIGNAL_SOUND_ID, getState());
 
         if (notification) {
             // Store the current notification uid so we can check for this state and hide it in case

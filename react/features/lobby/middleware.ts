@@ -144,7 +144,7 @@ StateListenerRegistry.register(
                         })
                     );
                     if (soundsParticipantKnocking) {
-                        SoundService.play(KNOCKING_PARTICIPANT_SOUND_ID);
+                        SoundService.play(KNOCKING_PARTICIPANT_SOUND_ID, getState());
                     }
 
                     const isParticipantsPaneVisible = getParticipantsPaneOpen(getState());

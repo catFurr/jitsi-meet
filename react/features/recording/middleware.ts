@@ -140,7 +140,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             };
 
             if (localRecording?.notifyAllParticipants && !onlySelf) {
-                SoundService.play(RECORDING_ON_SOUND_ID);
+                SoundService.play(RECORDING_ON_SOUND_ID, getState());
             }
             dispatch(showNotification(props, NOTIFICATION_TIMEOUT_TYPE.MEDIUM));
             dispatch(showNotification({
@@ -195,7 +195,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             }, 100);
             dispatch(updateLocalRecordingStatus(false));
             if (localRecording?.notifyAllParticipants && !LocalRecordingManager.selfRecording) {
-                SoundService.play(RECORDING_OFF_SOUND_ID);
+                SoundService.play(RECORDING_OFF_SOUND_ID, getState());
             }
             if (typeof APP !== 'undefined') {
                 APP.API.notifyRecordingStatusChanged(
@@ -266,7 +266,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
                 }
 
                 if (soundID) {
-                    SoundService.play(soundID);
+                    SoundService.play(soundID, getState());
                 }
 
                 if (typeof APP !== 'undefined') {
@@ -299,7 +299,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 
             if (soundOff && soundOn) {
                 SoundService.stop(soundOn);
-                SoundService.play(soundOff);
+                SoundService.play(soundOff, getState());
             }
 
             if (typeof APP !== 'undefined') {

@@ -12,20 +12,6 @@ import SoundService from './components/SoundService';
 import logger from './logger';
 
 MiddlewareRegistry.register(store => next => action => {
-    if (action.type === PLAY_SOUND) {
-        // const state = store.getState();
-        // const { enabled: moderatableSoundsEnabled } = state['features/sound-moderation'] || {};
-        // const isSoundEnabled = !moderatableSoundsEnabled || moderatableSoundsEnabled[action.soundId] !== false;
-
-        // if (isSoundEnabled) {
-        SoundService.play(action.soundId);
-        // } else {
-        // logger.info(`Sound [${action.soundId}] is disabled by moderation, not playing.`);
-        // }
-
-        // We return here to prevent the old, broken action from continuing.
-        return;
-    }
     switch (action.type) {
     case APP_WILL_MOUNT:
         SoundService.init();
@@ -44,7 +30,7 @@ MiddlewareRegistry.register(store => next => action => {
         }
         break;
     case PLAY_SOUND:
-        SoundService.play(action.soundId);
+        SoundService.play(action.soundId, store.getState());
         break;
     case STOP_SOUND:
         SoundService.stop(action.soundId);
@@ -94,11 +80,11 @@ function shouldReloadAudioFiles(language: string, prevLanguage: string): Boolean
  */
 StateListenerRegistry.register(
     () => i18next.language,
-    (language, { dispatch }, prevLanguage): void => {
+    (language, _, prevLanguage): void => {
 
         if (language !== prevLanguage && shouldReloadAudioFiles(language, prevLanguage)) {
-            registerE2eeAudioFiles(dispatch, true);
-            registerRecordingAudioFiles(dispatch, true);
+            registerE2eeAudioFiles(true);
+            registerRecordingAudioFiles(true);
         }
     }
 );

@@ -133,7 +133,7 @@ MiddlewareRegistry.register(store => next => action => {
         }
 
         if (newSoundId) {
-            SoundService.play(newSoundId);
+            SoundService.play(newSoundId, getState());
         }
 
         break;

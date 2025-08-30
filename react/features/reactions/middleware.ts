@@ -83,10 +83,10 @@ MiddlewareRegistry.register((store: IStore) => (next: Function) => (action: AnyA
         batch(() => {
             Object.keys(REACTIONS).forEach(key => {
                 for (let i = 0; i < SOUNDS_THRESHOLDS.length; i++) {
-                    SoundService.play(`${REACTIONS[key].soundId}${SOUNDS_THRESHOLDS[i]}`);
+                    SoundService.play(`${REACTIONS[key].soundId}${SOUNDS_THRESHOLDS[i]}`, getState());
                 }
             });
-            SoundService.play(RAISE_HAND_SOUND_ID);
+            SoundService.play(RAISE_HAND_SOUND_ID, getState());
         });
         break;
 
@@ -146,7 +146,7 @@ MiddlewareRegistry.register((store: IStore) => (next: Function) => (action: AnyA
                 const reactionSoundsThresholds = getReactionsSoundsThresholds(reactions);
 
                 reactionSoundsThresholds.forEach(reaction =>
-                    SoundService.play(`${REACTIONS[reaction.reaction].soundId}${reaction.threshold}`)
+                    SoundService.play(`${REACTIONS[reaction.reaction].soundId}${reaction.threshold}`, state)
                 );
             }
             dispatch(setReactionQueue([ ...queue, ...getReactionsWithId(reactions) ]));

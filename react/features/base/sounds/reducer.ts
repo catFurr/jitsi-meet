@@ -1,8 +1,6 @@
 import { AnyAction } from 'redux';
 
-import { AudioElement } from '../media/components/AbstractAudio';
 import ReducerRegistry from '../redux/ReducerRegistry';
-import { assign } from '../redux/functions';
 
 import {
     REGISTER_SOUND,
@@ -15,13 +13,6 @@ import {
  * The structure use by this reducer to describe a sound.
  */
 export type Sound = {
-
-    /**
-     * The HTMLAudioElement which implements the audio playback functionality.
-     * Becomes available once the sound resource gets loaded and the sound can
-     * not be played until that happens.
-     */
-    audioElement?: AudioElement;
 
     /**
      * This field is container for all optional parameters related to the sound.
@@ -55,10 +46,6 @@ ReducerRegistry.register<ISoundsState>(
     'features/base/sounds',
     (state = DEFAULT_STATE, action): ISoundsState => {
         switch (action.type) {
-        case _ADD_AUDIO_ELEMENT:
-        case _REMOVE_AUDIO_ELEMENT:
-            return _addOrRemoveAudioElement(state, action);
-
         case REGISTER_SOUND:
             return _registerSound(state, action);
 
@@ -70,38 +57,6 @@ ReducerRegistry.register<ISoundsState>(
         }
     });
 
-/**
- * Adds or removes {@link AudioElement} associated with a {@link Sound}.
- *
- * @param {Map<string, Sound>} state - The current Redux state of this feature.
- * @param {_ADD_AUDIO_ELEMENT | _REMOVE_AUDIO_ELEMENT} action - The action to be
- * handled.
- * @private
- * @returns {Map<string, Sound>}
- */
-function _addOrRemoveAudioElement(state: ISoundsState, action: AnyAction) {
-    const isAddAction = action.type === _ADD_AUDIO_ELEMENT;
-    const nextState = new Map(state);
-    const { soundId } = action;
-
-    const sound = nextState.get(soundId);
-
-    if (sound) {
-        if (isAddAction) {
-            nextState.set(soundId,
-                assign(sound, {
-                    audioElement: action.audioElement
-                }));
-        } else {
-            nextState.set(soundId,
-                assign(sound, {
-                    audioElement: undefined
-                }));
-        }
-    }
-
-    return nextState;
-}
 
 /**
  * Registers a new {@link Sound} for given id and source. It will make

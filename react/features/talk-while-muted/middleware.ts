@@ -57,7 +57,7 @@ MiddlewareRegistry.register(store => next => action => {
                     const { soundsTalkWhileMuted } = getState()['features/base/settings'];
 
                     if (soundsTalkWhileMuted) {
-                        SoundService.play(TALK_WHILE_MUTED_SOUND_ID);
+                        SoundService.play(TALK_WHILE_MUTED_SOUND_ID, state);
                     }
 
                     if (notification) {

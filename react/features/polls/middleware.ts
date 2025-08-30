@@ -110,7 +110,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
 
         // Finally, we notify user they received a new poll if their pane is not opened
         if (action.notify && (!isChatOpen || !isPollsTabFocused)) {
-            SoundService.play(INCOMING_MSG_SOUND_ID);
+            SoundService.play(INCOMING_MSG_SOUND_ID, state);
         }
         break;
     }

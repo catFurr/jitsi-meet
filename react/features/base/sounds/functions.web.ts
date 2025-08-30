@@ -1,5 +1,7 @@
 import { IStore } from '../../app/types';
 
+import SoundService from './components/SoundService';
+
 /**
  * Returns the location of the sounds. On Web it's the relative path to
  * the sounds folder placed in the source root.
@@ -17,11 +19,5 @@ export function getSoundsPath() {
  * @returns {Function}
  */
 export function setNewAudioOutputDevice(deviceId: string) {
-    return function(_dispatch: IStore['dispatch'], getState: IStore['getState']) {
-        const sounds = getState()['features/base/sounds'];
-
-        for (const [ , sound ] of sounds) {
-            sound.audioElement?.setSinkId?.(deviceId);
-        }
-    };
+    return SoundService.setAudioOutputDevice(deviceId);
 }
