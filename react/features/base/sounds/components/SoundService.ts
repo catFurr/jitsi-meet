@@ -6,6 +6,11 @@ import { Sounds } from '../../config/configType';
 import { getDisabledSounds } from '../functions.any';
 import logger from '../logger';
 
+interface ISoundRegistration {
+    filePath: string;
+    options: any;
+}
+
 class SoundService {
     /**
      * A map of sound IDs to their initialized Howl instances.
@@ -14,6 +19,15 @@ class SoundService {
      * @private
      */
     private howlSounds: Map<string, Howl> = new Map();
+
+    /**
+     * A map that stores the registration details for every sound.
+     * This is necessary because when the audio output device changes, all Howl
+     * instances must be destroyed and re-created on a new AudioContext.
+     *
+     * @private
+     */
+    private registrations: Map<string, ISoundRegistration> = new Map();
 
     /**
      * Initializes the sound service. This should be called once on app startup.
@@ -36,32 +50,14 @@ class SoundService {
      * @returns {void}
      */
     public register(soundId: string, filePath: string, options: any = {}): void {
-        if (this.howlSounds.has(soundId)) {
+        if (this.registrations.has(soundId)) {
             logger.warn(`Sound '${soundId}' is already registered.`);
 
             return;
         }
 
-        const correctedSrc = `/meet/sounds/${filePath}`;
-
-        const newHowl = new Howl({
-            src: correctedSrc,
-            loop: options.loop || false,
-            onload: () => {
-                logger.info(`Sound '${soundId}' loaded successfully.`);
-            },
-            onloaderror: (howlId: number, error: unknown) => {
-                logger.error(`Error loading sound '${soundId}' from '${filePath}':`, error);
-            },
-            onplay: () => {
-                logger.info(`Sound '${soundId}' played successfully.`);
-            },
-            onplayerror: (howlId: number, error: unknown) => {
-                logger.error(`Error playing sound '${soundId}' from '${filePath}':`, error);
-            },
-        });
-
-        this.howlSounds.set(soundId, newHowl);
+        this.registrations.set(soundId, { filePath, options });
+        this._createHowl(soundId, filePath, options);
     }
 
     /**
@@ -159,6 +155,62 @@ class SoundService {
      */
     public mute(muted: boolean): void {
         Howler.mute(muted);
+    }
+
+    /**
+     * Sets the audio output device for all sounds.
+     * This works by re-initializing Howler's audio context and re-registering all sounds.
+     *
+     * @param {string} deviceId - The unique identifier of the audio output device (sinkId).
+     */
+    public setAudioOutputDevice(deviceId: string): void {
+        logger.info(`Attempting to set audio output device to: ${deviceId}`);
+
+        // 1. Unload all current sounds.
+        Howler.unload();
+        this.howlSounds.clear();
+
+        // 2. Re-initialize Howler with the new sinkId.
+        // @ts-ignore - sinkId is a valid but sometimes untyped property
+        Howler.init({ sinkId: deviceId });
+
+        // 3. Re-create all the sounds using our stored registration info.
+        logger.info('Re-registering all sounds on the new audio output device...');
+        for (const [ soundId, registrationInfo ] of this.registrations.entries()) {
+            this._createHowl(soundId, registrationInfo.filePath, registrationInfo.options);
+        }
+    }
+
+    /**
+     * Internal helper to create a Howl instance and add it to the active sounds map.
+     *
+     * @param {string} soundId - The unique identifier for the sound.
+     * @param {string} filePath - The path to the audio file.
+     * @param {Object} options - Optional Howler.js options.
+     * @private
+     * @returns {void}
+     */
+    private _createHowl(soundId: string, filePath: string, options: any): void {
+        const correctedSrc = `/meet/sounds/${filePath}`;
+
+        const newHowl = new Howl({
+            src: correctedSrc,
+            loop: options.loop || false,
+            onload: () => {
+                logger.info(`Sound '${soundId}' loaded successfully.`);
+            },
+            onloaderror: (howlId: number, error: any) => {
+                logger.error(`Error loading sound '${soundId}' from '${filePath}':`, error);
+            },
+            onplay: () => {
+                logger.info(`Sound '${soundId}' played successfully.`);
+            },
+            onplayerror: (howlId: number, error: any) => {
+                logger.error(`Error playing sound '${soundId}' from '${filePath}':`, error);
+            },
+        });
+
+        this.howlSounds.set(soundId, newHowl);
     }
 }
 

@@ -1,5 +1,3 @@
-import { IStore } from '../../app/types';
-
 import SoundService from './components/SoundService';
 
 /**
