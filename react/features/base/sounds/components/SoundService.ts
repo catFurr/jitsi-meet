@@ -162,6 +162,7 @@ class SoundService {
      * This works by re-initializing Howler's audio context and re-registering all sounds.
      *
      * @param {string} deviceId - The unique identifier of the audio output device (sinkId).
+     * @returns {void}
      */
     public setAudioOutputDevice(deviceId: string): void {
         logger.info(`Attempting to set audio output device to: ${deviceId}`);
