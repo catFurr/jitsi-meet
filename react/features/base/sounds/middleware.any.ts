@@ -2,36 +2,8 @@ import i18next from 'i18next';
 
 import { registerE2eeAudioFiles } from '../../../features/e2ee/functions';
 import { registerRecordingAudioFiles } from '../../../features/recording/functions';
-import { APP_WILL_MOUNT } from '../app/actionTypes';
 import { AudioSupportedLanguage } from '../media/constants';
-import MiddlewareRegistry from '../redux/MiddlewareRegistry';
 import StateListenerRegistry from '../redux/StateListenerRegistry';
-
-import SoundService from './components/SoundService';
-import logger from './logger';
-
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
-    case APP_WILL_MOUNT:
-        SoundService.init();
-
-        const state = store.getState();
-        const sounds = state['features/base/sounds'];
-
-        for (const [ soundId, soundData ] of sounds.entries()) {
-            const correctedSrc = `${soundData.src}`;
-
-            if (typeof correctedSrc === 'string') {
-                SoundService.register(soundId, correctedSrc);
-            } else {
-                logger.warn(`Sound with ID '${soundId}' was registered without a valid string source.`);
-            }
-        }
-        break;
-    }
-
-    return next(action);
-});
 
 /**
  * Returns whether the language is supported for audio messages.
