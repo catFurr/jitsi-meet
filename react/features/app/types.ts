@@ -23,7 +23,6 @@ import { IParticipantsState } from '../base/participants/reducer';
 import { IPreMeetingState } from '../base/premeeting/types';
 import { IResponsiveUIState } from '../base/responsive-ui/reducer';
 import { ISettingsState } from '../base/settings/reducer';
-import { ISoundsState } from '../base/sounds/reducer';
 import { ITestingState } from '../base/testing/reducer';
 import { ITooltipState } from '../base/tooltip/reducer';
 import { INoSrcDataState, ITracksState } from '../base/tracks/reducer';
@@ -114,7 +113,6 @@ export interface IReduxState {
     'features/base/premeeting': IPreMeetingState;
     'features/base/responsive-ui': IResponsiveUIState;
     'features/base/settings': ISettingsState;
-    'features/base/sounds': ISoundsState;
     'features/base/tooltip': ITooltipState;
     'features/base/tracks': ITracksState;
     'features/base/user-interaction': IUserInteractionState;

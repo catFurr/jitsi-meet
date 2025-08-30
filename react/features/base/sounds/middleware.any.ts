@@ -7,7 +7,6 @@ import { AudioSupportedLanguage } from '../media/constants';
 import MiddlewareRegistry from '../redux/MiddlewareRegistry';
 import StateListenerRegistry from '../redux/StateListenerRegistry';
 
-import { PLAY_SOUND, SET_SOUNDS_MUTED, STOP_SOUND } from './actionTypes';
 import SoundService from './components/SoundService';
 import logger from './logger';
 
