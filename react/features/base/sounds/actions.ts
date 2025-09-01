@@ -1,4 +1,5 @@
 import {
+    MUTE_SOUND,
     REGISTER_SOUND,
     UNREGISTER_SOUND,
     _ADD_AUDIO_ELEMENT,
@@ -55,5 +56,20 @@ export function unregisterSound(soundId: string) {
     return {
         type: UNREGISTER_SOUND,
         soundId
+    };
+}
+
+/**
+ * Mutes or unmutes a sound by soundId.
+ *
+ * @param {string} soundId - The id of the sound to mute/unmute.
+ * @param {boolean} isMuted - Whether to mute (true) or unmute (false) the sound.
+ * @returns {{ type: MUTE_SOUND, soundId: string, isMuted: boolean }}
+ */
+export function muteSound(soundId: string, isMuted: boolean) {
+    return {
+        type: MUTE_SOUND,
+        soundId,
+        isMuted
     };
 }

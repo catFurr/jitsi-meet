@@ -3,6 +3,7 @@ import { AnyAction } from 'redux';
 import ReducerRegistry from '../redux/ReducerRegistry';
 
 import {
+    MUTE_SOUND,
     REGISTER_SOUND,
     UNREGISTER_SOUND,
     _ADD_AUDIO_ELEMENT,
@@ -18,6 +19,11 @@ export type Sound = {
      * Whether this sound is optional and should be shown in notifications/settings.
      */
     optional?: boolean;
+
+    /**
+     * Whether this sound is muted (isMuted).
+     */
+    isMuted?: boolean;
 
     /**
      * This field is container for all optional parameters related to the sound.
@@ -57,6 +63,9 @@ ReducerRegistry.register<ISoundsState>(
         case UNREGISTER_SOUND:
             return _unregisterSound(state, action);
 
+        case MUTE_SOUND:
+            return _muteSound(state, action);
+
         default:
             return state;
         }
@@ -80,7 +89,8 @@ function _registerSound(state: ISoundsState, action: AnyAction) {
     nextState.set(action.soundId, {
         src: action.src,
         options: action.options,
-        optional: action?.optional ?? false
+        optional: action?.optional ?? false,
+        isMuted: action?.isMuted ?? false
     });
 
     return nextState;
@@ -101,5 +111,25 @@ function _unregisterSound(state: ISoundsState, action: AnyAction) {
 
     nextState.delete(action.soundId);
 
+    return nextState;
+}
+
+/**
+ * Mutes or unmutes a sound by soundId.
+ *
+ * @param {Map<string, Sound>} state - The current Redux state of the sounds feature.
+ * @param {MUTE_SOUND} action - The mute sound action.
+ * @private
+ * @returns {Map<string, Sound>}
+ */
+function _muteSound(state: ISoundsState, action: AnyAction) {
+    const nextState = new Map(state);
+    const sound = nextState.get(action.soundId);
+    if (sound) {
+        nextState.set(action.soundId, {
+            ...sound,
+            isMuted: action.isMuted
+        });
+    }
     return nextState;
 }
