@@ -73,8 +73,8 @@ import {
 import {
     LOCAL_PARTICIPANT_DEFAULT_ID,
     LOWER_HAND_AUDIO_LEVEL,
-    PARTICIPANT_JOINED_SOUND_ID,
-    PARTICIPANT_LEFT_SOUND_ID
+    PARTICIPANT_JOINED_SOUND,
+    PARTICIPANT_LEFT_SOUND,
 } from './constants';
 import {
     getDominantSpeakerParticipant,
@@ -91,7 +91,6 @@ import {
     isWhiteboardParticipant
 } from './functions';
 import logger from './logger';
-import { PARTICIPANT_JOINED_FILE, PARTICIPANT_LEFT_FILE } from './sounds';
 import { IJitsiParticipant } from './types';
 
 import './subscriber';
@@ -651,10 +650,10 @@ function _maybePlaySounds({ getState }: IStore, action: AnyAction) {
 
             // The sounds for the poltergeist are handled by features/invite.
             if (presence !== INVITED && presence !== CALLING && !isReplacing) {
-                SoundService.play(PARTICIPANT_JOINED_SOUND_ID, getState());
+                SoundService.play(PARTICIPANT_JOINED_SOUND.id, getState());
             }
         } else if (action.type === PARTICIPANT_LEFT && !isReplaced && leftSound) {
-            SoundService.play(PARTICIPANT_LEFT_SOUND_ID, getState());
+            SoundService.play(PARTICIPANT_LEFT_SOUND.id, getState());
         }
     }
 }
@@ -950,8 +949,8 @@ function _raiseHandUpdated({ dispatch, getState }: IStore, conference: IJitsiCon
  * @returns {void}
  */
 function _registerSounds() {
-    SoundService.register(PARTICIPANT_JOINED_SOUND_ID, PARTICIPANT_JOINED_FILE);
-    SoundService.register(PARTICIPANT_LEFT_SOUND_ID, PARTICIPANT_LEFT_FILE);
+    SoundService.register(PARTICIPANT_JOINED_SOUND.id, PARTICIPANT_JOINED_SOUND.file, PARTICIPANT_JOINED_SOUND.options, PARTICIPANT_JOINED_SOUND.optional);
+    SoundService.register(PARTICIPANT_LEFT_SOUND.id, PARTICIPANT_LEFT_SOUND.file, PARTICIPANT_LEFT_SOUND.options, PARTICIPANT_LEFT_SOUND.optional);
 }
 
 /**
@@ -961,6 +960,6 @@ function _registerSounds() {
  * @returns {void}
  */
 function _unregisterSounds() {
-    SoundService.unregister(PARTICIPANT_JOINED_SOUND_ID);
-    SoundService.unregister(PARTICIPANT_LEFT_SOUND_ID);
+    SoundService.unregister(PARTICIPANT_JOINED_SOUND.id);
+    SoundService.unregister(PARTICIPANT_LEFT_SOUND.id);
 }

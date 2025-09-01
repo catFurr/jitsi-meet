@@ -18,6 +18,7 @@ import { getSoundsPath } from './functions';
  * associated with the given {@code soundId}.
  * @param {Object} options - Optional parameters.
  * @param {boolean} options.loop - True in order to loop the sound.
+ * @param {boolean} optional - Whether this sound is optional and should be shown in notifications/settings.
  * @returns {{
  *     type: REGISTER_SOUND,
  *     soundId: string,
@@ -28,12 +29,13 @@ import { getSoundsPath } from './functions';
  * }}
  */
 export function registerSound(
-        soundId: string, soundName: string, options: Object = {}) {
+        soundId: string, soundName: string, options: Object = {}, optional: boolean = false) {
     return {
         type: REGISTER_SOUND,
         soundId,
         src: `${getSoundsPath()}/${soundName}`,
-        options
+        options,
+        optional
     };
 }
 

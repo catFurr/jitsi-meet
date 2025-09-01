@@ -15,6 +15,11 @@ import {
 export type Sound = {
 
     /**
+     * Whether this sound is optional and should be shown in notifications/settings.
+     */
+    optional?: boolean;
+
+    /**
      * This field is container for all optional parameters related to the sound.
      */
     options?: {
@@ -47,8 +52,6 @@ ReducerRegistry.register<ISoundsState>(
     (state = DEFAULT_STATE, action): ISoundsState => {
         switch (action.type) {
         case REGISTER_SOUND:
-            console.log(state);
-
             return _registerSound(state, action);
 
         case UNREGISTER_SOUND:
@@ -76,7 +79,8 @@ function _registerSound(state: ISoundsState, action: AnyAction) {
 
     nextState.set(action.soundId, {
         src: action.src,
-        options: action.options
+        options: action.options,
+        optional: action?.optional ?? false
     });
 
     return nextState;

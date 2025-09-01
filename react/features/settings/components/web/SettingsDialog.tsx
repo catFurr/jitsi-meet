@@ -144,6 +144,7 @@ function _mapStateToProps(state: IReduxState, ownProps: any) {
     const enableVirtualBackground = checkVirtualBackgroundEnabled(state);
     const tabs: IDialogTab<any>[] = [];
     const _iAmVisitor = iAmVisitor(state);
+    const sounds = state['features/base/sounds'];
 
     if (showDeviceSettings) {
         tabs.push({
@@ -232,7 +233,8 @@ function _mapStateToProps(state: IReduxState, ownProps: any) {
                     soundsParticipantKnocking: tabState?.soundsParticipantKnocking,
                     soundsParticipantLeft: tabState?.soundsParticipantLeft,
                     soundsReactions: tabState?.soundsReactions,
-                    soundsTalkWhileMuted: tabState?.soundsTalkWhileMuted
+                    soundsTalkWhileMuted: tabState?.soundsTalkWhileMuted,
+                    sounds
                 };
             },
             props: getNotificationsTabProps(state, showSoundsSettings),

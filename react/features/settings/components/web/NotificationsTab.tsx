@@ -6,6 +6,7 @@ import { withStyles } from 'tss-react/mui';
 import AbstractDialogTab, {
     IProps as AbstractDialogTabProps } from '../../../base/dialog/components/web/AbstractDialogTab';
 import { translate } from '../../../base/i18n/functions';
+import { ISoundsState } from '../../../base/sounds/reducer';
 import { withPixelLineHeight } from '../../../base/styles/functions.web';
 import Checkbox from '../../../base/ui/components/web/Checkbox';
 
@@ -48,6 +49,8 @@ export interface IProps extends AbstractDialogTabProps, WithTranslation {
      * Whether sound settings should be displayed or not.
      */
     showSoundsSettings: boolean;
+
+    sounds: ISoundsState;
 
     /**
      * Whether or not the sound for the incoming message should play.
@@ -185,6 +188,7 @@ class NotificationsTab extends AbstractDialogTab<IProps, any> {
             soundsReactions,
             enableReactions,
             moderatorMutedSoundsReactions,
+            sounds,
             t
         } = this.props;
         const classes = withStyles.getClasses(this.props);

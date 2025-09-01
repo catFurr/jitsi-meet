@@ -13,8 +13,7 @@ import { NOTIFICATION_TIMEOUT_TYPE } from '../notifications/constants';
 import { isAudioMuteButtonDisabled } from '../toolbox/functions.any';
 
 import { setCurrentNotificationUid } from './actions';
-import { TALK_WHILE_MUTED_SOUND_ID } from './constants';
-import { TALK_WHILE_MUTED_SOUND_FILE } from './sounds';
+import { TALK_WHILE_MUTED_SOUND } from './sounds';
 
 MiddlewareRegistry.register(store => next => action => {
     const result = next(action);
@@ -23,10 +22,10 @@ MiddlewareRegistry.register(store => next => action => {
 
     switch (action.type) {
     case APP_WILL_MOUNT:
-        SoundService.register(TALK_WHILE_MUTED_SOUND_ID, TALK_WHILE_MUTED_SOUND_FILE);
+        SoundService.register(TALK_WHILE_MUTED_SOUND.id, TALK_WHILE_MUTED_SOUND.file, TALK_WHILE_MUTED_SOUND.options, TALK_WHILE_MUTED_SOUND.optional);
         break;
     case APP_WILL_UNMOUNT:
-        SoundService.unregister(TALK_WHILE_MUTED_SOUND_ID);
+        SoundService.unregister(TALK_WHILE_MUTED_SOUND.id);
         break;
 
     case CONFERENCE_JOINED: {
@@ -57,7 +56,7 @@ MiddlewareRegistry.register(store => next => action => {
                     const { soundsTalkWhileMuted } = getState()['features/base/settings'];
 
                     if (soundsTalkWhileMuted) {
-                        SoundService.play(TALK_WHILE_MUTED_SOUND_ID, state);
+                        SoundService.play(TALK_WHILE_MUTED_SOUND.id, state);
                     }
 
                     if (notification) {

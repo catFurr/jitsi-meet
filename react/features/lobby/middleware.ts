@@ -63,19 +63,18 @@ import {
     startKnocking
 } from './actions';
 import { updateLobbyParticipantOnLeave } from './actions.any';
-import { KNOCKING_PARTICIPANT_SOUND_ID } from './constants';
+import { KNOCKING_PARTICIPANT_SOUND } from './constants';
 import { getKnockingParticipants, showLobbyChatButton } from './functions';
-import { KNOCKING_PARTICIPANT_FILE } from './sounds';
 import { IKnockingParticipant } from './types';
 
 
 MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case APP_WILL_MOUNT:
-        SoundService.register(KNOCKING_PARTICIPANT_SOUND_ID, KNOCKING_PARTICIPANT_FILE);
+        SoundService.register(KNOCKING_PARTICIPANT_SOUND.id, KNOCKING_PARTICIPANT_SOUND.file, KNOCKING_PARTICIPANT_SOUND.options, KNOCKING_PARTICIPANT_SOUND.optional);
         break;
     case APP_WILL_UNMOUNT:
-        SoundService.unregister(KNOCKING_PARTICIPANT_SOUND_ID);
+        SoundService.unregister(KNOCKING_PARTICIPANT_SOUND.id);
         break;
     case CONFERENCE_FAILED:
         return _conferenceFailed(store, next, action);
@@ -144,7 +143,7 @@ StateListenerRegistry.register(
                         })
                     );
                     if (soundsParticipantKnocking) {
-                        SoundService.play(KNOCKING_PARTICIPANT_SOUND_ID, getState());
+                        SoundService.play(KNOCKING_PARTICIPANT_SOUND.id, getState());
                     }
 
                     const isParticipantsPaneVisible = getParticipantsPaneOpen(getState());

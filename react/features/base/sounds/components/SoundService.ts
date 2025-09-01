@@ -48,16 +48,17 @@ class SoundService {
      * @param {string} soundId - A unique identifier for the sound.
      * @param {string} filePath - The root-relative path to the sound file (e.g., '/meet/sounds/my-sound.mp3').
      * @param {Object} [options] - Optional Howler.js options (e.g., { loop: true }).
+     * @param {boolean} optional - Whether this sound is optional and should be shown in notifications/settings.
      * @returns {void}
      */
-    public register(soundId: string, filePath: string, options: any = {}): void {
+    public register(soundId: string, filePath: string, options: object = {}, optional: boolean = false): void {
         if (this.registrations.has(soundId)) {
             logger.warn(`Sound '${soundId}' is already registered.`);
 
             return;
         }
 
-        APP.store.dispatch(registerSound(soundId, soundId, options));
+        APP.store.dispatch(registerSound(soundId, soundId, options, optional));
         this.registrations.set(soundId, { filePath, options });
         this._createHowl(soundId, filePath, options);
     }

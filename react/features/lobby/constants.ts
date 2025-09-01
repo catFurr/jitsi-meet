@@ -1,3 +1,5 @@
+import { KNOCKING_PARTICIPANT_FILE } from './sounds';
+
 /**
  * Hide these emails when trying to join a lobby.
  */
@@ -6,9 +8,14 @@ export const HIDDEN_EMAILS = [ 'inbound-sip-jibri@jitsi.net', 'outbound-sip-jibr
 /**
  * The identifier of the sound to be played when a participant joins lobby.
  *
- * @type {string}
+ * @type {Object<string, string, object, boolean>}
  */
-export const KNOCKING_PARTICIPANT_SOUND_ID = 'KNOCKING_PARTICIPANT_SOUND';
+export const KNOCKING_PARTICIPANT_SOUND = {
+    id: 'KNOCKING_PARTICIPANT_SOUND',
+    file: KNOCKING_PARTICIPANT_FILE,
+    options: {},
+    optional: true
+};
 
 /**
  * Lobby chat initialized message type.
