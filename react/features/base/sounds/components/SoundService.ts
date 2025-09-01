@@ -3,6 +3,7 @@ import { Howl, Howler } from 'howler';
 import { IReduxState } from '../../../app/types';
 import { getConferenceState } from '../../conference/functions';
 import { Sounds } from '../../config/configType';
+import { registerSound, unregisterSound } from '../actions';
 import { getDisabledSounds } from '../functions.any';
 import logger from '../logger';
 
@@ -56,6 +57,7 @@ class SoundService {
             return;
         }
 
+        APP.store.dispatch(registerSound(soundId, soundId, options));
         this.registrations.set(soundId, { filePath, options });
         this._createHowl(soundId, filePath, options);
     }
@@ -79,6 +81,7 @@ class SoundService {
 
             // Remove the sound from our internal map.
             this.howlSounds.delete(soundId);
+            APP.store.dispatch(unregisterSound(soundId));
 
             logger.info(`Sound '${soundId}' has been unregistered.`);
         } else {

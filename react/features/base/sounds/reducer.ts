@@ -47,6 +47,8 @@ ReducerRegistry.register<ISoundsState>(
     (state = DEFAULT_STATE, action): ISoundsState => {
         switch (action.type) {
         case REGISTER_SOUND:
+            console.log(state);
+
             return _registerSound(state, action);
 
         case UNREGISTER_SOUND:
