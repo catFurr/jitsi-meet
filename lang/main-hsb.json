@@ -1072,7 +1072,7 @@
         "devices": "nastroje",
         "followMe": "follow-me za wšitkich wobdźělnikow",
         "framesPerSecond": "fps",
-        "incomingMessage": "powěsć",
+        "INCOMING_MSG_SOUND": "powěsć",
         "language": "rěč",
         "loggedIn": "jako {{name}} přizjewjeny",
         "maxStageParticipants": "maksimalna ličba wobdźělnikow, kotraž móže so k hłownej wobrazowce přitynknyć",
@@ -1081,8 +1081,8 @@
         "more": "wjace",
         "name": "mjeno",
         "noDevice": "žadyn",
-        "participantJoined": "nowy wobdźělnik",
-        "participantLeft": "Wobdźělnik je konferencu wopušćił.",
+        "PARTICIPANT_JOINED_SOUND": "nowy wobdźělnik",
+        "PARTICIPANT_LEFT_SOUND": "Wobdźělnik je konferencu wopušćił.",
         "playSounds": "zwuk za pokazki aktiwěrowany",
         "reactions": "interakcije",
         "sameAsSystem": "kaž system ({{label}})",
@@ -1095,7 +1095,7 @@
         "startAudioMuted": "wšitcy wobdźělnicy němi přistupja",
         "startReactionsMuted": "zwuk za pokazki za wšěch deaktiwěrować",
         "startVideoMuted": " wšitcy wobdźělnicy přistupja bjez wideja",
-        "talkWhileMuted": "hdyž so při němje šaltowanju rěči",
+        "TALK_WHILE_MUTED_SOUND": "hdyž so při němje šaltowanju rěči",
         "title": "nastajenja"
     },
     "settingsView": {

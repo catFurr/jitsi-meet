@@ -941,7 +941,7 @@
         "devices": "Apparaten",
         "followMe": "Iedereen volgt mij",
         "framesPerSecond": "beelden per seconde",
-        "incomingMessage": "Binnenkomend bericht",
+        "INCOMING_MSG_SOUND": "Binnenkomend bericht",
         "language": "Taal",
         "loggedIn": "Aangemeld als {{name}}",
         "microphones": "Microfoons",
