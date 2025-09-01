@@ -9,6 +9,7 @@ import {
     _ADD_AUDIO_ELEMENT,
     _REMOVE_AUDIO_ELEMENT
 } from './actionTypes';
+import SoundService from './components/SoundService';
 
 /**
  * The structure use by this reducer to describe a sound.
@@ -16,14 +17,14 @@ import {
 export type Sound = {
 
     /**
-     * Whether this sound is optional and should be shown in notifications/settings.
-     */
-    optional?: boolean;
-
-    /**
      * Whether this sound is muted (isMuted).
      */
     isMuted?: boolean;
+
+    /**
+     * Whether this sound is optional and should be shown in notifications/settings.
+     */
+    optional?: boolean;
 
     /**
      * This field is container for all optional parameters related to the sound.
@@ -37,7 +38,7 @@ export type Sound = {
      * can be either a path to the file or an object depending on the platform
      * (native vs web).
      */
-    src?: Object | string;
+    src?: string;
 };
 
 /**
@@ -125,11 +126,14 @@ function _unregisterSound(state: ISoundsState, action: AnyAction) {
 function _muteSound(state: ISoundsState, action: AnyAction) {
     const nextState = new Map(state);
     const sound = nextState.get(action.soundId);
+
     if (sound) {
+        SoundService.muteSound(action.soundId, action.isMuted);
         nextState.set(action.soundId, {
             ...sound,
             isMuted: action.isMuted
         });
     }
+
     return nextState;
 }

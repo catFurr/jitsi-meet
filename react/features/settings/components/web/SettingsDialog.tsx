@@ -93,21 +93,25 @@ const useStyles = makeStyles()(() => {
 const SettingsDialog = ({ _tabs, defaultTab, dispatch }: IProps) => {
     const { classes } = useStyles();
 
-    const correctDefaultTab = _tabs.find(tab => tab.name === defaultTab)?.name;
-    const tabs = _tabs.map(tab => {
+    const tabsWithDispatch = _tabs.map(tab => {
         return {
             ...tab,
+            props: {
+                ...tab.props,
+                dispatch
+            },
             className: `settings-pane ${classes.settingsDialog}`,
-            submit: (...args: any) => tab.submit
-                && dispatch(tab.submit(...args))
+            submit: (...args: any) => tab.submit && dispatch(tab.submit(...args))
         };
     });
+
+    const correctDefaultTab = tabsWithDispatch.find(tab => tab.name === defaultTab)?.name;
 
     return (
         <DialogWithTabs
             className = 'settings-dialog'
             defaultTab = { correctDefaultTab }
-            tabs = { tabs }
+            tabs = { tabsWithDispatch }
             titleKey = 'settings.title' />
     );
 };
@@ -120,7 +124,7 @@ const SettingsDialog = ({ _tabs, defaultTab, dispatch }: IProps) => {
  * @param {Object} ownProps - The props passed to the component.
  * @private
  * @returns {{
- *     tabs: Array<Object>
+ *     tabs: Array<Object>,
  * }}
  */
 function _mapStateToProps(state: IReduxState, ownProps: any) {
@@ -144,7 +148,6 @@ function _mapStateToProps(state: IReduxState, ownProps: any) {
     const enableVirtualBackground = checkVirtualBackgroundEnabled(state);
     const tabs: IDialogTab<any>[] = [];
     const _iAmVisitor = iAmVisitor(state);
-    const sounds = state['features/base/sounds'];
 
     if (showDeviceSettings) {
         tabs.push({
@@ -233,11 +236,10 @@ function _mapStateToProps(state: IReduxState, ownProps: any) {
                     soundsParticipantKnocking: tabState?.soundsParticipantKnocking,
                     soundsParticipantLeft: tabState?.soundsParticipantLeft,
                     soundsReactions: tabState?.soundsReactions,
-                    soundsTalkWhileMuted: tabState?.soundsTalkWhileMuted,
-                    sounds
+                    soundsTalkWhileMuted: tabState?.soundsTalkWhileMuted
                 };
             },
-            props: getNotificationsTabProps(state, showSoundsSettings),
+            props: { ...getNotificationsTabProps(state, showSoundsSettings) },
             submit: submitNotificationsTab,
             icon: IconBell
         });
