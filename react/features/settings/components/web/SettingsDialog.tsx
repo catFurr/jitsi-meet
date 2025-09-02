@@ -124,7 +124,7 @@ const SettingsDialog = ({ _tabs, defaultTab, dispatch }: IProps) => {
  * @param {Object} ownProps - The props passed to the component.
  * @private
  * @returns {{
- *     tabs: Array<Object>,
+ *     tabs: Array<Object>
  * }}
  */
 function _mapStateToProps(state: IReduxState, ownProps: any) {

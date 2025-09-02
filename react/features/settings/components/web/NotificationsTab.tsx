@@ -58,6 +58,9 @@ export interface IProps extends AbstractDialogTabProps, WithTranslation {
      */
     showSoundsSettings: boolean;
 
+    /**
+     * The sounds from the Redux store.
+     */
     sounds: ISoundsState;
 
     /**

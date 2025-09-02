@@ -5,7 +5,7 @@ import { createReactionSoundsDisabledEvent } from '../analytics/AnalyticsEvents'
 import { sendAnalytics } from '../analytics/functions';
 import { IStore } from '../app/types';
 import { APP_WILL_MOUNT, APP_WILL_UNMOUNT } from '../base/app/actionTypes';
-import { CONFERENCE_JOIN_IN_PROGRESS, SET_START_REACTIONS_MUTED } from '../base/conference/actionTypes';
+import { CONFERENCE_JOIN_IN_PROGRESS, SET_MUTE_SOUND_GLOBAL, SET_START_REACTIONS_MUTED } from '../base/conference/actionTypes';
 import { setStartReactionsMuted } from '../base/conference/actions';
 import {
     getParticipantById,
@@ -39,6 +39,7 @@ import {
     ENDPOINT_REACTION_NAME,
     IMuteCommandAttributes,
     MUTE_REACTIONS_COMMAND,
+    MUTE_SOUNDS_COMMAND,
     RAISE_HAND_SOUND_ID,
     REACTIONS,
     REACTION_SOUND,
@@ -177,6 +178,27 @@ MiddlewareRegistry.register((store: IStore) => (next: Function) => (action: AnyA
 
         if (conference && isLocalParticipantModerator(state) && updateBackend) {
             conference.sendCommand(MUTE_REACTIONS_COMMAND, { attributes: { startReactionsMuted: Boolean(muted) } });
+        }
+        break;
+    }
+
+    // Settings changed for mute individual sounds in the meeting
+    case SET_MUTE_SOUND_GLOBAL: {
+        // This action is triggered when a moderator clicks the checkbox.
+        // If 'updateBackend' is true, we send a command to other participants.
+        const { soundId, isMuted, updateBackend } = action;
+
+        if (updateBackend) {
+            const state = getState();
+            const { conference } = state['features/base/conference'];
+
+            // Send a command to all other participants with the soundId and the mute status.
+            conference?.sendCommand(MUTE_SOUNDS_COMMAND, {
+                attributes: {
+                    soundId,
+                    isMuted
+                }
+            });
         }
         break;
     }

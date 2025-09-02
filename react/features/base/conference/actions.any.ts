@@ -60,6 +60,7 @@ import {
     SET_ASSUMED_BANDWIDTH_BPS,
     SET_FOLLOW_ME,
     SET_FOLLOW_ME_RECORDER,
+    SET_MUTE_SOUND_GLOBAL,
     SET_OBFUSCATED_ROOM,
     SET_PASSWORD,
     SET_PASSWORD_FAILED,
@@ -899,6 +900,23 @@ export function setStartReactionsMuted(muted: boolean, updateBackend = false) {
     return {
         type: SET_START_REACTIONS_MUTED,
         muted,
+        updateBackend
+    };
+}
+
+/**
+ * Enables or disables muting a specific sound for all participants.
+ *
+ * @param {string} soundId - The sound to mute/unmute.
+ * @param {boolean} isMuted - Whether the sound should be muted for all.
+ * @param {boolean} updateBackend - Whether to notify all participants for the new setting.
+ * @returns {{ type: string, soundId: string, isMuted: boolean, updateBackend: boolean }}
+ */
+export function setMuteSoundGlobal(soundId: string, isMuted: boolean, updateBackend = false) {
+    return {
+        type: SET_MUTE_SOUND_GLOBAL,
+        soundId,
+        isMuted,
         updateBackend
     };
 }

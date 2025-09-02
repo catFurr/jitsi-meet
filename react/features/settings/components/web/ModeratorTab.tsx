@@ -1,11 +1,15 @@
 import { Theme } from '@mui/material';
 import React from 'react';
 import { WithTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import { withStyles } from 'tss-react/mui';
 
+import { IStore } from '../../../app/types';
+import { setMuteSoundGlobal } from '../../../base/conference/actions.any';
 import AbstractDialogTab, {
     IProps as AbstractDialogTabProps } from '../../../base/dialog/components/web/AbstractDialogTab';
 import { translate } from '../../../base/i18n/functions';
+import { ISoundsState } from '../../../base/sounds/reducer';
 import { withPixelLineHeight } from '../../../base/styles/functions.web';
 import Checkbox from '../../../base/ui/components/web/Checkbox';
 
@@ -39,6 +43,11 @@ export interface IProps extends AbstractDialogTabProps, WithTranslation {
     disableReactionsModeration: boolean;
 
     /**
+     * Invoked to save changed settings.
+     */
+    dispatch: IStore['dispatch'];
+
+    /**
      * Whether or not follow me is currently active (enabled by some other participant).
      */
     followMeActive: boolean;
@@ -57,6 +66,11 @@ export interface IProps extends AbstractDialogTabProps, WithTranslation {
      * Whether the user has selected the Follow Me Recorder feature to be enabled.
      */
     followMeRecorderEnabled: boolean;
+
+    /**
+     * The sounds from the Redux store.
+     */
+    sounds: ISoundsState;
 
     /**
      * Whether or not the user has selected the Start Audio Muted feature to be
@@ -116,7 +130,10 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
     constructor(props: IProps) {
         super(props);
 
+        this.state = {};
+
         // Bind event handler so it is only bound once for every instance.
+        this._onMuteSoundForEveryone = this._onMuteSoundForEveryone.bind(this);
         this._onStartAudioMutedChanged = this._onStartAudioMutedChanged.bind(this);
         this._onStartVideoMutedChanged = this._onStartVideoMutedChanged.bind(this);
         this._onStartReactionsMutedChanged = this._onStartReactionsMutedChanged.bind(this);
@@ -124,6 +141,22 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
         this._onFollowMeRecorderEnabledChanged = this._onFollowMeRecorderEnabledChanged.bind(this);
         this._onChatWithPermissionsChanged = this._onChatWithPermissionsChanged.bind(this);
     }
+
+    /**
+     * Mutes/unmutes a sound for everyone in the conference.
+     *
+     * @param {string} soundId - The ID of the sound to mute/unmute.
+     * @param {Object} e - The change event from the checkbox.
+     * @returns {void}
+     */
+    _onMuteSoundForEveryone(soundId: string, { target: { checked } }) {
+        // console.log("Before:", this.state[soundId]);
+
+        this.setState({ [soundId]: checked });
+
+        this.props.dispatch(setMuteSoundGlobal(soundId, checked, true));
+    }
+
 
     /**
      * Callback invoked to select if conferences should start
@@ -220,6 +253,7 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
             startAudioMuted,
             startVideoMuted,
             startReactionsMuted,
+            sounds,
             t,
             videoModerationEnabled
         } = this.props;
@@ -267,6 +301,26 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
                             label = { t('settings.startReactionsMuted') }
                             name = 'start-reactions-muted'
                             onChange = { this._onStartReactionsMutedChanged } /> }
+                { Array.from(sounds.entries()).map(([ soundId, { optional } ]) => {
+                    if (!optional) {
+                        return null;
+                    }
+                    const localValue = this.state[soundId];
+                    const reduxValue = this.props.sounds.get(soundId)?.isMuted ?? false;
+                    const isMuted = typeof localValue === 'boolean' ? localValue : reduxValue;
+
+                    return (
+                        <Checkbox
+                            checked = { isMuted }
+                            className = { classes.checkbox }
+                            disabled = { false }
+                            key = { soundId }
+                            label = { `Mute ${t(`settings.${soundId}`)} Sounds` }
+                            name = { soundId }
+                            /* eslint-disable-next-line react/jsx-no-bind */
+                            onChange = { e => this._onMuteSoundForEveryone(soundId, e) } />
+                    );
+                })}
                 { !disableChatWithPermissions
                     && <Checkbox
                         checked = { chatWithPermissionsEnabled }
@@ -279,4 +333,8 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
     }
 }
 
-export default withStyles(translate(ModeratorTab), styles);
+const mapStateToProps = (state: any) => ({
+    sounds: state['features/base/sounds']
+});
+
+export default connect(mapStateToProps)(withStyles(translate(ModeratorTab), styles));
