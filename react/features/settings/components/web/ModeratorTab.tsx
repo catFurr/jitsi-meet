@@ -149,11 +149,8 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
      * @param {Object} e - The change event from the checkbox.
      * @returns {void}
      */
-    _onMuteSoundForEveryone(soundId: string, { target: { checked } }) {
-        // console.log("Before:", this.state[soundId]);
-
+    _onMuteSoundForEveryone(soundId: string, { target: { checked } }: { target: { checked: boolean; }; }) {
         this.setState({ [soundId]: checked });
-
         this.props.dispatch(setMuteSoundGlobal(soundId, checked, true));
     }
 
@@ -294,6 +291,11 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
                     label = { t('settings.followMeRecorder') }
                     name = 'follow-me-recorder'
                     onChange = { this._onFollowMeRecorderEnabledChanged } />
+                { (!disableReactionsModeration || Boolean(sounds.size))
+                    && <h4 className = { classes.title }>
+                        Sounds
+                    </h4>
+                }
                 { !disableReactionsModeration
                         && <Checkbox
                             checked = { startReactionsMuted }
@@ -315,7 +317,7 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
                             className = { classes.checkbox }
                             disabled = { false }
                             key = { soundId }
-                            label = { `Mute ${t(`settings.${soundId}`)} Sounds` }
+                            label = { `${t('videothumbnail.domute')} ${t(`settings.${soundId}`)} Sounds` }
                             name = { soundId }
                             /* eslint-disable-next-line react/jsx-no-bind */
                             onChange = { e => this._onMuteSoundForEveryone(soundId, e) } />

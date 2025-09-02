@@ -1663,9 +1663,9 @@ export default {
                 }
             });
 
-        room.addCommandListener(MUTE_SOUNDS_COMMAND, (data, from) => {
+        room.addCommandListener(MUTE_SOUNDS_COMMAND, data => {
             const { soundId, isMuted } = data.attributes;
-            const isMutedBool = isMuted == 'true';
+            const isMutedBool = isMuted === 'true';
 
             APP.store.dispatch({
                 type: 'MUTE_SOUND',
