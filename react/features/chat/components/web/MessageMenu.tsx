@@ -118,11 +118,10 @@ const MessageMenu = ({ message, messageId, participantId, isLobbyMessage, should
     const reduxState = useSelector((state: IReduxState) => state);
     const localParticipant = getLocalParticipant(reduxState);
     const isModerator = isLocalParticipantModerator(reduxState);
-    const isSelfMsg = participantId === localParticipant?.id;
+    const isOwnMsg = participantId === localParticipant?.id;
 
     const handleDeleteClick = useCallback(() => {
-        if ((isModerator || isSelfMsg) && window.APP?.conference?._room) {
-            console.log('deleting msg');
+        if (isModerator || isOwnMsg) {
             sendDeleteChatMessageCommand(messageId, reduxState);
         }
     }, [ messageId, isModerator, dispatch ]);
@@ -142,7 +141,7 @@ const MessageMenu = ({ message, messageId, participantId, isLobbyMessage, should
                 onClick = { handleCopyClick }>
                 {t('Copy')}
             </div>
-            { (isModerator || isSelfMsg)
+            { (isModerator || isOwnMsg)
             && <div
                 className = { classes.menuItem }
                 onClick = { handleDeleteClick }>

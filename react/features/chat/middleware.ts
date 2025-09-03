@@ -678,7 +678,9 @@ function _shouldSendPrivateMessageTo(state: IReduxState, action: AnyAction) {
  * Only moderators should call this.
  *
  * @param {string} messageId - The ID of the message to delete.
- * @param {IReduxState} state - The Redux state 
+ * @param {IReduxState} state - The Redux state.
+ * 
+ * @returns {void}
  */
 export function sendDeleteChatMessageCommand(messageId: string, state: IReduxState) {
     const conference = getCurrentConference(state);

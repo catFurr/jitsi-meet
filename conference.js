@@ -1647,7 +1647,7 @@ export default {
             }));
         });
 
-        room.addCommandListener(this.commands.defaults.DELETE_CHAT_MESSAGE, (data) => {
+        room.addCommandListener(this.commands.defaults.DELETE_CHAT_MESSAGE, data => {
             if (data && data.value) {
                 APP.store.dispatch(deleteMessage(data.value));
             } else {
