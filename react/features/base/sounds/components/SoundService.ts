@@ -62,16 +62,22 @@ class SoundService {
         }
 
         let localizedFilePath = filePath;
+        let localizedSoundId = soundId;
 
         if (languages) {
-            const language = i18next.language;
+            for (const language of Object.values(AudioSupportedLanguage)) {
+                localizedFilePath = this.getSoundFileSrc(filePath, language);
+                localizedSoundId = this.getSoundFileId(soundId, language);
 
-            localizedFilePath = this.getSoundFileSrc(filePath, language);
+                APP.store.dispatch(registerSound(localizedSoundId, localizedSoundId, options, optional));
+                this.registrations.set(localizedSoundId, { filePath: localizedFilePath, options });
+                this._createHowl(localizedSoundId, localizedFilePath, options);
+            }
+        } else {
+            APP.store.dispatch(registerSound(soundId, soundId, options, optional));
+            this.registrations.set(soundId, { filePath: localizedFilePath, options });
+            this._createHowl(soundId, localizedFilePath, options);
         }
-
-        APP.store.dispatch(registerSound(soundId, soundId, options, optional));
-        this.registrations.set(soundId, { filePath: localizedFilePath, options });
-        this._createHowl(soundId, localizedFilePath, options);
     }
 
     /**
@@ -106,10 +112,10 @@ class SoundService {
      *
      * @param {string} soundId - The identifier of the sound to play.
      * @param {IReduxState} state - The Redux state.
+     * @param {boolean} [languages=false] - If true, loads the sound for the correct language using getSoundFileSrc.
      * @returns {void}
      */
-    public play(soundId: string, state: IReduxState): void {
-        const soundToPlay = this.howlSounds.get(soundId);
+    public play(soundId: string, state: IReduxState, languages: boolean = false): void {
 
         const disabledSounds = getDisabledSounds(state);
         const { leaving } = getConferenceState(state);
@@ -117,6 +123,17 @@ class SoundService {
         // Skip playing sounds when leaving, to avoid hearing that recording has stopped and so on.
         if (leaving) {
             return;
+        }
+
+        let soundToPlay;
+
+        if (languages) {
+            const language = i18next.language;
+            const localizedSoundId = this.getSoundFileId(soundId, language);
+
+            soundToPlay = this.howlSounds.get(localizedSoundId);
+        } else {
+            soundToPlay = this.howlSounds.get(soundId);
         }
 
         if (!disabledSounds.includes(soundId as Sounds) && !disabledSounds.find(id => soundId.startsWith(id))) {
@@ -245,6 +262,23 @@ class SoundService {
         const fileTokens = file.split('.');
 
         return `${fileTokens[0]}_${language}.${fileTokens[1]}`;
+    };
+
+    /**
+     * Computes the localized sound id for a given language.
+     *
+     * @param {string} id - The default id.
+     * @param {string} language - The language to use for localization.
+     * @private
+     * @returns {string}
+     */
+    private getSoundFileId = (id: string, language: string): string => {
+        if (!AudioSupportedLanguage[language as keyof typeof AudioSupportedLanguage]
+            || language === AudioSupportedLanguage.en) {
+            return id;
+        }
+
+        return `${id}_${language}`;
     };
 
 }

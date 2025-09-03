@@ -48,10 +48,6 @@ import {
 import { RecordingConsentDialog } from './components/Recording';
 import LocalRecordingManager from './components/Recording/LocalRecordingManager';
 import {
-    LIVE_STREAMING_OFF_SOUND_ID,
-    LIVE_STREAMING_ON_SOUND_ID,
-    RECORDING_OFF_SOUND_ID,
-    RECORDING_ON_SOUND_ID,
     START_RECORDING_NOTIFICATION_ID
 } from './constants';
 import {
@@ -62,6 +58,7 @@ import {
     unregisterRecordingAudioFiles
 } from './functions';
 import logger from './logger';
+import { LIVE_STREAMING_OFF_SOUND, LIVE_STREAMING_ON_SOUND, RECORDING_OFF_SOUND, RECORDING_ON_SOUND } from './sounds';
 
 
 /**
@@ -140,7 +137,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             };
 
             if (localRecording?.notifyAllParticipants && !onlySelf) {
-                SoundService.play(RECORDING_ON_SOUND_ID, getState());
+                SoundService.play(RECORDING_ON_SOUND.id, getState(), RECORDING_ON_SOUND.languages);
             }
             dispatch(showNotification(props, NOTIFICATION_TIMEOUT_TYPE.MEDIUM));
             dispatch(showNotification({
@@ -195,7 +192,7 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             }, 100);
             dispatch(updateLocalRecordingStatus(false));
             if (localRecording?.notifyAllParticipants && !LocalRecordingManager.selfRecording) {
-                SoundService.play(RECORDING_OFF_SOUND_ID, getState());
+                SoundService.play(RECORDING_OFF_SOUND.id, getState(), RECORDING_OFF_SOUND.languages);
             }
             if (typeof APP !== 'undefined') {
                 APP.API.notifyRecordingStatusChanged(
@@ -260,13 +257,13 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
                 let soundID;
 
                 if (mode === JitsiRecordingConstants.mode.FILE && !isRecorderTranscriptionsRunning(state)) {
-                    soundID = RECORDING_ON_SOUND_ID;
+                    soundID = RECORDING_ON_SOUND.id;
                 } else if (mode === JitsiRecordingConstants.mode.STREAM) {
-                    soundID = LIVE_STREAMING_ON_SOUND_ID;
+                    soundID = LIVE_STREAMING_ON_SOUND.id;
                 }
 
                 if (soundID) {
-                    SoundService.play(soundID, getState());
+                    SoundService.play(soundID, getState(), true);
                 }
 
                 if (typeof APP !== 'undefined') {
@@ -290,16 +287,16 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
             sendAnalytics(createRecordingEvent('stop', mode, duration));
 
             if (mode === JitsiRecordingConstants.mode.FILE && !isRecorderTranscriptionsRunning(state)) {
-                soundOff = RECORDING_OFF_SOUND_ID;
-                soundOn = RECORDING_ON_SOUND_ID;
+                soundOff = RECORDING_OFF_SOUND.id;
+                soundOn = RECORDING_ON_SOUND.id;
             } else if (mode === JitsiRecordingConstants.mode.STREAM) {
-                soundOff = LIVE_STREAMING_OFF_SOUND_ID;
-                soundOn = LIVE_STREAMING_ON_SOUND_ID;
+                soundOff = LIVE_STREAMING_OFF_SOUND.id;
+                soundOn = LIVE_STREAMING_ON_SOUND.id;
             }
 
             if (soundOff && soundOn) {
                 SoundService.stop(soundOn);
-                SoundService.play(soundOff, getState());
+                SoundService.play(soundOff, getState(), true);
             }
 
             if (typeof APP !== 'undefined') {

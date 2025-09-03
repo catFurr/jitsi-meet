@@ -18,7 +18,7 @@ import SoundService from '../base/sounds/components/SoundService';
 import { PARTICIPANT_VERIFIED, SET_MEDIA_ENCRYPTION_KEY, START_VERIFICATION, TOGGLE_E2EE } from './actionTypes';
 import { setE2EEMaxMode, toggleE2EE } from './actions';
 import ParticipantVerificationDialog from './components/ParticipantVerificationDialog';
-import { E2EE_OFF_SOUND_ID, E2EE_ON_SOUND_ID, MAX_MODE } from './constants';
+import { MAX_MODE } from './constants';
 import {
     isMaxModeReached,
     isMaxModeThresholdReached,
@@ -26,6 +26,7 @@ import {
     unregisterE2eeAudioFiles
 } from './functions';
 import logger from './logger';
+import { E2EE_OFF_SOUND, E2EE_ON_SOUND } from './sounds';
 
 /**
  * Middleware that captures actions related to E2EE.
@@ -85,9 +86,9 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
                 local: true
             }));
 
-            const soundID = action.enabled ? E2EE_ON_SOUND_ID : E2EE_OFF_SOUND_ID;
+            const soundID = action.enabled ? E2EE_ON_SOUND.id : E2EE_OFF_SOUND.id;
 
-            SoundService.play(soundID, getState());
+            SoundService.play(soundID, getState(), true);
         }
 
         break;

@@ -7,8 +7,8 @@ import SoundService from '../base/sounds/components/SoundService';
 import { showNotification } from '../notifications/actions';
 import { NOTIFICATION_TIMEOUT_TYPE } from '../notifications/constants';
 import { INotificationProps } from '../notifications/types';
-import { RECORDING_OFF_SOUND_ID, RECORDING_ON_SOUND_ID } from '../recording/constants';
 import { isLiveStreamingRunning, isRecordingRunning } from '../recording/functions';
+import { RECORDING_OFF_SOUND, RECORDING_ON_SOUND } from '../recording/sounds';
 
 import { isRecorderTranscriptionsRunning, isTranscribing } from './functions';
 
@@ -63,7 +63,7 @@ function maybeEmitRecordingNotification(dispatch: IStore['dispatch'], getState: 
 
     batch(() => {
         dispatch(showNotification(notifyProps, NOTIFICATION_TIMEOUT_TYPE.SHORT));
-        SoundService.play(on ? RECORDING_ON_SOUND_ID : RECORDING_OFF_SOUND_ID, state);
+        SoundService.play(on ? RECORDING_ON_SOUND.id : RECORDING_OFF_SOUND.id, state, true);
     });
 }
 
