@@ -61,7 +61,10 @@ export const PARTICIPANT_JOINED_SOUND_ID = 'PARTICIPANT_JOINED_SOUND';
 export const PARTICIPANT_JOINED_SOUND = {
     id: 'PARTICIPANT_JOINED_SOUND',
     file: PARTICIPANT_JOINED_FILE,
-    options: {},
+    options: {
+        moderation: true,
+        optional: true
+    },
     optional: true
 };
 
@@ -75,7 +78,10 @@ export const PARTICIPANT_JOINED_SOUND = {
 export const PARTICIPANT_LEFT_SOUND = {
     id: 'PARTICIPANT_LEFT_SOUND',
     file: PARTICIPANT_LEFT_FILE,
-    options: {},
+    options: {
+        moderation: true,
+        optional: true
+    },
     optional: true
 };
 

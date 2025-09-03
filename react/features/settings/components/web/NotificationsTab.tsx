@@ -232,8 +232,8 @@ class NotificationsTab extends AbstractDialogTab<IProps, any> {
                             name = 'soundsReactions'
                             onChange = { this._onChange } />
                         }
-                        {Array.from(sounds.entries()).map(([ soundId, { optional, isMuted } ]) =>
-                            optional && (
+                        {Array.from(sounds.entries()).map(([ soundId, { options, isMuted } ]) =>
+                            options?.optional && (
                                 <Checkbox
                                     checked = { !isMuted }
                                     className = { classes.checkbox }

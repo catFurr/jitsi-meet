@@ -303,8 +303,8 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
                             label = { t('settings.startReactionsMuted') }
                             name = 'start-reactions-muted'
                             onChange = { this._onStartReactionsMutedChanged } /> }
-                { Array.from(sounds.entries()).map(([ soundId, { optional } ]) => {
-                    if (!optional) {
+                { Array.from(sounds.entries()).map(([ soundId, { options } ]) => {
+                    if (!options?.optional) {
                         return null;
                     }
                     const localValue = this.state[soundId];

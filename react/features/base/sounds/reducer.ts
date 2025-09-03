@@ -22,15 +22,12 @@ export type Sound = {
     isMuted?: boolean;
 
     /**
-     * Whether this sound is optional and should be shown in notifications/settings.
-     */
-    optional?: boolean;
-
-    /**
      * This field is container for all optional parameters related to the sound.
      */
     options?: {
         loop: boolean;
+        moderation?: boolean;
+        optional?: boolean;
     };
 
     /**
@@ -90,7 +87,6 @@ function _registerSound(state: ISoundsState, action: AnyAction) {
     nextState.set(action.soundId, {
         src: action.src,
         options: action.options,
-        optional: action?.optional ?? false,
         isMuted: action?.isMuted ?? false
     });
 

@@ -13,7 +13,10 @@ export const HIDDEN_EMAILS = [ 'inbound-sip-jibri@jitsi.net', 'outbound-sip-jibr
 export const KNOCKING_PARTICIPANT_SOUND = {
     id: 'KNOCKING_PARTICIPANT_SOUND',
     file: KNOCKING_PARTICIPANT_FILE,
-    options: {},
+    options: {
+        moderation: true,
+        optional: true
+    },
     optional: true
 };
 

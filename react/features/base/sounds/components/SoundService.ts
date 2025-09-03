@@ -66,7 +66,6 @@ class SoundService {
         if (languages) {
             const language = i18next.language;
 
-            console.log(language)
             localizedFilePath = this.getSoundFileSrc(filePath, language);
         }
 

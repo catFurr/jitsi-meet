@@ -8,6 +8,9 @@ import { INCOMING_MSG_SOUND_ID } from './constants';
 export const INCOMING_MSG_SOUND = {
     id: INCOMING_MSG_SOUND_ID,
     file: 'incomingMessage.mp3',
-    options: {},
+    options: {
+        moderation: true,
+        optional: true
+    },
     optional: true
 };

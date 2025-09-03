@@ -1,5 +1,3 @@
-import i18next from 'i18next';
-
 import { IReduxState } from '../app/types';
 import { MEET_FEATURES } from '../base/jwt/constants';
 import { isJwtFeatureEnabled } from '../base/jwt/functions';
@@ -380,8 +378,6 @@ export function unregisterRecordingAudioFiles() {
  * @returns {void}
  */
 export function registerRecordingAudioFiles(shouldUnregister?: boolean) {
-    console.log('register sounds')
-
     if (shouldUnregister) {
         unregisterRecordingAudioFiles();
     }
