@@ -1,8 +1,10 @@
 import { Howl, Howler } from 'howler';
+import i18next from 'i18next';
 
 import { IReduxState } from '../../../app/types';
 import { getConferenceState } from '../../conference/functions';
 import { Sounds } from '../../config/configType';
+import { AudioSupportedLanguage } from '../../media/constants';
 import { registerSound, unregisterSound } from '../actions';
 import { getDisabledSounds } from '../functions.any';
 import logger from '../logger';
@@ -49,18 +51,28 @@ class SoundService {
      * @param {string} filePath - The root-relative path to the sound file (e.g., '/meet/sounds/my-sound.mp3').
      * @param {Object} [options] - Optional Howler.js options (e.g., { loop: true }).
      * @param {boolean} optional - Whether this sound is optional and should be shown in notifications/settings.
+     * @param {boolean} [languages=false] - If true, loads the sound for the correct language using getSoundFileSrc.
      * @returns {void}
      */
-    public register(soundId: string, filePath: string, options: object = {}, optional: boolean = false): void {
+    public register(soundId: string, filePath: string, options: object = {}, optional: boolean = false, languages: boolean = false): void {
         if (this.registrations.has(soundId)) {
             logger.warn(`Sound '${soundId}' is already registered.`);
 
             return;
         }
 
+        let localizedFilePath = filePath;
+
+        if (languages) {
+            const language = i18next.language;
+
+            console.log(language)
+            localizedFilePath = this.getSoundFileSrc(filePath, language);
+        }
+
         APP.store.dispatch(registerSound(soundId, soundId, options, optional));
-        this.registrations.set(soundId, { filePath, options });
-        this._createHowl(soundId, filePath, options);
+        this.registrations.set(soundId, { filePath: localizedFilePath, options });
+        this._createHowl(soundId, localizedFilePath, options);
     }
 
     /**
@@ -217,6 +229,25 @@ class SoundService {
 
         this.howlSounds.set(soundId, newHowl);
     }
+
+    /**
+     * Computes the localized sound file source for a given language.
+     *
+     * @param {string} file - The default file source.
+     * @param {string} language - The language to use for localization.
+     * @private
+     * @returns {string}
+     */
+    private getSoundFileSrc = (file: string, language: string): string => {
+        if (!AudioSupportedLanguage[language as keyof typeof AudioSupportedLanguage]
+            || language === AudioSupportedLanguage.en) {
+            return file;
+        }
+        const fileTokens = file.split('.');
+
+        return `${fileTokens[0]}_${language}.${fileTokens[1]}`;
+    };
+
 }
 
 // Create and export a single, global instance of the service.

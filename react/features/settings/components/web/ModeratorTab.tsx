@@ -293,7 +293,7 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
                     onChange = { this._onFollowMeRecorderEnabledChanged } />
                 { (!disableReactionsModeration || Boolean(sounds.size))
                     && <h4 className = { classes.title }>
-                        Sounds
+                        Mute sound for everybody on
                     </h4>
                 }
                 { !disableReactionsModeration
@@ -317,7 +317,7 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
                             className = { classes.checkbox }
                             disabled = { false }
                             key = { soundId }
-                            label = { `${t('videothumbnail.domute')} ${t(`settings.${soundId}`)} Sounds` }
+                            label = { t(`settings.${soundId}`) }
                             name = { soundId }
                             /* eslint-disable-next-line react/jsx-no-bind */
                             onChange = { e => this._onMuteSoundForEveryone(soundId, e) } />

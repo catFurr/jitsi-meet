@@ -4,7 +4,6 @@ import { IReduxState } from '../app/types';
 import { MEET_FEATURES } from '../base/jwt/constants';
 import { isJwtFeatureEnabled } from '../base/jwt/functions';
 import { JitsiRecordingConstants } from '../base/lib-jitsi-meet';
-import { getSoundFileSrc } from '../base/media/functions';
 import { getLocalParticipant, getRemoteParticipants } from '../base/participants/functions';
 import SoundService from '../base/sounds/components/SoundService';
 import { isSpotTV } from '../base/util/spot';
@@ -15,19 +14,15 @@ import { canAddTranscriber, isRecorderTranscriptionsRunning } from '../transcrib
 
 import LocalRecordingManager from './components/Recording/LocalRecordingManager';
 import {
-    LIVE_STREAMING_OFF_SOUND_ID,
-    LIVE_STREAMING_ON_SOUND_ID,
-    RECORDING_OFF_SOUND_ID,
-    RECORDING_ON_SOUND_ID,
     RECORDING_STATUS_PRIORITIES,
     RECORDING_TYPES
 } from './constants';
 import logger from './logger';
 import {
-    LIVE_STREAMING_OFF_SOUND_FILE,
-    LIVE_STREAMING_ON_SOUND_FILE,
-    RECORDING_OFF_SOUND_FILE,
-    RECORDING_ON_SOUND_FILE
+    LIVE_STREAMING_OFF_SOUND,
+    LIVE_STREAMING_ON_SOUND,
+    RECORDING_OFF_SOUND,
+    RECORDING_ON_SOUND,
 } from './sounds';
 
 /**
@@ -372,10 +367,10 @@ export function isRemoteParticipantRecordingLocally(state: IReduxState) {
  * @returns {void}
  */
 export function unregisterRecordingAudioFiles() {
-    SoundService.unregister(LIVE_STREAMING_OFF_SOUND_FILE);
-    SoundService.unregister(LIVE_STREAMING_ON_SOUND_FILE);
-    SoundService.unregister(RECORDING_OFF_SOUND_FILE);
-    SoundService.unregister(RECORDING_ON_SOUND_FILE);
+    SoundService.unregister(LIVE_STREAMING_OFF_SOUND.file);
+    SoundService.unregister(LIVE_STREAMING_ON_SOUND.file);
+    SoundService.unregister(RECORDING_OFF_SOUND.file);
+    SoundService.unregister(RECORDING_ON_SOUND.file);
 }
 
 /**
@@ -385,27 +380,39 @@ export function unregisterRecordingAudioFiles() {
  * @returns {void}
  */
 export function registerRecordingAudioFiles(shouldUnregister?: boolean) {
-    const language = i18next.language;
+    console.log('register sounds')
 
     if (shouldUnregister) {
         unregisterRecordingAudioFiles();
     }
 
     SoundService.register(
-        LIVE_STREAMING_OFF_SOUND_ID,
-        getSoundFileSrc(LIVE_STREAMING_OFF_SOUND_FILE, language));
+        LIVE_STREAMING_OFF_SOUND.id,
+        LIVE_STREAMING_OFF_SOUND.file,
+        LIVE_STREAMING_OFF_SOUND.options,
+        LIVE_STREAMING_OFF_SOUND.optional,
+        LIVE_STREAMING_OFF_SOUND.languages);
 
     SoundService.register(
-        LIVE_STREAMING_ON_SOUND_ID,
-        getSoundFileSrc(LIVE_STREAMING_ON_SOUND_FILE, language));
+        LIVE_STREAMING_ON_SOUND.id,
+        LIVE_STREAMING_ON_SOUND.file,
+        LIVE_STREAMING_ON_SOUND.options,
+        LIVE_STREAMING_ON_SOUND.optional,
+        LIVE_STREAMING_ON_SOUND.languages);
 
     SoundService.register(
-        RECORDING_OFF_SOUND_ID,
-        getSoundFileSrc(RECORDING_OFF_SOUND_FILE, language));
+        RECORDING_OFF_SOUND.id,
+        RECORDING_OFF_SOUND.file,
+        RECORDING_OFF_SOUND.options,
+        RECORDING_OFF_SOUND.optional,
+        RECORDING_OFF_SOUND.languages);
 
     SoundService.register(
-        RECORDING_ON_SOUND_ID,
-        getSoundFileSrc(RECORDING_ON_SOUND_FILE, language));
+        RECORDING_ON_SOUND.id,
+        RECORDING_ON_SOUND.file,
+        RECORDING_ON_SOUND.options,
+        RECORDING_ON_SOUND.optional,
+        RECORDING_ON_SOUND.languages);
 }
 
 /**
