@@ -7,6 +7,7 @@ import {
     ENDPOINT_MESSAGE_RECEIVED,
     NON_PARTICIPANT_MESSAGE_RECEIVED
 } from '../base/conference/actionTypes';
+import { DELETE_CHAT_MESSAGE_COMMAND } from '../base/conference/constants';
 import { getCurrentConference } from '../base/conference/functions';
 import { IJitsiConference } from '../base/conference/reducer';
 import { openDialog } from '../base/dialog/actions';
@@ -670,4 +671,22 @@ function _shouldSendPrivateMessageTo(state: IReduxState, action: AnyAction) {
     }
 
     return undefined;
+}
+
+/**
+ * Sends a conference-wide command to delete a chat message for all participants.
+ * Only moderators should call this.
+ *
+ * @param {string} messageId - The ID of the message to delete.
+ * @param {IReduxState} state - The Redux state 
+ */
+export function sendDeleteChatMessageCommand(messageId: string, state: IReduxState) {
+    const conference = getCurrentConference(state);
+
+    if (!conference) {
+        console.warn('[Chat] No conference, cannot send delete chat message command');
+
+        return;
+    }
+    conference.sendCommand(DELETE_CHAT_MESSAGE_COMMAND, { value: messageId });
 }

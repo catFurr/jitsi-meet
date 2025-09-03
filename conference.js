@@ -44,8 +44,8 @@ import {
 import {
     AVATAR_URL_COMMAND,
     CONFERENCE_LEAVE_REASONS,
-    EMAIL_COMMAND
-} from './react/features/base/conference/constants';
+    DELETE_CHAT_MESSAGE_COMMAND
+    , EMAIL_COMMAND } from './react/features/base/conference/constants';
 import {
     commonUserJoinedHandling,
     commonUserLeftHandling,
@@ -136,6 +136,7 @@ import {
 } from './react/features/base/tracks/functions';
 import { downloadJSON } from './react/features/base/util/downloadJSON';
 import { getJitsiMeetGlobalNSConnectionTimes } from './react/features/base/util/helpers';
+import { deleteMessage } from './react/features/chat/actions.any';
 import { openLeaveReasonDialog } from './react/features/conference/actions.web';
 import { showDesktopPicker } from './react/features/desktop-picker/actions';
 import { appendSuffix } from './react/features/display-name/functions';
@@ -186,7 +187,8 @@ const commands = {
     AVATAR_URL: AVATAR_URL_COMMAND,
     CUSTOM_ROLE: 'custom-role',
     EMAIL: EMAIL_COMMAND,
-    ETHERPAD: 'etherpad'
+    ETHERPAD: 'etherpad',
+    DELETE_CHAT_MESSAGE: DELETE_CHAT_MESSAGE_COMMAND
 };
 
 /**
@@ -1643,6 +1645,14 @@ export default {
                 id: from,
                 email: data.value
             }));
+        });
+
+        room.addCommandListener(this.commands.defaults.DELETE_CHAT_MESSAGE, (data) => {
+            if (data && data.value) {
+                APP.store.dispatch(deleteMessage(data.value));
+            } else {
+                console.warn('[Conference] DELETE_CHAT_MESSAGE command missing value', data);
+            }
         });
 
         room.addCommandListener(

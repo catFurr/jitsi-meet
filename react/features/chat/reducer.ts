@@ -7,6 +7,7 @@ import {
     ADD_MESSAGE_REACTION,
     CLEAR_MESSAGES,
     CLOSE_CHAT,
+    DELETE_MESSAGE,
     EDIT_MESSAGE,
     OPEN_CHAT,
     REMOVE_LOBBY_CHAT_PARTICIPANT,
@@ -135,6 +136,22 @@ ReducerRegistry.register<IChatState>('features/chat', (state = DEFAULT_STATE, ac
             lastReadMessage: undefined,
             messages: []
         };
+
+    case DELETE_MESSAGE: {
+        const { messageId: messageIdToDelete } = action;
+
+        const messages = state.messages.filter(m => m.messageId !== messageIdToDelete);
+
+        // if nothing was removed, return original state
+        if (messages.length === state.messages.length) {
+            return state;
+        }
+
+        return {
+            ...state,
+            messages
+        };
+    }
 
     case EDIT_MESSAGE: {
         let found = false;

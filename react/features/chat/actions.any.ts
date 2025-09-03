@@ -9,6 +9,7 @@ import {
     ADD_MESSAGE_REACTION,
     CLEAR_MESSAGES,
     CLOSE_CHAT,
+    DELETE_MESSAGE,
     EDIT_MESSAGE,
     OPEN_CHAT,
     REMOVE_LOBBY_CHAT_PARTICIPANT,
@@ -71,6 +72,23 @@ export function addMessageReaction(reactionDetails: Object) {
     return {
         type: ADD_MESSAGE_REACTION,
         ...reactionDetails
+    };
+}
+
+/**
+ * Deletes a chat message.
+ *
+ * @param {Object} messageId - The chat message to delete. The messages will be matched from the state
+ * comparing the messageId.
+ * @returns {{
+ *     type: DELETE_MESSAGE,
+ *     messageId: string
+ * }}
+ */
+export function deleteMessage(messageId: string) {
+    return {
+        type: DELETE_MESSAGE,
+        messageId
     };
 }
 
