@@ -205,7 +205,7 @@ class SoundService {
      * @returns {Howl} The created Howl instance.
      */
     private createHowl(soundId: string, filePath: string, options: SoundOptions): Howl {
-        const correctedSrc = `/meet/sounds/${filePath}`;
+        const correctedSrc = `sounds/${filePath}`;
 
         return new Howl({
             src: correctedSrc,
