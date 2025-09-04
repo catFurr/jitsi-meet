@@ -61,22 +61,18 @@ class SoundService {
             return;
         }
 
-        let localizedFilePath = filePath;
-        let localizedSoundId = soundId;
-
         if (languages) {
             for (const language of Object.values(AudioSupportedLanguage)) {
-                localizedFilePath = this.getSoundFileSrc(filePath, language);
-                localizedSoundId = this.getSoundFileId(soundId, language);
+                const { localizedSoundId, localizedFilePath } = this.getLocalizedSound(language, soundId, filePath);
 
-                APP.store.dispatch(registerSound(localizedSoundId, localizedSoundId, options, optional));
-                this.registrations.set(localizedSoundId, { filePath: localizedFilePath, options });
-                this._createHowl(localizedSoundId, localizedFilePath, options);
+                APP.store.dispatch(registerSound(localizedSoundId ?? '', localizedSoundId ?? '', options, optional));
+                this.registrations.set(localizedSoundId ?? '', { filePath: localizedFilePath ?? '', options });
+                this._createHowl(localizedSoundId ?? '', localizedFilePath ?? '', options);
             }
         } else {
             APP.store.dispatch(registerSound(soundId, soundId, options, optional));
-            this.registrations.set(soundId, { filePath: localizedFilePath, options });
-            this._createHowl(soundId, localizedFilePath, options);
+            this.registrations.set(soundId, { filePath, options });
+            this._createHowl(soundId, filePath, options);
         }
     }
 
@@ -129,9 +125,9 @@ class SoundService {
 
         if (languages) {
             const language = i18next.language;
-            const localizedSoundId = this.getSoundFileId(soundId, language);
+            const { localizedSoundId } = this.getLocalizedSound(language, soundId);
 
-            soundToPlay = this.howlSounds.get(localizedSoundId);
+            soundToPlay = this.howlSounds.get(localizedSoundId ?? '');
         } else {
             soundToPlay = this.howlSounds.get(soundId);
         }
@@ -247,40 +243,53 @@ class SoundService {
     }
 
     /**
-     * Computes the localized sound file source for a given language.
+     * Computes the localized sound for a given language.
      *
-     * @param {string} file - The default file source.
-     * @param {string} language - The language to use for localization.
-     * @private
-     * @returns {string}
+     * @param {string} id - The sound id.
+     * @param {string} file - The sound file src.
+     * @param {string} language - The language.
+     * @returns {{string,string}}
      */
-    private getSoundFileSrc = (file: string, language: string): string => {
-        if (!AudioSupportedLanguage[language as keyof typeof AudioSupportedLanguage]
-            || language === AudioSupportedLanguage.en) {
-            return file;
-        }
-        const fileTokens = file.split('.');
 
-        return `${fileTokens[0]}_${language}.${fileTokens[1]}`;
-    };
-
-    /**
-     * Computes the localized sound id for a given language.
-     *
-     * @param {string} id - The default id.
-     * @param {string} language - The language to use for localization.
-     * @private
-     * @returns {string}
-     */
-    private getSoundFileId = (id: string, language: string): string => {
-        if (!AudioSupportedLanguage[language as keyof typeof AudioSupportedLanguage]
-            || language === AudioSupportedLanguage.en) {
-            return id;
+    private getLocalizedSound = (
+            language: string,
+            id?: string,
+            file?: string
+    ): { localizedFilePath?: string; localizedSoundId?: string; } => {
+    // Ensure at least one is provided
+        if (!id && !file) {
+            throw new Error('getLocalizedSound requires at least an id or a file.');
         }
 
-        return `${id}_${language}`;
-    };
+        const isDefaultLang
+        = !AudioSupportedLanguage[language as keyof typeof AudioSupportedLanguage]
+        || language === AudioSupportedLanguage.en;
 
+        if (isDefaultLang) {
+            return {
+                localizedSoundId: id,
+                localizedFilePath: file
+            };
+        }
+
+        const localizedSoundId = `${id}_${language}`;
+
+        if (!file) return { localizedSoundId };
+
+        let localizedFilePath = file;
+
+        if (localizedFilePath) {
+            const fileTokens = file.split('.');
+
+            if (fileTokens.length > 1) {
+                localizedFilePath = `${fileTokens[0]}_${language}.${fileTokens[1]}`;
+            } else {
+                localizedFilePath = `${file}_${language}`;
+            }
+        }
+
+        return { localizedSoundId, localizedFilePath };
+    };
 }
 
 // Create and export a single, global instance of the service.
