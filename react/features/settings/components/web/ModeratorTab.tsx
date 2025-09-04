@@ -4,11 +4,11 @@ import { WithTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withStyles } from 'tss-react/mui';
 
-import { IStore } from '../../../app/types';
-import { setMuteSoundGlobal } from '../../../base/conference/actions.any';
+import { IReduxState, IStore } from '../../../app/types';
 import AbstractDialogTab, {
     IProps as AbstractDialogTabProps } from '../../../base/dialog/components/web/AbstractDialogTab';
 import { translate } from '../../../base/i18n/functions';
+import { setMuteSoundGlobal } from '../../../base/sounds/functions.web';
 import { ISoundsState } from '../../../base/sounds/reducer';
 import { withPixelLineHeight } from '../../../base/styles/functions.web';
 import Checkbox from '../../../base/ui/components/web/Checkbox';
@@ -91,6 +91,11 @@ export interface IProps extends AbstractDialogTabProps, WithTranslation {
     startVideoMuted: boolean;
 
     /**
+     * The Redux State.
+     */
+    state: IReduxState;
+
+    /**
      * Whether the user has selected the video moderation feature to be enabled.
      */
     videoModerationEnabled: boolean;
@@ -151,7 +156,7 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
      */
     _onMuteSoundForEveryone(soundId: string, { target: { checked } }: { target: { checked: boolean; }; }) {
         this.setState({ [soundId]: checked });
-        this.props.dispatch(setMuteSoundGlobal(soundId, checked, true));
+        setMuteSoundGlobal(soundId, checked, true, this.props.state);
     }
 
 
@@ -336,6 +341,7 @@ class ModeratorTab extends AbstractDialogTab<IProps, any> {
 }
 
 const mapStateToProps = (state: any) => ({
+    state,
     sounds: state['features/base/sounds']
 });
 

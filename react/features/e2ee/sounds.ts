@@ -10,8 +10,8 @@ export const E2EE_OFF_SOUND = {
     id: E2EE_OFF_SOUND_ID,
     file: 'e2eeOff.mp3',
     options: {
-        moderation: true,
-        optional: true
+        moderation: false,
+        optional: false
     },
     optional: false,
     languages: true
@@ -26,8 +26,8 @@ export const E2EE_ON_SOUND = {
     id: E2EE_ON_SOUND_ID,
     file: 'e2eeOn.mp3',
     options: {
-        moderation: true,
-        optional: true
+        moderation: false,
+        optional: false
     },
     optional: false,
     languages: true

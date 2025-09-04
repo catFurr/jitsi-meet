@@ -1,3 +1,9 @@
+import { useSelector } from 'react-redux';
+
+import { IReduxState } from '../../app/types';
+import { MUTE_SOUNDS_COMMAND } from '../../reactions/constants';
+import { getConferenceState } from '../conference/functions';
+
 import SoundService from './components/SoundService';
 
 /**
@@ -18,4 +24,19 @@ export function getSoundsPath() {
  */
 export function setNewAudioOutputDevice(deviceId: string) {
     return SoundService.setAudioOutputDevice(deviceId);
+}
+
+
+export function setMuteSoundGlobal(soundId: string, isMuted: boolean = false, updateBackend: boolean = true, state: IReduxState) {
+    if (updateBackend) {
+        const { conference } = getConferenceState(state);
+
+        // Send a command to all other participants with the soundId and the mute status.
+        conference?.sendCommand(MUTE_SOUNDS_COMMAND, {
+            attributes: {
+                soundId,
+                isMuted
+            }
+        });
+    }
 }
