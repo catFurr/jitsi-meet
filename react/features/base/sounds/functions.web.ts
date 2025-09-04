@@ -1,5 +1,3 @@
-import { useSelector } from 'react-redux';
-
 import { IReduxState } from '../../app/types';
 import { MUTE_SOUNDS_COMMAND } from '../../reactions/constants';
 import { getConferenceState } from '../conference/functions';
