@@ -20,6 +20,7 @@ import { getSoundsPath } from './functions';
  * @param {Object} options - Optional parameters.
  * @param {boolean} options.loop - True in order to loop the sound.
  * @param {boolean} optional - Whether this sound is optional and should be shown in notifications/settings.
+ * @param {boolean} languages - Whether this sound has multiple language versions.
  * @returns {{
  *     type: REGISTER_SOUND,
  *     soundId: string,
@@ -30,13 +31,14 @@ import { getSoundsPath } from './functions';
  * }}
  */
 export function registerSound(
-        soundId: string, soundName: string, options: Object = {}, optional: boolean = false) {
+        soundId: string, soundName: string, options: Object = {}, optional: boolean = false, languages: boolean = false) {
     return {
         type: REGISTER_SOUND,
         soundId,
         src: `${getSoundsPath()}/${soundName}`,
         options,
-        optional
+        optional,
+        languages
     };
 }
 

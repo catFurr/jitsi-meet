@@ -75,7 +75,7 @@ class SoundService {
         }
 
         languages
-            ? this.registerLocalizedSounds(soundId, filePath, options, optional)
+            ? this.registerLocalizedSounds(soundId, filePath, options, optional, languages)
             : this.registerSingleSound(soundId, filePath, options, optional);
     }
 
@@ -262,15 +262,16 @@ class SoundService {
      * @param {string} filePath - The base path to the sound file.
      * @param {SoundOptions} options - Howler.js options.
      * @param {boolean} optional - Whether this sound is optional.
+     * @param {boolean} languages - Whether this sound has multiple language versions.
      * @private
      * @returns {void}
      */
-    private registerLocalizedSounds(soundId: string, filePath: string, options: SoundOptions, optional: boolean): void {
+    private registerLocalizedSounds(soundId: string, filePath: string, options: SoundOptions, optional: boolean, languages: boolean): void {
         Object.values(AudioSupportedLanguage).forEach(language => {
             const { localizedSoundId, localizedFilePath } = this.getLocalizedSound(language, soundId, filePath);
 
             if (localizedSoundId && localizedFilePath) {
-                APP.store.dispatch(registerSound(localizedSoundId, localizedSoundId, options, optional));
+                APP.store.dispatch(registerSound(localizedSoundId, localizedSoundId, options, optional, languages));
                 this.registrations.set(localizedSoundId, {
                     filePath: localizedFilePath,
                     options,

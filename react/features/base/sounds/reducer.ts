@@ -22,6 +22,11 @@ export type Sound = {
     isMuted?: boolean;
 
     /**
+     * Whether this sound has multiple language versions.
+     */
+    languages?: boolean;
+
+    /**
      * This field is container for all optional parameters related to the sound.
      */
     options?: {
@@ -87,7 +92,8 @@ function _registerSound(state: ISoundsState, action: AnyAction) {
     nextState.set(action.soundId, {
         src: action.src,
         options: action.options,
-        isMuted: action?.isMuted ?? false
+        isMuted: action?.isMuted ?? false,
+        languages: action.languages ?? false
     });
 
     return nextState;
