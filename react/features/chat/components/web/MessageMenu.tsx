@@ -6,17 +6,19 @@ import { makeStyles } from 'tss-react/mui';
 
 import { IReduxState } from '../../../app/types';
 import { IconDotsHorizontal } from '../../../base/icons/svg';
-import { getParticipantById } from '../../../base/participants/functions';
+import { getLocalParticipant, getParticipantById, isLocalParticipantModerator } from '../../../base/participants/functions';
 import Popover from '../../../base/popover/components/Popover.web';
 import Button from '../../../base/ui/components/web/Button';
 import { BUTTON_TYPES } from '../../../base/ui/constants.any';
 import { copyText } from '../../../base/util/copyText.web';
 import { handleLobbyChatInitialized, openChat } from '../../actions.web';
+import { sendDeleteChatMessageCommand } from '../../middleware';
 
 export interface IProps {
     className?: string;
     isLobbyMessage: boolean;
     message: string;
+    messageId: string;
     participantId: string;
     shouldDisplayChatMessageMenu: boolean;
 }
@@ -58,7 +60,7 @@ const useStyles = makeStyles()(theme => {
     };
 });
 
-const MessageMenu = ({ message, participantId, isLobbyMessage, shouldDisplayChatMessageMenu }: IProps) => {
+const MessageMenu = ({ message, messageId, participantId, isLobbyMessage, shouldDisplayChatMessageMenu }: IProps) => {
     const dispatch = useDispatch();
     const { classes, cx } = useStyles();
     const { t } = useTranslation();
@@ -113,6 +115,18 @@ const MessageMenu = ({ message, participantId, isLobbyMessage, shouldDisplayChat
         handleClose();
     }, [ message ]);
 
+    const reduxState = useSelector((state: IReduxState) => state);
+    const localParticipant = getLocalParticipant(reduxState);
+    const isModerator = isLocalParticipantModerator(reduxState);
+    const isOwnMsg = participantId === localParticipant?.id;
+
+    const handleDeleteClick = useCallback(() => {
+        if (isModerator || isOwnMsg) {
+            sendDeleteChatMessageCommand(messageId, reduxState);
+        }
+    }, [ messageId, isModerator, dispatch ]);
+
+
     const popoverContent = (
         <div className = { classes.menuPanel }>
             {shouldDisplayChatMessageMenu && (
@@ -127,6 +141,13 @@ const MessageMenu = ({ message, participantId, isLobbyMessage, shouldDisplayChat
                 onClick = { handleCopyClick }>
                 {t('Copy')}
             </div>
+            { (isModerator || isOwnMsg)
+            && <div
+                className = { classes.menuItem }
+                onClick = { handleDeleteClick }>
+                {t('Delete Message')}
+            </div>
+            }
         </div>
     );
 

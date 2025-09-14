@@ -6,6 +6,14 @@
 export const AVATAR_URL_COMMAND = 'avatar-url';
 
 /**
+ * The custom conference command for globally deleting a chat message.
+ * Used to propagate a delete action to all participants.
+ *
+ * @type {string}
+ */
+export const DELETE_CHAT_MESSAGE_COMMAND = 'delete-chat-message';
+
+/**
  * The command type for updating a participant's email address.
  *
  * @type {string}
