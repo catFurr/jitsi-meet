@@ -169,8 +169,6 @@ class SoundService {
         Howler.unload();
         this.howlSounds.clear();
 
-        Howler.init();
-
         logger.info('Re-registering all sounds on the new audio output device...');
         this.registrations.forEach((registration, soundId) => {
             this._createHowl(soundId, registration.filePath, registration.options);
