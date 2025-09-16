@@ -169,8 +169,7 @@ class SoundService {
         Howler.unload();
         this.howlSounds.clear();
 
-        // @ts-ignore - sinkId is a valid but sometimes untyped property
-        Howler.init({ sinkId: deviceId });
+        Howler.init();
 
         logger.info('Re-registering all sounds on the new audio output device...');
         this.registrations.forEach((registration, soundId) => {
@@ -210,6 +209,9 @@ class SoundService {
             loop: options.loop || false,
             onloaderror: (howlId: number, error: any) => {
                 logger.error(`Error loading sound '${soundId}' from '${filePath}':`, error);
+            },
+            onload: (howlId: number) => {
+                logger.info(`Loaded sound '${soundId}'`)
             },
             onplayerror: (howlId: number, error: any) => {
                 logger.error(`Error playing sound '${soundId}' from '${filePath}':`, error);
