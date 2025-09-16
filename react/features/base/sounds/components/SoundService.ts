@@ -208,6 +208,9 @@ class SoundService {
             onloaderror: (howlId: number, error: any) => {
                 logger.error(`Error loading sound '${soundId}' from '${filePath}':`, error);
             },
+            onload: (howlId: number) => {
+                logger.info(`Loaded sound '${soundId}'`)
+            },
             onplayerror: (howlId: number, error: any) => {
                 logger.error(`Error playing sound '${soundId}' from '${filePath}':`, error);
             },
