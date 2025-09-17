@@ -17,11 +17,10 @@ export function getSoundsPath() {
 /**
  * Set new audio output device on the global sound elements.
  *
- * @param {string } deviceId - The new output deviceId.
  * @returns {Function}
  */
-export function setNewAudioOutputDevice(deviceId: string) {
-    return SoundService.setAudioOutputDevice(deviceId);
+export function setNewAudioOutputDevice() {
+    return SoundService.setAudioOutputDevice();
 }
 
 

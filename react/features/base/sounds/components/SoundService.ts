@@ -162,10 +162,9 @@ class SoundService {
     /**
      * Sets the audio output device for all sounds.
      *
-     * @param {string} deviceId - The unique identifier of the audio output device.
      * @returns {void}
      */
-    public setAudioOutputDevice(deviceId: string): void {
+    public setAudioOutputDevice(): void {
         Howler.unload();
         this.howlSounds.clear();
 
@@ -207,9 +206,6 @@ class SoundService {
             loop: options.loop || false,
             onloaderror: (howlId: number, error: any) => {
                 logger.error(`Error loading sound '${soundId}' from '${filePath}':`, error);
-            },
-            onload: (howlId: number) => {
-                logger.info(`Loaded sound '${soundId}'`)
             },
             onplayerror: (howlId: number, error: any) => {
                 logger.error(`Error playing sound '${soundId}' from '${filePath}':`, error);
