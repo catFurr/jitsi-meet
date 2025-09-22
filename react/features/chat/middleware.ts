@@ -54,7 +54,7 @@ import {
     MESSAGE_TYPE_SYSTEM
 } from './constants';
 import { getUnreadCount, isSendGroupChatDisabled, isVisitorChatParticipant } from './functions';
-import { INCOMING_MSG_SOUND_FILE } from './sounds';
+import { INCOMING_MSG_SOUND } from './sounds';
 import './subscriber';
 
 /**
