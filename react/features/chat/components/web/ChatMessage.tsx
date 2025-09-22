@@ -260,11 +260,13 @@ const ChatMessage = ({
      * @returns {React$Element<*>}
      */
     function _renderDisplayName() {
+        const { displayName, isFromVisitor = false } = message;
+
         return (
             <div
                 aria-hidden = { true }
                 className = { cx('display-name', classes.displayName) }>
-                {message.displayName}
+                {`${displayName}${isFromVisitor ? ` ${t('visitors.chatIndicator')}` : ''}`}
                 {_renderRoleIndicators()}
             </div>
         );
@@ -375,6 +377,8 @@ const ChatMessage = ({
                 {!shouldDisplayChatMessageMenu && (
                     <div className = { classes.optionsButtonContainer }>
                         {isHovered && <MessageMenu
+                            displayName = { message.displayName }
+                            isFromVisitor = { message.isFromVisitor }
                             isLobbyMessage = { message.lobbyChat }
                             message = { message.message }
                             participantId = { message.participantId }
@@ -428,6 +432,8 @@ const ChatMessage = ({
                         <div>
                             <div className = { classes.optionsButtonContainer }>
                                 {isHovered && <MessageMenu
+                                    displayName = { message.displayName }
+                                    isFromVisitor = { message.isFromVisitor }
                                     isLobbyMessage = { message.lobbyChat }
                                     message = { message.message }
                                     participantId = { message.participantId }
@@ -451,7 +457,15 @@ function _mapStateToProps(state: IReduxState, { message }: IProps) {
     const { knocking } = state['features/lobby'];
 
     const participant = getParticipantById(state, message.participantId);
-    const enablePrivateChat = isPrivateChatEnabled(participant, state);
+
+    // For visitor private messages, participant will be undefined but we should still allow private chat
+    // Create a visitor participant object for visitor messages to pass to isPrivateChatEnabled
+    const participantForCheck = message.isFromVisitor
+        ? { id: message.participantId, name: message.displayName, isVisitor: true as const }
+        : participant;
+
+    const enablePrivateChat = (!message.isFromVisitor || message.privateMessage)
+        && isPrivateChatEnabled(participantForCheck, state);
 
     const _isRemostParticipantHost = isRemoteParticipantHost(participant);
 
