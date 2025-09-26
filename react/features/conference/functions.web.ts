@@ -23,7 +23,7 @@ export function maybeShowSuboptimalExperienceNotification(dispatch: IStore['disp
                         t,
                         'notify.suboptimalBrowserWarning',
                         {
-                            recommendedBrowserPageLink: `${window.location.origin}/static/recommendedBrowsers`
+                            recommendedBrowserPageLink: `${window.location.origin}/static/recommendedBrowsers.html`
                         }
                     )
                 }, NOTIFICATION_TIMEOUT_TYPE.LONG
