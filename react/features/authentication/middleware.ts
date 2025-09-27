@@ -9,6 +9,7 @@ import { isRoomValid } from '../base/conference/functions';
 import { CONNECTION_ESTABLISHED, CONNECTION_FAILED } from '../base/connection/actionTypes';
 import { hideDialog } from '../base/dialog/actions';
 import { isDialogOpen } from '../base/dialog/functions';
+import { setJWT } from '../base/jwt/actions';
 import {
     JitsiConferenceErrors,
     JitsiConnectionErrors
@@ -18,6 +19,7 @@ import MiddlewareRegistry from '../base/redux/MiddlewareRegistry';
 import { isLocalTrackMuted } from '../base/tracks/functions.any';
 import { parseURIString } from '../base/util/uri';
 import { openLogoutDialog } from '../settings/actions';
+import { getAuthService } from './AuthService';
 
 import {
     CANCEL_LOGIN,
@@ -52,6 +54,16 @@ import logger from './logger';
  * @returns {Function}
  */
 MiddlewareRegistry.register(store => next => action => {
+    {
+        // TODO Initialize the AuthService when the app loads
+        // and add a listener to set the JWT
+        const { dispatch } = store;
+        getAuthService().subscribe(({ user, isLoggedIn }) => {
+            if (user && isLoggedIn) dispatch(setJWT(user.access_token));
+            // else clear the jwt?
+        });
+    }
+
     switch (action.type) {
     case CANCEL_LOGIN: {
         const { dispatch, getState } = store;
@@ -270,6 +282,9 @@ function _handleLogin({ dispatch, getState }: IStore) {
         return;
     }
 
+    getAuthService().login();
+    return;
+
     if (!isTokenAuthEnabled(config)) {
         dispatch(openLoginDialog());
 
@@ -314,6 +329,9 @@ function _handleLogout({ dispatch, getState }: IStore) {
     if (!conference) {
         return;
     }
+
+    getAuthService().logout();
+    return;
 
     dispatch(openLogoutDialog());
 }
