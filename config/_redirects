@@ -11,5 +11,4 @@
 /meet/:room/ /meet/:room 307
 /meet/:room /meet/ 200
 
-/meet/ /meet 307
-/meet/404.html /404 307
+/meet/ /meets 307

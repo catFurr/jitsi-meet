@@ -731,7 +731,7 @@ var config = {
         disabled: false,
 
         // If set, landing page will redirect to this URL.
-        customUrl: undefined,
+        customUrl: '/meets',
     },
 
     // Configs for the lobby screen.
