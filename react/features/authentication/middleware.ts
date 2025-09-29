@@ -20,7 +20,6 @@ import { isLocalTrackMuted } from '../base/tracks/functions.any';
 import { parseURIString } from '../base/util/uri';
 import { openLogoutDialog } from '../settings/actions';
 
-import { IAuthState } from './AuthService';
 import {
     CANCEL_LOGIN,
     LOGIN,
@@ -53,77 +52,33 @@ import logger from './logger';
  * @param {Store} store - Redux store.
  * @returns {Function}
  */
-// Track if AuthService subscription is initialized
-let isAuthServiceInitialized = false;
 
-function initializeAuthServiceSubscription(store: IStore) {
-    if (isAuthServiceInitialized) {
-        return;
-    }
-
+function initAuth(store: IStore) {
     const { dispatch } = store;
+    const authService = window.AuthService!.getAuthService();
+    const currentUser = authService.getUser();
 
-    // Wait for AuthService to be available on window
-    const initAuth = () => {
-        if (window.AuthService) {
-            const authService = window.AuthService.getAuthService();
+    // First, get the current state immediately
+    dispatch(setJWT(currentUser?.access_token));
 
-            // First, get the current state immediately
-            const currentUser = authService.getUser();
-            const currentIsLoggedIn = authService.isLoggedIn();
-
-            if (currentUser && currentIsLoggedIn) {
-                dispatch(setJWT(currentUser.access_token));
-            } else {
-                dispatch(setJWT(undefined));
-            }
-
-            // Then subscribe to future state changes
-            authService.subscribe(({ user, isLoggedIn }: IAuthState) => {
-                if (user && isLoggedIn) {
-                    dispatch(setJWT(user.access_token));
-                } else {
-                    // Clear JWT when user is logged out
-                    dispatch(setJWT(undefined));
-                }
-            });
-            isAuthServiceInitialized = true;
-        } else {
-            // If AuthService is not ready, wait for the event
-            window.addEventListener('authServiceReady', () => {
-                const authService = window.AuthService!.getAuthService();
-
-                // Get current state immediately when AuthService becomes ready
-                const currentUser = authService.getUser();
-                const currentIsLoggedIn = authService.isLoggedIn();
-
-                if (currentUser && currentIsLoggedIn) {
-                    dispatch(setJWT(currentUser.access_token));
-                } else {
-                    dispatch(setJWT(undefined));
-                }
-
-                // Subscribe to future changes
-                authService.subscribe(({ user, isLoggedIn }: IAuthState) => {
-                    if (user && isLoggedIn) {
-                        dispatch(setJWT(user.access_token));
-                    } else {
-                        dispatch(setJWT(undefined));
-                    }
-                });
-                isAuthServiceInitialized = true;
-            }, { once: true });
-        }
-    };
-
-    initAuth();
+    // Then subscribe to future state changes
+    authService.subscribe(({ user }: { user: any | null; }) => {
+        dispatch(setJWT(user?.access_token));
+    });
 }
 
 MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
     case APP_WILL_MOUNT:
         // Initialize AuthService subscription when app mounts
-        initializeAuthServiceSubscription(store);
+        if (window.AuthService) {
+            initAuth(store);
+        } else {
+            // If AuthService is not ready, wait for the event
+            window.addEventListener('authServiceReady', () => {
+                initAuth(store);
+            }, { once: true });
+        }
         break;
 
     case CANCEL_LOGIN: {
@@ -343,26 +298,8 @@ function _handleLogin({ dispatch, getState }: IStore) {
         return;
     }
 
-    // Create login state similar to getTokenAuthUrl
-    const loginStateOptions = {
-        audioMuted,
-        audioOnlyEnabled,
-        skipPrejoin: true, // Skip prejoin after login
-        videoMuted
-    };
-
-    const loginState = window.AuthService?.createLoginState(
-        locationURL,
-        loginStateOptions,
-        room,
-        tenant
-    );
-
-    // Convert state object to URL-encoded string for OIDC
-    const stateString = loginState ? JSON.stringify(loginState) : locationURL.href;
-
     if (window.AuthService) {
-        window.AuthService.getAuthService().login({ state: stateString });
+        window.AuthService.getAuthService().login({ state: locationURL.href });
     } else {
         logger.error('AuthService not available for login');
     }

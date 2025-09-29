@@ -156,59 +156,13 @@
             }
         }
 
-        /**
-         * Helper function to create login state similar to getTokenAuthUrl
-         */
-        function createLoginState(locationURL, options = {}, roomName, tenant) {
-            const {
-                audioMuted = false,
-                audioOnlyEnabled = false,
-                skipPrejoin = false,
-                videoMuted = false
-            } = options;
-
-            const state = {
-                room: roomName,
-                tenant,
-                url: locationURL.href
-            };
-
-            if (audioMuted) {
-                state['config.startWithAudioMuted'] = true;
-            }
-
-            if (audioOnlyEnabled) {
-                state['config.startAudioOnly'] = true;
-            }
-
-            if (skipPrejoin) {
-                state['config.prejoinConfig.enabled'] = false;
-            }
-
-            if (videoMuted) {
-                state['config.startWithVideoMuted'] = true;
-            }
-
-            // Parse URL parameters and include config overrides
-            const urlParams = new URLSearchParams(locationURL.search);
-
-            for (const [ key, value ] of urlParams.entries()) {
-                if (key.startsWith('config.') || key.startsWith('interfaceConfig.') || key.startsWith('iceServers.')) {
-                    state[key] = value;
-                }
-            }
-
-            return state;
-        }
-
         // Create singleton instance
         authServiceInstance = new AuthService();
 
         // Add to global window object
         window.AuthService = {
             getUserManager,
-            getAuthService: () => authServiceInstance,
-            createLoginState
+            getAuthService: () => authServiceInstance
         };
 
         // Dispatch event to notify that AuthService is ready
