@@ -1,5 +1,5 @@
 import { IStore } from '../app/types';
-import { APP_WILL_NAVIGATE } from '../base/app/actionTypes';
+import { APP_WILL_MOUNT, APP_WILL_NAVIGATE } from '../base/app/actionTypes';
 import {
     CONFERENCE_FAILED,
     CONFERENCE_JOINED,
@@ -19,8 +19,8 @@ import MiddlewareRegistry from '../base/redux/MiddlewareRegistry';
 import { isLocalTrackMuted } from '../base/tracks/functions.any';
 import { parseURIString } from '../base/util/uri';
 import { openLogoutDialog } from '../settings/actions';
-import { getAuthService } from './AuthService';
 
+import { IAuthState } from './AuthService';
 import {
     CANCEL_LOGIN,
     LOGIN,
@@ -53,18 +53,79 @@ import logger from './logger';
  * @param {Store} store - Redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    {
-        // TODO Initialize the AuthService when the app loads
-        // and add a listener to set the JWT
-        const { dispatch } = store;
-        getAuthService().subscribe(({ user, isLoggedIn }) => {
-            if (user && isLoggedIn) dispatch(setJWT(user.access_token));
-            // else clear the jwt?
-        });
+// Track if AuthService subscription is initialized
+let isAuthServiceInitialized = false;
+
+function initializeAuthServiceSubscription(store: IStore) {
+    if (isAuthServiceInitialized) {
+        return;
     }
 
+    const { dispatch } = store;
+
+    // Wait for AuthService to be available on window
+    const initAuth = () => {
+        if (window.AuthService) {
+            const authService = window.AuthService.getAuthService();
+
+            // First, get the current state immediately
+            const currentUser = authService.getUser();
+            const currentIsLoggedIn = authService.isLoggedIn();
+
+            if (currentUser && currentIsLoggedIn) {
+                dispatch(setJWT(currentUser.access_token));
+            } else {
+                dispatch(setJWT(undefined));
+            }
+
+            // Then subscribe to future state changes
+            authService.subscribe(({ user, isLoggedIn }: IAuthState) => {
+                if (user && isLoggedIn) {
+                    dispatch(setJWT(user.access_token));
+                } else {
+                    // Clear JWT when user is logged out
+                    dispatch(setJWT(undefined));
+                }
+            });
+            isAuthServiceInitialized = true;
+        } else {
+            // If AuthService is not ready, wait for the event
+            window.addEventListener('authServiceReady', () => {
+                const authService = window.AuthService!.getAuthService();
+
+                // Get current state immediately when AuthService becomes ready
+                const currentUser = authService.getUser();
+                const currentIsLoggedIn = authService.isLoggedIn();
+
+                if (currentUser && currentIsLoggedIn) {
+                    dispatch(setJWT(currentUser.access_token));
+                } else {
+                    dispatch(setJWT(undefined));
+                }
+
+                // Subscribe to future changes
+                authService.subscribe(({ user, isLoggedIn }: IAuthState) => {
+                    if (user && isLoggedIn) {
+                        dispatch(setJWT(user.access_token));
+                    } else {
+                        dispatch(setJWT(undefined));
+                    }
+                });
+                isAuthServiceInitialized = true;
+            }, { once: true });
+        }
+    };
+
+    initAuth();
+}
+
+MiddlewareRegistry.register(store => next => action => {
     switch (action.type) {
+    case APP_WILL_MOUNT:
+        // Initialize AuthService subscription when app mounts
+        initializeAuthServiceSubscription(store);
+        break;
+
     case CANCEL_LOGIN: {
         const { dispatch, getState } = store;
         const state = getState();
@@ -282,7 +343,30 @@ function _handleLogin({ dispatch, getState }: IStore) {
         return;
     }
 
-    getAuthService().login();
+    // Create login state similar to getTokenAuthUrl
+    const loginStateOptions = {
+        audioMuted,
+        audioOnlyEnabled,
+        skipPrejoin: true, // Skip prejoin after login
+        videoMuted
+    };
+
+    const loginState = window.AuthService?.createLoginState(
+        locationURL,
+        loginStateOptions,
+        room,
+        tenant
+    );
+
+    // Convert state object to URL-encoded string for OIDC
+    const stateString = loginState ? JSON.stringify(loginState) : locationURL.href;
+
+    if (window.AuthService) {
+        window.AuthService.getAuthService().login({ state: stateString });
+    } else {
+        logger.error('AuthService not available for login');
+    }
+
     return;
 
     if (!isTokenAuthEnabled(config)) {
@@ -330,7 +414,12 @@ function _handleLogout({ dispatch, getState }: IStore) {
         return;
     }
 
-    getAuthService().logout();
+    if (window.AuthService) {
+        window.AuthService.getAuthService().logout();
+    } else {
+        logger.error('AuthService not available for logout');
+    }
+
     return;
 
     dispatch(openLogoutDialog());

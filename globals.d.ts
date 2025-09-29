@@ -24,6 +24,11 @@ declare global {
         // selenium tests handler
         _sharedVideoPlayer: any;
         alwaysOnTop: { api: any };
+        AuthService?: {
+            getUserManager: () => any;
+            getAuthService: () => any;
+            createLoginState: (locationURL: URL, options?: any, roomName?: string, tenant?: string) => any;
+        };
     }
 
     interface Document {
