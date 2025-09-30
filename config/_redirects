@@ -11,4 +11,4 @@
 /meet/:room/ /meet/:room 307
 /meet/:room /meet/ 200
 
-/meet/ /meets 307
+/meet/ /meet 307
