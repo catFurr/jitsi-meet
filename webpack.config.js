@@ -241,7 +241,8 @@ function getConfig(options = {}) {
         ].filter(Boolean),
         resolve: {
             alias: {
-                'focus-visible': 'focus-visible/dist/focus-visible.min.js'
+                'focus-visible': 'focus-visible/dist/focus-visible.min.js',
+                '@giphy/js-analytics': resolve(__dirname, 'giphy-analytics-stub.js')
             },
             aliasFields: [
                 'browser'
@@ -313,9 +314,25 @@ function getDevServerConfig() {
                 const pathName = urlPath === '/' ? '/' : urlPath.replace(/\/$/, ''); // Normalize path
 
                 // Skip assets, existing files, and special paths
-                if (urlPath.match(/\.(js|css|map|json|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+                if (urlPath.match(/\.(js|css|map|json|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|wasm)$/)) {
                     return next();
                 }
+
+                // Skip sound files
+                if (urlPath.includes('sound')) {
+                    return next();
+                }
+
+                // Handle /meet/libs/ paths properly
+                if (urlPath.startsWith('/meet/libs/')) {
+                    const mappedPath = urlPath.replace('/meet/libs/', '/libs/');
+                    const filePath = join(process.cwd(), mappedPath);
+
+                    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+                        return next(); // Let the static file handler serve it
+                    }
+                }
+
                 const filePath = join(process.cwd(), pathName);
 
                 if (

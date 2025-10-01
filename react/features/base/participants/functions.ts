@@ -2,10 +2,12 @@
 import { getGravatarURL } from '@jitsi/js-utils/avatar';
 
 import { IReduxState, IStore } from '../../app/types';
+import { isVisitorChatParticipant } from '../../chat/functions';
 import { isStageFilmstripAvailable } from '../../filmstrip/functions';
 import { isAddPeopleEnabled, isDialOutEnabled } from '../../invite/functions';
 import { toggleShareDialog } from '../../share-room/actions';
 import { iAmVisitor } from '../../visitors/functions';
+import { IVisitorChatParticipant } from '../../visitors/types';
 import { IStateful } from '../app/types';
 import { GRAVATAR_BASE_URL } from '../avatar/constants';
 import { isCORSAvatarURL } from '../avatar/functions';
@@ -662,6 +664,33 @@ export function isParticipantModerator(participant?: IParticipant) {
 }
 
 /**
+ * Returns true if the remote participant is a host.
+ *
+ * @param {IParticipant|undefined} participant - Participant object from redux.
+ * @returns {boolean}
+ */
+export function isRemoteParticipantHost(participant?: IParticipant) {
+    // Host is defined at the XMPP layer as affiliation 'owner'. For remote participants we
+    // consult the lib-jitsi-meet participant via conference.getParticipantById(...). For the
+    // local participant, participant.conference is undefined.
+
+    if (!participant || participant.local || !participant.conference) {
+        // WARN! we can't check local participant state here. Use isLocalParticipantHost instead.
+        return false;
+    }
+
+    // Ignore fake participants.
+    if (isScreenShareParticipant(participant) || isSharedVideoParticipant(participant) || isWhiteboardParticipant(participant)) {
+        return false;
+    }
+
+    // Remote participant: use lib participant helper.
+    const libParticipant: IJitsiParticipant | undefined = participant.conference.getParticipantById(participant.id);
+
+    return libParticipant ? libParticipant.isHost() : false;
+}
+
+/**
  * Returns the dominant speaker participant.
  *
  * @param {(Function|Object)} stateful - The (whole) redux state or redux's
@@ -720,6 +749,20 @@ export function isLocalParticipantModerator(stateful: IStateful) {
     }
 
     return isParticipantModerator(local);
+}
+
+/**
+ * Returns true if the current local participant is a host in the
+ * conference.
+ *
+ * @param {Object|Function} stateful - Object or function that can be resolved
+ * to the Redux state.
+ * @returns {boolean}
+ */
+export function isLocalParticipantHost(stateful: IStateful) {
+    const { conference } = toState(stateful)['features/base/conference'];
+
+    return Boolean(conference?.room.isHost());
 }
 
 /**
@@ -827,16 +870,26 @@ export const setShareDialogVisiblity = (addPeopleFeatureEnabled: boolean, dispat
 /**
  * Checks if private chat is enabled for the given participant.
  *
- * @param {IParticipant|undefined} participant - The participant to check.
+ * @param {IParticipant|IVisitorChatParticipant|undefined} participant - The participant to check.
  * @param {IReduxState} state - The Redux state.
  * @returns {boolean} - True if private chat is enabled, false otherwise.
  */
-export function isPrivateChatEnabled(participant: IParticipant | undefined, state: IReduxState) {
+export function isPrivateChatEnabled(participant: IParticipant | IVisitorChatParticipant | undefined, state: IReduxState) {
     const { remoteVideoMenu = {} } = state['features/base/config'];
     const { disablePrivateChat } = remoteVideoMenu;
 
-    if (participant?.local || state['features/visitors'].iAmVisitor || disablePrivateChat === 'all') {
+    if ((!isVisitorChatParticipant(participant) && participant?.local) || disablePrivateChat === 'all') {
         return false;
+    }
+
+    if (disablePrivateChat === 'disable-visitor-chat') {
+        // Block if the participant we're trying to message is a visitor
+        // OR if the local user is a visitor
+        if (isVisitorChatParticipant(participant) || iAmVisitor(state)) {
+            return false;
+        }
+
+        return true; // should allow private chat for other participants
     }
 
     if (disablePrivateChat === 'allow-moderator-chat') {

@@ -91,13 +91,13 @@ var config = {
 
     testing: {
         // Allows the setting of a custom bandwidth value from the UI.
-        // assumeBandwidth: true,
+        assumeBandwidth: !isProd,
 
         // Enables use of getDisplayMedia in electron
         // electronUseGetDisplayMedia: false,
 
         // Enables AV1 codec for FF. Note: By default it is disabled.
-        enableAV1ForFF: true,
+        enableAV1ForFF: !isProd,
 
         // Enables the use of the codec selection API supported by the browsers .
         enableCodecSelectionAPI: true,
@@ -107,7 +107,7 @@ var config = {
         // p2pTestMode: false,
 
         // Enables the test specific features consumed by jitsi-meet-torture
-        // testMode: false,
+        testMode: !isProd,
 
         // Disables the auto-play behavior of *all* newly created video element.
         // This is useful when the client runs on a host with limited resources.
@@ -120,7 +120,7 @@ var config = {
         // dumpTranscript: false,
 
         // Log the audio levels.
-        // debugAudioLevels: true,
+        debugAudioLevels: !isProd,
 
         // Will replace ice candidates IPs with invalid ones in order to fail ice.
         // failICE: true,
@@ -135,10 +135,10 @@ var config = {
     disableModeratorIndicator: false,
 
     // Disables the reactions feature.
-    disableReactions: false,
+    disableReactions: true,
 
     // Disables the reactions moderation feature.
-    disableReactionsModeration: false,
+    disableReactionsModeration: true,
 
     // Disables the reactions in chat feature.
     disableReactionsInChat: true,
@@ -374,10 +374,11 @@ var config = {
     // Desktop sharing
 
     // Optional desktop sharing frame rate options. Default value: min:5, max:5.
-    desktopSharingFrameRate: {
-        min: 15,
-        max: 30,
-    },
+    // Setting higher min/max values will affect the resolution, it makes it worse.
+    // desktopSharingFrameRate: {
+    //     min: 5,
+    //     max: 5,
+    // },
 
     // Optional screenshare settings that give more control over screen capture in the browser.
     screenShareSettings: {
@@ -461,7 +462,10 @@ var config = {
         notifyAllParticipants: true,
 
         // Whether to disable the self recording feature (only local participant streams).
-        disableSelfRecording: true,
+        disableSelfRecording: false,
+
+        // Whether to automatically download the recorded meeting data when the recording ends.
+        autoDownloadMeetingData: false
     },
 
     // Customize the Live Streaming dialog. Can be modified for a non-YouTube provider.
@@ -728,7 +732,7 @@ var config = {
         disabled: false,
 
         // If set, landing page will redirect to this URL.
-        customUrl: undefined,
+        customUrl: '/meets',
     },
 
     // Configs for the lobby screen.
@@ -778,7 +782,7 @@ var config = {
     hideDominantSpeakerBadge: false,
 
     // Default language for the user interface. Cannot be overwritten.
-    // DEPRECATED! Use the `lang` iframe option directly instead.
+    // For iframe integrations, use the `lang` option directly instead.
     // defaultLanguage: 'en',
 
     // Disables profile and the edit of all fields from the profile settings (display name and email)
@@ -793,38 +797,34 @@ var config = {
 
     // Message to show the users. Example: 'The service will be down for
     // maintenance at 01:00 AM GMT,
-    noticeMessage: 'Whiteboard integration is coming soon, in the meantime please use www.excalidraw.com to draw.',
+    noticeMessage: null,
 
     // Enables calendar integration, depends on googleApiApplicationClientID
     // and microsoftApiApplicationClientID
     // enableCalendarIntegration: false,
 
     // Whether to notify when the conference is terminated because it was destroyed.
-    // notifyOnConferenceDestruction: true,
+    notifyOnConferenceDestruction: false,
 
     // The client id for the google APIs used for the calendar integration, youtube livestreaming, etc.
     // googleApiApplicationClientID: '<client_id>',
 
     // Configs for prejoin page.
-    prejoinConfig: {
-        // When 'true', it shows an intermediate page before joining, where the user can configure their devices.
-        // This replaces `prejoinPageEnabled`. Defaults to true.
-        enabled: true,
-
-        // Hides the participant name editing field in the prejoin screen.
-        // If requireDisplayName is also set as true, a name should still be provided through
-        // either the jwt or the userInfo from the iframe api init object in order for this to have an effect.
-        hideDisplayName: false,
-
-        // List of buttons to hide from the extra join options dropdown.
-        hideExtraJoinButtons: [ 'no-audio', 'by-phone' ],
-
-        // Configuration for pre-call test
-        // By setting preCallTestEnabled, you enable the pre-call test in the prejoin page.
-        // ICE server credentials need to be provided over the preCallTestICEUrl
-        preCallTestEnabled: false,
-        preCallTestICEUrl: '',
-    },
+    // prejoinConfig: {
+    //     // When 'true', it shows an intermediate page before joining, where the user can configure their devices.
+    //     enabled: true,
+    //     // Hides the participant name editing field in the prejoin screen.
+    //     // If requireDisplayName is also set as true, a name should still be provided through
+    //     // either the jwt or the userInfo from the iframe api init object in order for this to have an effect.
+    //     hideDisplayName: false,
+    //     // List of buttons to hide from the extra join options dropdown.
+    //     hideExtraJoinButtons: ['no-audio', 'by-phone'],
+    //     // Configuration for pre-call test
+    //     // By setting preCallTestEnabled, you enable the pre-call test in the prejoin page.
+    //     // ICE server credentials need to be provided over the preCallTestICEUrl
+    //     preCallTestEnabled: false,
+    //     preCallTestICEUrl: ''
+    // },
 
     // When 'true', the user cannot edit the display name.
     // (Mainly useful when used in conjunction with the JWT so the JWT name becomes read only.)
@@ -880,6 +880,8 @@ var config = {
         'desktop',
 
         //    'download',
+        'downloaddata',
+
         //    'embedmeeting',
         //    'etherpad',
         //    'feedback',
@@ -1409,7 +1411,9 @@ var config = {
 
         // If set to 'all' the 'Private chat' button will be disabled for all participants.
         // If set to 'allow-moderator-chat' the 'Private chat' button will be available for chats with moderators.
-        disablePrivateChat: false,
+        // If set to 'disable-visitor-chat' the 'Private chat' button will be disabled for visitor-main participant
+        // conversations.
+        disablePrivateChat: 'disable-visitor-chat',
     },
 
 
@@ -1492,6 +1496,16 @@ var config = {
     }
     */
     // dynamicBrandingUrl: '',
+    availableThemes: [
+        {
+            name: 'Solarized Light',
+            file: '/meet/static/themes/solarized-light-theme.json'
+        },
+        {
+            name: 'Charcoal & Lime',
+            file: '/meet/static/themes/charcoal-lime-theme.json'
+        },
+    ],
 
     // A list of allowed URL domains for shared video.
     //
@@ -1614,11 +1628,11 @@ var config = {
     // You can use external service for authentication that will redirect back passing a jwt token
     // You can use tokenAuthUrl config to point to a URL of such service.
     // The URL for the service supports few params which will be filled in by the code.
-    tokenAuthUrl:
-        'https://' + authdomain + '/realms/jitsi/protocol/openid-connect/auth'
-        + '?client_id=jitsi-web'
-        + '&redirect_uri=https%3A%2F%2F' + domain + '%2Fmeet%2F{room}%23{state}'
-        + '&response_type=token',
+    // tokenAuthUrl:
+    //     'https://' + authdomain + '/realms/jitsi/protocol/openid-connect/auth'
+    //     + '?client_id=jitsi-web'
+    //     + '&redirect_uri=https%3A%2F%2F' + domain + '%2Fmeet%2F{room}%23{state}'
+    //     + '&response_type=token',
 
     // Supported parameters in tokenAuthUrl:
     //      {room} - will be replaced with the room name
@@ -1635,14 +1649,14 @@ var config = {
     //          - android=true (in case android mobile app is used)
     //          - electron=true (when web is loaded in electron app)
     // If there is a logout service you can specify its URL with:
-    tokenLogoutUrl:
-        'https://' + authdomain + '/realms/jitsi/protocol/openid-connect/logout'
-        + '?post_logout_redirect_uri=https%3A%2F%2F' + domain + '%2Fmeet%2F%23loggedOut%3Dtrue'
-        + '&client_id=jitsi-web',
+    // tokenLogoutUrl:
+    //     'https://' + authdomain + '/realms/jitsi/protocol/openid-connect/logout'
+    //     + '?post_logout_redirect_uri=https%3A%2F%2F' + domain + '%2Fmeet%2F%23loggedOut%3Dtrue'
+    //     + '&client_id=jitsi-web',
 
     // You can enable tokenAuthUrlAutoRedirect which will detect that you have logged in successfully before
     // and will automatically redirect to the token service to get the token for the meeting.
-    tokenAuthUrlAutoRedirect: true,
+    // tokenAuthUrlAutoRedirect: true,
 
     // An option to respect the context.tenant jwt field compared to the current tenant from the url
     // tokenRespectTenant: false,
@@ -1729,6 +1743,9 @@ var config = {
      websocketKeepAlive
      websocketKeepAliveUrl
      */
+    flags: {
+        ssrcRewritingEnabled: false
+    },
 
     /**
      * Default interval (milliseconds) for triggering mouseMoved iframe API event
@@ -1853,7 +1870,7 @@ var config = {
         minParticipantCountForTopPanel: 50,
 
         // The width of the filmstrip on joining meeting. Can be resized afterwards.
-        initialWidth: 400,
+        initialWidth: 180,
 
         // Whether the draggable resize bar of the filmstrip is always visible. Setting this to true will make
         // the filmstrip always visible in case `disableResizable` is false.
