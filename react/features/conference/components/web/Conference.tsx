@@ -27,6 +27,7 @@ import LobbyScreen from '../../../lobby/components/web/LobbyScreen';
 import { getIsLobbyVisible } from '../../../lobby/functions';
 import { getOverlayToRender } from '../../../overlay/functions.web';
 import ParticipantsPane from '../../../participants-pane/components/web/ParticipantsPane';
+import { useAutomaticWebPip } from '../../../picture-in-picture-web/hooks';
 import Prejoin from '../../../prejoin/components/web/Prejoin';
 import { isPrejoinPageVisible } from '../../../prejoin/functions.web';
 import ReactionAnimations from '../../../reactions/components/web/ReactionsAnimations';
@@ -457,6 +458,8 @@ function _mapStateToProps(state: IReduxState) {
 export default reactReduxConnect(_mapStateToProps)(translate(props => {
     const dispatch = useDispatch();
     const store = useStore();
+
+    useAutomaticWebPip();
 
     const [ isDragging, setIsDragging ] = useState(false);
 

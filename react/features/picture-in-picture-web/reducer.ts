@@ -3,11 +3,13 @@ import ReducerRegistry from '../base/redux/ReducerRegistry';
 import { WEB_PIP_ENTERED, WEB_PIP_EXITED } from './actions';
 
 export interface IWebPipState {
+    autoPipEnabled: boolean;
     inPip: boolean;
 }
 
 const DEFAULT_STATE: IWebPipState = {
     inPip: false,
+    autoPipEnabled: false
 };
 
 ReducerRegistry.register<IWebPipState>(
